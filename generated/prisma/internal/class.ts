@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.0.1",
   "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Car {\n  id           Int      @id @default(autoincrement())\n  licensePlate String   @unique\n  year         Int\n  make         String\n  model        String\n  createdAt    DateTime @default(now())\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum WorkOrderStatus {\n  NEW\n  DIAGNOSTIC\n  WAITING_PARTS\n  IN_PROGRESS\n  DONE\n  CANCELLED\n}\n\nenum PaymentStatus {\n  UNPAID\n  PARTIAL\n  PAID\n}\n\nenum PaymentMethod {\n  CASH\n  CARD\n  TRANSFER\n  OTHER\n}\n\nenum WorkOrderItemType {\n  LABOR\n  PART\n}\n\n// ---------- MODELS ----------\n\nmodel Car {\n  id           Int         @id @default(autoincrement())\n  licensePlate String      @db.VarChar(20)\n  vin          String?     @db.VarChar(30)\n  year         Int?\n  make         String      @db.VarChar(50)\n  model        String      @db.VarChar(50)\n  mileage      Int?\n  ownerPhone   String      @db.VarChar(30)\n  notes        String?\n  workOrders   Work_Done[]\n  createdAt    DateTime    @default(now())\n  updatedAt    DateTime    @updatedAt\n\n  @@unique([licensePlate])\n  @@index([ownerPhone])\n}\n\nmodel Work_Done {\n  id    Int @id @default(autoincrement())\n  car   Car @relation(fields: [carId], references: [id], onDelete: Restrict)\n  carId Int\n\n  status              WorkOrderStatus @default(NEW)\n  title               String          @db.VarChar(255)\n  customerComplaint   String? // what the driver says\n  internalNotes       String? // only for you / mechanics\n  estimatedCompletion DateTime?\n  createdAt           DateTime        @default(now())\n  updatedAt           DateTime        @updatedAt\n  completedAt         DateTime?\n\n  items Work_Item_Used[]\n\n  // \"invoice\" / money fields\n  paymentStatus PaymentStatus  @default(UNPAID)\n  paymentMethod PaymentMethod?\n  paidAt        DateTime?\n\n  totalLabor Decimal? @db.Decimal(10, 2)\n  totalParts Decimal? @db.Decimal(10, 2)\n  totalPrice Decimal? @db.Decimal(10, 2)\n\n  @@index([carId])\n  @@index([status])\n  @@index([createdAt])\n}\n\nmodel Work_Item_Used {\n  id          Int       @id @default(autoincrement())\n  workOrder   Work_Done @relation(fields: [workOrderId], references: [id], onDelete: Cascade)\n  workOrderId Int\n\n  type        WorkOrderItemType @default(LABOR)\n  description String\n  quantity    Decimal           @default(1) @db.Decimal(10, 2)\n  unitPrice   Decimal           @db.Decimal(10, 2)\n  total       Decimal           @db.Decimal(10, 2)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([workOrderId])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Car\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"licensePlate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"make\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Car\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"licensePlate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"make\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mileage\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"ownerPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"workOrders\",\"kind\":\"object\",\"type\":\"Work_Done\",\"relationName\":\"CarToWork_Done\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Work_Done\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"car\",\"kind\":\"object\",\"type\":\"Car\",\"relationName\":\"CarToWork_Done\"},{\"name\":\"carId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"WorkOrderStatus\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"customerComplaint\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"internalNotes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"estimatedCompletion\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"Work_Item_Used\",\"relationName\":\"Work_DoneToWork_Item_Used\"},{\"name\":\"paymentStatus\",\"kind\":\"enum\",\"type\":\"PaymentStatus\"},{\"name\":\"paymentMethod\",\"kind\":\"enum\",\"type\":\"PaymentMethod\"},{\"name\":\"paidAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"totalLabor\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"totalParts\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"type\":\"Decimal\"}],\"dbName\":null},\"Work_Item_Used\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"workOrder\",\"kind\":\"object\",\"type\":\"Work_Done\",\"relationName\":\"Work_DoneToWork_Item_Used\"},{\"name\":\"workOrderId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"WorkOrderItemType\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"unitPrice\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"total\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -183,6 +183,26 @@ export interface PrismaClient<
     * ```
     */
   get car(): Prisma.CarDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.work_Done`: Exposes CRUD operations for the **Work_Done** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Work_Dones
+    * const work_Dones = await prisma.work_Done.findMany()
+    * ```
+    */
+  get work_Done(): Prisma.Work_DoneDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.work_Item_Used`: Exposes CRUD operations for the **Work_Item_Used** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Work_Item_Useds
+    * const work_Item_Useds = await prisma.work_Item_Used.findMany()
+    * ```
+    */
+  get work_Item_Used(): Prisma.Work_Item_UsedDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

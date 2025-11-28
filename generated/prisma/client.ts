@@ -44,3 +44,13 @@ export { Prisma }
  * 
  */
 export type Car = Prisma.CarModel
+/**
+ * Model Work_Done
+ * 
+ */
+export type Work_Done = Prisma.Work_DoneModel
+/**
+ * Model Work_Item_Used
+ * 
+ */
+export type Work_Item_Used = Prisma.Work_Item_UsedModel

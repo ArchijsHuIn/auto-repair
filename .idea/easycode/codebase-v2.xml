@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
+    <option name="projectFiles" value="$PROJECT_DIR$/app/api/cars/route.ts;C:/auto-repair/app/globals.css;C:/auto-repair/app/layout.tsx;C:/auto-repair/app/page.tsx;C:/auto-repair/generated/prisma/internal/class.ts;C:/auto-repair/generated/prisma/internal/prismaNamespace.ts;C:/auto-repair/generated/prisma/internal/prismaNamespaceBrowser.ts;C:/auto-repair/generated/prisma/models/Car.ts;C:/auto-repair/generated/prisma/models/Work_Done.ts;C:/auto-repair/generated/prisma/models/Work_Item_Used.ts;C:/auto-repair/generated/prisma/browser.ts;C:/auto-repair/generated/prisma/client.ts;C:/auto-repair/generated/prisma/commonInputTypes.ts;C:/auto-repair/generated/prisma/enums.ts;C:/auto-repair/generated/prisma/models.ts;C:/auto-repair/lib/prisma.ts;C:/auto-repair/prisma/migrations/20251126204613_init/migration.sql;C:/auto-repair/prisma/migrations/20251128143042_new_database/migration.sql;C:/auto-repair/next.config.ts;C:/auto-repair/package-lock.json;C:/auto-repair/package.json;C:/auto-repair/prisma.config.ts;C:/auto-repair/README.md;C:/auto-repair/tsconfig.json" />
+  </component>
+</project>

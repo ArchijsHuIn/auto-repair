@@ -9,4 +9,6 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Car'
+export type * from './models/Work_Done'
+export type * from './models/Work_Item_Used'
 export type * from './commonInputTypes'

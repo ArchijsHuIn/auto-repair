@@ -384,7 +384,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  Car: 'Car'
+  Car: 'Car',
+  Work_Done: 'Work_Done',
+  Work_Item_Used: 'Work_Item_Used'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "car"
+    modelProps: "car" | "work_Done" | "work_Item_Used"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +480,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Work_Done: {
+      payload: Prisma.$Work_DonePayload<ExtArgs>
+      fields: Prisma.Work_DoneFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.Work_DoneFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.Work_DoneFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>
+        }
+        findFirst: {
+          args: Prisma.Work_DoneFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.Work_DoneFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>
+        }
+        findMany: {
+          args: Prisma.Work_DoneFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>[]
+        }
+        create: {
+          args: Prisma.Work_DoneCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>
+        }
+        createMany: {
+          args: Prisma.Work_DoneCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.Work_DoneCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>[]
+        }
+        delete: {
+          args: Prisma.Work_DoneDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>
+        }
+        update: {
+          args: Prisma.Work_DoneUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>
+        }
+        deleteMany: {
+          args: Prisma.Work_DoneDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.Work_DoneUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.Work_DoneUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>[]
+        }
+        upsert: {
+          args: Prisma.Work_DoneUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_DonePayload>
+        }
+        aggregate: {
+          args: Prisma.Work_DoneAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWork_Done>
+        }
+        groupBy: {
+          args: Prisma.Work_DoneGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Work_DoneGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.Work_DoneCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Work_DoneCountAggregateOutputType> | number
+        }
+      }
+    }
+    Work_Item_Used: {
+      payload: Prisma.$Work_Item_UsedPayload<ExtArgs>
+      fields: Prisma.Work_Item_UsedFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.Work_Item_UsedFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.Work_Item_UsedFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>
+        }
+        findFirst: {
+          args: Prisma.Work_Item_UsedFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.Work_Item_UsedFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>
+        }
+        findMany: {
+          args: Prisma.Work_Item_UsedFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>[]
+        }
+        create: {
+          args: Prisma.Work_Item_UsedCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>
+        }
+        createMany: {
+          args: Prisma.Work_Item_UsedCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.Work_Item_UsedCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>[]
+        }
+        delete: {
+          args: Prisma.Work_Item_UsedDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>
+        }
+        update: {
+          args: Prisma.Work_Item_UsedUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>
+        }
+        deleteMany: {
+          args: Prisma.Work_Item_UsedDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.Work_Item_UsedUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.Work_Item_UsedUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>[]
+        }
+        upsert: {
+          args: Prisma.Work_Item_UsedUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Work_Item_UsedPayload>
+        }
+        aggregate: {
+          args: Prisma.Work_Item_UsedAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWork_Item_Used>
+        }
+        groupBy: {
+          args: Prisma.Work_Item_UsedGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Work_Item_UsedGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.Work_Item_UsedCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Work_Item_UsedCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -520,13 +670,55 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const CarScalarFieldEnum = {
   id: 'id',
   licensePlate: 'licensePlate',
+  vin: 'vin',
   year: 'year',
   make: 'make',
   model: 'model',
-  createdAt: 'createdAt'
+  mileage: 'mileage',
+  ownerPhone: 'ownerPhone',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CarScalarFieldEnum = (typeof CarScalarFieldEnum)[keyof typeof CarScalarFieldEnum]
+
+
+export const Work_DoneScalarFieldEnum = {
+  id: 'id',
+  carId: 'carId',
+  status: 'status',
+  title: 'title',
+  customerComplaint: 'customerComplaint',
+  internalNotes: 'internalNotes',
+  estimatedCompletion: 'estimatedCompletion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt',
+  paymentStatus: 'paymentStatus',
+  paymentMethod: 'paymentMethod',
+  paidAt: 'paidAt',
+  totalLabor: 'totalLabor',
+  totalParts: 'totalParts',
+  totalPrice: 'totalPrice'
+} as const
+
+export type Work_DoneScalarFieldEnum = (typeof Work_DoneScalarFieldEnum)[keyof typeof Work_DoneScalarFieldEnum]
+
+
+export const Work_Item_UsedScalarFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  type: 'type',
+  description: 'description',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  total: 'total',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Work_Item_UsedScalarFieldEnum = (typeof Work_Item_UsedScalarFieldEnum)[keyof typeof Work_Item_UsedScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -543,6 +735,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -590,6 +790,76 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkOrderStatus'
+ */
+export type EnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkOrderStatus[]'
+ */
+export type ListEnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentStatus'
+ */
+export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentStatus[]'
+ */
+export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMethod'
+ */
+export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMethod[]'
+ */
+export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkOrderItemType'
+ */
+export type EnumWorkOrderItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderItemType'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkOrderItemType[]'
+ */
+export type ListEnumWorkOrderItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderItemType[]'>
     
 
 
@@ -686,6 +956,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   car?: Prisma.CarOmit
+  work_Done?: Prisma.Work_DoneOmit
+  work_Item_Used?: Prisma.Work_Item_UsedOmit
 }
 
 /* Types for Logging */

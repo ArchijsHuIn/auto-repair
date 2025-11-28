@@ -51,7 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Car: 'Car'
+  Car: 'Car',
+  Work_Done: 'Work_Done',
+  Work_Item_Used: 'Work_Item_Used'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -73,13 +75,55 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const CarScalarFieldEnum = {
   id: 'id',
   licensePlate: 'licensePlate',
+  vin: 'vin',
   year: 'year',
   make: 'make',
   model: 'model',
-  createdAt: 'createdAt'
+  mileage: 'mileage',
+  ownerPhone: 'ownerPhone',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CarScalarFieldEnum = (typeof CarScalarFieldEnum)[keyof typeof CarScalarFieldEnum]
+
+
+export const Work_DoneScalarFieldEnum = {
+  id: 'id',
+  carId: 'carId',
+  status: 'status',
+  title: 'title',
+  customerComplaint: 'customerComplaint',
+  internalNotes: 'internalNotes',
+  estimatedCompletion: 'estimatedCompletion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt',
+  paymentStatus: 'paymentStatus',
+  paymentMethod: 'paymentMethod',
+  paidAt: 'paidAt',
+  totalLabor: 'totalLabor',
+  totalParts: 'totalParts',
+  totalPrice: 'totalPrice'
+} as const
+
+export type Work_DoneScalarFieldEnum = (typeof Work_DoneScalarFieldEnum)[keyof typeof Work_DoneScalarFieldEnum]
+
+
+export const Work_Item_UsedScalarFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  type: 'type',
+  description: 'description',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  total: 'total',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Work_Item_UsedScalarFieldEnum = (typeof Work_Item_UsedScalarFieldEnum)[keyof typeof Work_Item_UsedScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -96,4 +140,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

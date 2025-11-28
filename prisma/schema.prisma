@@ -12,11 +12,96 @@ datasource db {
   provider = "postgresql"
 }
 
+enum WorkOrderStatus {
+  NEW
+  DIAGNOSTIC
+  WAITING_PARTS
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  TRANSFER
+  OTHER
+}
+
+enum WorkOrderItemType {
+  LABOR
+  PART
+}
+
+// ---------- MODELS ----------
+
 model Car {
-  id           Int      @id @default(autoincrement())
-  licensePlate String   @unique
-  year         Int
-  make         String
-  model        String
-  createdAt    DateTime @default(now())
+  id           Int         @id @default(autoincrement())
+  licensePlate String      @db.VarChar(20)
+  vin          String?     @db.VarChar(30)
+  year         Int?
+  make         String      @db.VarChar(50)
+  model        String      @db.VarChar(50)
+  mileage      Int?
+  ownerPhone   String      @db.VarChar(30)
+  notes        String?
+  workOrders   Work_Done[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@unique([licensePlate])
+  @@index([ownerPhone])
+}
+
+model Work_Done {
+  id    Int @id @default(autoincrement())
+  car   Car @relation(fields: [carId], references: [id], onDelete: Restrict)
+  carId Int
+
+  status              WorkOrderStatus @default(NEW)
+  title               String          @db.VarChar(255)
+  customerComplaint   String? // what the driver says
+  internalNotes       String? // only for you / mechanics
+  estimatedCompletion DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  completedAt         DateTime?
+
+  items Work_Item_Used[]
+
+  // "invoice" / money fields
+  paymentStatus PaymentStatus  @default(UNPAID)
+  paymentMethod PaymentMethod?
+  paidAt        DateTime?
+
+  totalLabor Decimal? @db.Decimal(10, 2)
+  totalParts Decimal? @db.Decimal(10, 2)
+  totalPrice Decimal? @db.Decimal(10, 2)
+
+  @@index([carId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Work_Item_Used {
+  id          Int       @id @default(autoincrement())
+  workOrder   Work_Done @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  workOrderId Int
+
+  type        WorkOrderItemType @default(LABOR)
+  description String
+  quantity    Decimal           @default(1) @db.Decimal(10, 2)
+  unitPrice   Decimal           @db.Decimal(10, 2)
+  total       Decimal           @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([workOrderId])
 }
