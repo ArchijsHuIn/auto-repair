@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+Thumbs.db
 
 # debug
 npm-debug.log*
@@ -33,6 +34,8 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env
 .env.local
+.idea
+.vscode
 
 # vercel
 .vercel
@@ -41,4 +44,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/app/generated/prisma
+# prisma
+/generated
+
