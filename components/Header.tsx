@@ -15,6 +15,9 @@ export default function Header() {
                         <Link href="/cars" className="hover:text-blue-200 transition-colors font-medium">
                             Search Cars
                         </Link>
+                        <Link href="/cars/new" className="hover:text-blue-200 transition-colors font-medium">
+                            Register Vehicle
+                        </Link>
                         <Link href="/work-orders" className="hover:text-blue-200 transition-colors font-medium">
                             Work Orders
                         </Link>

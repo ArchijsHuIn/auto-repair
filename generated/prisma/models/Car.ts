@@ -243,7 +243,7 @@ export type CarGroupByOutputType = {
   make: string
   model: string
   mileage: number | null
-  ownerName: string | null
+  ownerName: string
   ownerPhone: string
   notes: string | null
   color: string
@@ -282,7 +282,7 @@ export type CarWhereInput = {
   make?: Prisma.StringFilter<"Car"> | string
   model?: Prisma.StringFilter<"Car"> | string
   mileage?: Prisma.IntNullableFilter<"Car"> | number | null
-  ownerName?: Prisma.StringNullableFilter<"Car"> | string | null
+  ownerName?: Prisma.StringFilter<"Car"> | string
   ownerPhone?: Prisma.StringFilter<"Car"> | string
   notes?: Prisma.StringNullableFilter<"Car"> | string | null
   color?: Prisma.StringFilter<"Car"> | string
@@ -300,7 +300,7 @@ export type CarOrderByWithRelationInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrderInput | Prisma.SortOrder
-  ownerName?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerName?: Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   color?: Prisma.SortOrder
@@ -321,7 +321,7 @@ export type CarWhereUniqueInput = Prisma.AtLeast<{
   make?: Prisma.StringFilter<"Car"> | string
   model?: Prisma.StringFilter<"Car"> | string
   mileage?: Prisma.IntNullableFilter<"Car"> | number | null
-  ownerName?: Prisma.StringNullableFilter<"Car"> | string | null
+  ownerName?: Prisma.StringFilter<"Car"> | string
   ownerPhone?: Prisma.StringFilter<"Car"> | string
   notes?: Prisma.StringNullableFilter<"Car"> | string | null
   color?: Prisma.StringFilter<"Car"> | string
@@ -339,7 +339,7 @@ export type CarOrderByWithAggregationInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrderInput | Prisma.SortOrder
-  ownerName?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerName?: Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   color?: Prisma.SortOrder
@@ -363,7 +363,7 @@ export type CarScalarWhereWithAggregatesInput = {
   make?: Prisma.StringWithAggregatesFilter<"Car"> | string
   model?: Prisma.StringWithAggregatesFilter<"Car"> | string
   mileage?: Prisma.IntNullableWithAggregatesFilter<"Car"> | number | null
-  ownerName?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
+  ownerName?: Prisma.StringWithAggregatesFilter<"Car"> | string
   ownerPhone?: Prisma.StringWithAggregatesFilter<"Car"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
   color?: Prisma.StringWithAggregatesFilter<"Car"> | string
@@ -378,10 +378,10 @@ export type CarCreateInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   workOrders?: Prisma.Work_DoneCreateNestedManyWithoutCarInput
@@ -396,10 +396,10 @@ export type CarUncheckedCreateInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   workOrders?: Prisma.Work_DoneUncheckedCreateNestedManyWithoutCarInput
@@ -413,7 +413,7 @@ export type CarUpdateInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -431,7 +431,7 @@ export type CarUncheckedUpdateInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -449,10 +449,10 @@ export type CarCreateManyInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -464,7 +464,7 @@ export type CarUpdateManyMutationInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -480,7 +480,7 @@ export type CarUncheckedUpdateManyInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -596,10 +596,10 @@ export type CarCreateWithoutAppointmentsInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   workOrders?: Prisma.Work_DoneCreateNestedManyWithoutCarInput
@@ -613,10 +613,10 @@ export type CarUncheckedCreateWithoutAppointmentsInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   workOrders?: Prisma.Work_DoneUncheckedCreateNestedManyWithoutCarInput
@@ -645,7 +645,7 @@ export type CarUpdateWithoutAppointmentsInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -662,7 +662,7 @@ export type CarUncheckedUpdateWithoutAppointmentsInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -678,10 +678,10 @@ export type CarCreateWithoutWorkOrdersInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentCreateNestedManyWithoutCarInput
@@ -695,10 +695,10 @@ export type CarUncheckedCreateWithoutWorkOrdersInput = {
   make: string
   model: string
   mileage?: number | null
-  ownerName?: string | null
+  ownerName?: string
   ownerPhone: string
   notes?: string | null
-  color: string
+  color?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCarInput
@@ -727,7 +727,7 @@ export type CarUpdateWithoutWorkOrdersInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -744,7 +744,7 @@ export type CarUncheckedUpdateWithoutWorkOrdersInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerName?: Prisma.StringFieldUpdateOperationsInput | string
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -883,7 +883,7 @@ export type $CarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     make: string
     model: string
     mileage: number | null
-    ownerName: string | null
+    ownerName: string
     ownerPhone: string
     notes: string | null
     color: string

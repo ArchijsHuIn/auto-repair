@@ -49,7 +49,7 @@ export default function CalendarPage() {
     const [showForm, setShowForm] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState<{ start: Date; end: Date } | null>(null);
     const [form, setForm] = useState({
-        carId: "",
+        carLicensePlate: "",
         title: "",
         description: "",
         startTime: "",
@@ -76,7 +76,7 @@ export default function CalendarPage() {
     const handleSelectSlot = ({ start, end }: { start: Date; end: Date }) => {
         setSelectedSlot({ start, end });
         setForm({
-            carId: "",
+            carLicensePlate: "",
             title: "",
             description: "",
             startTime: format(start, "yyyy-MM-dd'T'HH:mm"),
@@ -96,7 +96,7 @@ export default function CalendarPage() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                carId: Number(form.carId),
+                carLicensePlate: form.carLicensePlate,
                 title: form.title,
                 description: form.description || null,
                 startTime: new Date(form.startTime).toISOString(),
@@ -109,7 +109,7 @@ export default function CalendarPage() {
             return;
         }
 
-        setForm({ carId: "", title: "", description: "", startTime: "", endTime: "" });
+        setForm({ carLicensePlate: "", title: "", description: "", startTime: "", endTime: "" });
         setShowForm(false);
         setSelectedSlot(null);
         fetchAppointments();
@@ -139,15 +139,15 @@ export default function CalendarPage() {
                                 Select Vehicle <span className="text-red-500">*</span>
                             </label>
                             <select
-                                name="carId"
-                                value={form.carId}
+                                name="carLicensePlate"
+                                value={form.carLicensePlate}
                                 onChange={handleChange}
                                 required
                                 className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">-- Select a vehicle --</option>
                                 {cars.map((car) => (
-                                    <option key={car.id} value={car.id}>
+                                    <option key={car.id} value={car.licensePlate}>
                                         {car.licensePlate} - {car.year} {car.make} {car.model}
                                     </option>
                                 ))}

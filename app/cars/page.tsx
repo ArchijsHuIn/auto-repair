@@ -146,9 +146,17 @@ export default function CarsPage() {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-            <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-800 mb-2">Search Vehicles</h1>
-                <p className="text-gray-600">Find vehicles by any metric</p>
+            <div className="mb-8 flex items-start justify-between gap-4">
+                <div>
+                    <h1 className="text-4xl font-bold text-gray-800 mb-2">Search Vehicles</h1>
+                    <p className="text-gray-600">Find vehicles by any metric</p>
+                </div>
+                <Link
+                    href="/cars/new"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md transition-colors"
+                >
+                    + Register Vehicle
+                </Link>
             </div>
 
             {/* Search and Filters */}
@@ -347,10 +355,10 @@ export default function CarsPage() {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                                         <Link
-                                            href={`/work-orders?carId=${car.id}`}
+                                            href={`/cars/${car.id}`}
                                             className="text-blue-600 hover:text-blue-800 font-medium"
                                         >
-                                            View Orders
+                                            Open Overview
                                         </Link>
                                     </td>
                                 </tr>

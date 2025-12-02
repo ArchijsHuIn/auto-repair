@@ -112,7 +112,7 @@ export default function CarDetailPage() {
                         </p>
                     </div>
                     <Link
-                        href={`/work-orders?carId=${car.id}`}
+                        href={`/work-orders?carId=${car.id}&openForm=true`}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                     >
                         + New Work Order

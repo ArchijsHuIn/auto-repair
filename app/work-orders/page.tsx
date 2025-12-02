@@ -32,12 +32,13 @@ type WorkOrder = {
 function WorkOrdersContent() {
     const searchParams = useSearchParams();
     const carIdFromUrl = searchParams.get("carId");
+    const openFormFlag = searchParams.get("openForm");
 
     const [workOrders, setWorkOrders] = useState<WorkOrder[]>([]);
     const [cars, setCars] = useState<Car[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [form, setForm] = useState({
-        carId: carIdFromUrl || "",
+        carLicensePlate: "",
         status: "NEW",
         title: "",
         customerComplaint: "",
@@ -68,11 +69,18 @@ function WorkOrdersContent() {
     }, []);
 
     useEffect(() => {
-        if (carIdFromUrl) {
-            setForm(prev => ({ ...prev, carId: carIdFromUrl }));
-            setShowForm(true);
+        // If a carId is present in URL, map it to licensePlate once cars are loaded
+        if (carIdFromUrl && cars.length > 0) {
+            const found = cars.find((c) => String(c.id) === String(carIdFromUrl));
+            if (found) {
+                setForm(prev => ({ ...prev, carLicensePlate: found.licensePlate }));
+                // Only auto-open the form if explicitly requested via openForm=true
+                if (openFormFlag === "true") {
+                    setShowForm(true);
+                }
+            }
         }
-    }, [carIdFromUrl]);
+    }, [carIdFromUrl, cars, openFormFlag]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -85,7 +93,7 @@ function WorkOrdersContent() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                carId: Number(form.carId),
+                carLicensePlate: form.carLicensePlate,
                 status: form.status,
                 title: form.title,
                 customerComplaint: form.customerComplaint || null,
@@ -107,7 +115,7 @@ function WorkOrdersContent() {
         }
 
         setForm({
-            carId: "",
+            carLicensePlate: "",
             status: "NEW",
             title: "",
             customerComplaint: "",
@@ -173,15 +181,15 @@ function WorkOrdersContent() {
                                 Select Vehicle <span className="text-red-500">*</span>
                             </label>
                             <select
-                                name="carId"
-                                value={form.carId}
+                                name="carLicensePlate"
+                                value={form.carLicensePlate}
                                 onChange={handleChange}
                                 required
                                 className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             >
                                 <option value="">-- Select a vehicle --</option>
                                 {cars.map((car) => (
-                                    <option key={car.id} value={car.id}>
+                                    <option key={car.id} value={car.licensePlate}>
                                         {car.licensePlate} - {car.year} {car.make} {car.model}
                                     </option>
                                 ))}

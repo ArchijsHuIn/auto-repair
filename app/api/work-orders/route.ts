@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
 
         const {
             carId,
+            carLicensePlate,
             status,
             title,
             customerComplaint,
@@ -49,28 +50,42 @@ export async function POST(request: NextRequest) {
         } = body;
 
         // Validate required fields
-        if (!carId || !status || !title || !paymentStatus) {
+        if ((!carId && !carLicensePlate) || !status || !title || !paymentStatus) {
             return NextResponse.json(
-                { error: "Missing required fields: carId, status, title, paymentStatus" },
+                { error: "Missing required fields: (carId or carLicensePlate), status, title, paymentStatus" },
                 { status: 400 }
             );
         }
 
-        // Validate that car exists
-        const car = await prisma.car.findUnique({
-            where: { id: carId },
-        });
+        // Resolve car by id or license plate
+        let resolvedCarId: number | null = null;
+        if (carId) {
+            const carById = await prisma.car.findUnique({ where: { id: Number(carId) } });
+            if (!carById) {
+                return NextResponse.json(
+                    { error: "Car not found" },
+                    { status: 404 }
+                );
+            }
+            resolvedCarId = carById.id;
+        } else if (typeof carLicensePlate === "string" && carLicensePlate.trim() !== "") {
+            const carByLp = await prisma.car.findUnique({ where: { licensePlate: carLicensePlate.trim() } });
+            if (!carByLp) {
+                return NextResponse.json(
+                    { error: "Car not found for provided license plate" },
+                    { status: 404 }
+                );
+            }
+            resolvedCarId = carByLp.id;
+        }
 
-        if (!car) {
-            return NextResponse.json(
-                { error: "Car not found" },
-                { status: 404 }
-            );
+        if (!resolvedCarId) {
+            return NextResponse.json({ error: "Unable to resolve car" }, { status: 400 });
         }
 
         const workOrder = await prisma.work_Done.create({
             data: {
-                carId,
+                carId: resolvedCarId,
                 status,
                 title,
                 customerComplaint,
