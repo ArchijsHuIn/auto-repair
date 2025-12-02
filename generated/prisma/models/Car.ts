@@ -46,8 +46,10 @@ export type CarMinAggregateOutputType = {
   make: string | null
   model: string | null
   mileage: number | null
+  ownerName: string | null
   ownerPhone: string | null
   notes: string | null
+  color: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,8 +62,10 @@ export type CarMaxAggregateOutputType = {
   make: string | null
   model: string | null
   mileage: number | null
+  ownerName: string | null
   ownerPhone: string | null
   notes: string | null
+  color: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,8 +78,10 @@ export type CarCountAggregateOutputType = {
   make: number
   model: number
   mileage: number
+  ownerName: number
   ownerPhone: number
   notes: number
+  color: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -102,8 +108,10 @@ export type CarMinAggregateInputType = {
   make?: true
   model?: true
   mileage?: true
+  ownerName?: true
   ownerPhone?: true
   notes?: true
+  color?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -116,8 +124,10 @@ export type CarMaxAggregateInputType = {
   make?: true
   model?: true
   mileage?: true
+  ownerName?: true
   ownerPhone?: true
   notes?: true
+  color?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -130,8 +140,10 @@ export type CarCountAggregateInputType = {
   make?: true
   model?: true
   mileage?: true
+  ownerName?: true
   ownerPhone?: true
   notes?: true
+  color?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -231,8 +243,10 @@ export type CarGroupByOutputType = {
   make: string
   model: string
   mileage: number | null
+  ownerName: string | null
   ownerPhone: string
   notes: string | null
+  color: string
   createdAt: Date
   updatedAt: Date
   _count: CarCountAggregateOutputType | null
@@ -268,11 +282,14 @@ export type CarWhereInput = {
   make?: Prisma.StringFilter<"Car"> | string
   model?: Prisma.StringFilter<"Car"> | string
   mileage?: Prisma.IntNullableFilter<"Car"> | number | null
+  ownerName?: Prisma.StringNullableFilter<"Car"> | string | null
   ownerPhone?: Prisma.StringFilter<"Car"> | string
   notes?: Prisma.StringNullableFilter<"Car"> | string | null
+  color?: Prisma.StringFilter<"Car"> | string
   createdAt?: Prisma.DateTimeFilter<"Car"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Car"> | Date | string
   workOrders?: Prisma.Work_DoneListRelationFilter
+  appointments?: Prisma.AppointmentListRelationFilter
 }
 
 export type CarOrderByWithRelationInput = {
@@ -283,11 +300,14 @@ export type CarOrderByWithRelationInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerName?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  color?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   workOrders?: Prisma.Work_DoneOrderByRelationAggregateInput
+  appointments?: Prisma.AppointmentOrderByRelationAggregateInput
 }
 
 export type CarWhereUniqueInput = Prisma.AtLeast<{
@@ -301,11 +321,14 @@ export type CarWhereUniqueInput = Prisma.AtLeast<{
   make?: Prisma.StringFilter<"Car"> | string
   model?: Prisma.StringFilter<"Car"> | string
   mileage?: Prisma.IntNullableFilter<"Car"> | number | null
+  ownerName?: Prisma.StringNullableFilter<"Car"> | string | null
   ownerPhone?: Prisma.StringFilter<"Car"> | string
   notes?: Prisma.StringNullableFilter<"Car"> | string | null
+  color?: Prisma.StringFilter<"Car"> | string
   createdAt?: Prisma.DateTimeFilter<"Car"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Car"> | Date | string
   workOrders?: Prisma.Work_DoneListRelationFilter
+  appointments?: Prisma.AppointmentListRelationFilter
 }, "id" | "licensePlate">
 
 export type CarOrderByWithAggregationInput = {
@@ -316,8 +339,10 @@ export type CarOrderByWithAggregationInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerName?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  color?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CarCountOrderByAggregateInput
@@ -338,8 +363,10 @@ export type CarScalarWhereWithAggregatesInput = {
   make?: Prisma.StringWithAggregatesFilter<"Car"> | string
   model?: Prisma.StringWithAggregatesFilter<"Car"> | string
   mileage?: Prisma.IntNullableWithAggregatesFilter<"Car"> | number | null
+  ownerName?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
   ownerPhone?: Prisma.StringWithAggregatesFilter<"Car"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
+  color?: Prisma.StringWithAggregatesFilter<"Car"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Car"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Car"> | Date | string
 }
@@ -351,11 +378,14 @@ export type CarCreateInput = {
   make: string
   model: string
   mileage?: number | null
+  ownerName?: string | null
   ownerPhone: string
   notes?: string | null
+  color: string
   createdAt?: Date | string
   updatedAt?: Date | string
   workOrders?: Prisma.Work_DoneCreateNestedManyWithoutCarInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutCarInput
 }
 
 export type CarUncheckedCreateInput = {
@@ -366,11 +396,14 @@ export type CarUncheckedCreateInput = {
   make: string
   model: string
   mileage?: number | null
+  ownerName?: string | null
   ownerPhone: string
   notes?: string | null
+  color: string
   createdAt?: Date | string
   updatedAt?: Date | string
   workOrders?: Prisma.Work_DoneUncheckedCreateNestedManyWithoutCarInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCarInput
 }
 
 export type CarUpdateInput = {
@@ -380,11 +413,14 @@ export type CarUpdateInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workOrders?: Prisma.Work_DoneUpdateManyWithoutCarNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutCarNestedInput
 }
 
 export type CarUncheckedUpdateInput = {
@@ -395,11 +431,14 @@ export type CarUncheckedUpdateInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workOrders?: Prisma.Work_DoneUncheckedUpdateManyWithoutCarNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCarNestedInput
 }
 
 export type CarCreateManyInput = {
@@ -410,8 +449,10 @@ export type CarCreateManyInput = {
   make: string
   model: string
   mileage?: number | null
+  ownerName?: string | null
   ownerPhone: string
   notes?: string | null
+  color: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -423,8 +464,10 @@ export type CarUpdateManyMutationInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -437,10 +480,17 @@ export type CarUncheckedUpdateManyInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CarScalarRelationFilter = {
+  is?: Prisma.CarWhereInput
+  isNot?: Prisma.CarWhereInput
 }
 
 export type CarCountOrderByAggregateInput = {
@@ -451,8 +501,10 @@ export type CarCountOrderByAggregateInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrder
+  ownerName?: Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  color?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -471,8 +523,10 @@ export type CarMaxOrderByAggregateInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrder
+  ownerName?: Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  color?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -485,8 +539,10 @@ export type CarMinOrderByAggregateInput = {
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
   mileage?: Prisma.SortOrder
+  ownerName?: Prisma.SortOrder
   ownerPhone?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  color?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -497,33 +553,22 @@ export type CarSumOrderByAggregateInput = {
   mileage?: Prisma.SortOrder
 }
 
-export type CarScalarRelationFilter = {
-  is?: Prisma.CarWhereInput
-  isNot?: Prisma.CarWhereInput
+export type CarCreateNestedOneWithoutAppointmentsInput = {
+  create?: Prisma.XOR<Prisma.CarCreateWithoutAppointmentsInput, Prisma.CarUncheckedCreateWithoutAppointmentsInput>
+  connectOrCreate?: Prisma.CarCreateOrConnectWithoutAppointmentsInput
+  connect?: Prisma.CarWhereUniqueInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type CarUpdateOneRequiredWithoutAppointmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.CarCreateWithoutAppointmentsInput, Prisma.CarUncheckedCreateWithoutAppointmentsInput>
+  connectOrCreate?: Prisma.CarCreateOrConnectWithoutAppointmentsInput
+  upsert?: Prisma.CarUpsertWithoutAppointmentsInput
+  connect?: Prisma.CarWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CarUpdateToOneWithWhereWithoutAppointmentsInput, Prisma.CarUpdateWithoutAppointmentsInput>, Prisma.CarUncheckedUpdateWithoutAppointmentsInput>
 }
 
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
   increment?: number
   decrement?: number
   multiply?: number
@@ -544,6 +589,88 @@ export type CarUpdateOneRequiredWithoutWorkOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CarUpdateToOneWithWhereWithoutWorkOrdersInput, Prisma.CarUpdateWithoutWorkOrdersInput>, Prisma.CarUncheckedUpdateWithoutWorkOrdersInput>
 }
 
+export type CarCreateWithoutAppointmentsInput = {
+  licensePlate: string
+  vin?: string | null
+  year?: number | null
+  make: string
+  model: string
+  mileage?: number | null
+  ownerName?: string | null
+  ownerPhone: string
+  notes?: string | null
+  color: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workOrders?: Prisma.Work_DoneCreateNestedManyWithoutCarInput
+}
+
+export type CarUncheckedCreateWithoutAppointmentsInput = {
+  id?: number
+  licensePlate: string
+  vin?: string | null
+  year?: number | null
+  make: string
+  model: string
+  mileage?: number | null
+  ownerName?: string | null
+  ownerPhone: string
+  notes?: string | null
+  color: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workOrders?: Prisma.Work_DoneUncheckedCreateNestedManyWithoutCarInput
+}
+
+export type CarCreateOrConnectWithoutAppointmentsInput = {
+  where: Prisma.CarWhereUniqueInput
+  create: Prisma.XOR<Prisma.CarCreateWithoutAppointmentsInput, Prisma.CarUncheckedCreateWithoutAppointmentsInput>
+}
+
+export type CarUpsertWithoutAppointmentsInput = {
+  update: Prisma.XOR<Prisma.CarUpdateWithoutAppointmentsInput, Prisma.CarUncheckedUpdateWithoutAppointmentsInput>
+  create: Prisma.XOR<Prisma.CarCreateWithoutAppointmentsInput, Prisma.CarUncheckedCreateWithoutAppointmentsInput>
+  where?: Prisma.CarWhereInput
+}
+
+export type CarUpdateToOneWithWhereWithoutAppointmentsInput = {
+  where?: Prisma.CarWhereInput
+  data: Prisma.XOR<Prisma.CarUpdateWithoutAppointmentsInput, Prisma.CarUncheckedUpdateWithoutAppointmentsInput>
+}
+
+export type CarUpdateWithoutAppointmentsInput = {
+  licensePlate?: Prisma.StringFieldUpdateOperationsInput | string
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workOrders?: Prisma.Work_DoneUpdateManyWithoutCarNestedInput
+}
+
+export type CarUncheckedUpdateWithoutAppointmentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  licensePlate?: Prisma.StringFieldUpdateOperationsInput | string
+  vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  make?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workOrders?: Prisma.Work_DoneUncheckedUpdateManyWithoutCarNestedInput
+}
+
 export type CarCreateWithoutWorkOrdersInput = {
   licensePlate: string
   vin?: string | null
@@ -551,10 +678,13 @@ export type CarCreateWithoutWorkOrdersInput = {
   make: string
   model: string
   mileage?: number | null
+  ownerName?: string | null
   ownerPhone: string
   notes?: string | null
+  color: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutCarInput
 }
 
 export type CarUncheckedCreateWithoutWorkOrdersInput = {
@@ -565,10 +695,13 @@ export type CarUncheckedCreateWithoutWorkOrdersInput = {
   make: string
   model: string
   mileage?: number | null
+  ownerName?: string | null
   ownerPhone: string
   notes?: string | null
+  color: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCarInput
 }
 
 export type CarCreateOrConnectWithoutWorkOrdersInput = {
@@ -594,10 +727,13 @@ export type CarUpdateWithoutWorkOrdersInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appointments?: Prisma.AppointmentUpdateManyWithoutCarNestedInput
 }
 
 export type CarUncheckedUpdateWithoutWorkOrdersInput = {
@@ -608,10 +744,13 @@ export type CarUncheckedUpdateWithoutWorkOrdersInput = {
   make?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.StringFieldUpdateOperationsInput | string
   mileage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ownerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerPhone?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCarNestedInput
 }
 
 
@@ -621,10 +760,12 @@ export type CarUncheckedUpdateWithoutWorkOrdersInput = {
 
 export type CarCountOutputType = {
   workOrders: number
+  appointments: number
 }
 
 export type CarCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workOrders?: boolean | CarCountOutputTypeCountWorkOrdersArgs
+  appointments?: boolean | CarCountOutputTypeCountAppointmentsArgs
 }
 
 /**
@@ -644,6 +785,13 @@ export type CarCountOutputTypeCountWorkOrdersArgs<ExtArgs extends runtime.Types.
   where?: Prisma.Work_DoneWhereInput
 }
 
+/**
+ * CarCountOutputType without action
+ */
+export type CarCountOutputTypeCountAppointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AppointmentWhereInput
+}
+
 
 export type CarSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -653,11 +801,14 @@ export type CarSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   make?: boolean
   model?: boolean
   mileage?: boolean
+  ownerName?: boolean
   ownerPhone?: boolean
   notes?: boolean
+  color?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   workOrders?: boolean | Prisma.Car$workOrdersArgs<ExtArgs>
+  appointments?: boolean | Prisma.Car$appointmentsArgs<ExtArgs>
   _count?: boolean | Prisma.CarCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["car"]>
 
@@ -669,8 +820,10 @@ export type CarSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   make?: boolean
   model?: boolean
   mileage?: boolean
+  ownerName?: boolean
   ownerPhone?: boolean
   notes?: boolean
+  color?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["car"]>
@@ -683,8 +836,10 @@ export type CarSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   make?: boolean
   model?: boolean
   mileage?: boolean
+  ownerName?: boolean
   ownerPhone?: boolean
   notes?: boolean
+  color?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["car"]>
@@ -697,15 +852,18 @@ export type CarSelectScalar = {
   make?: boolean
   model?: boolean
   mileage?: boolean
+  ownerName?: boolean
   ownerPhone?: boolean
   notes?: boolean
+  color?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CarOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "licensePlate" | "vin" | "year" | "make" | "model" | "mileage" | "ownerPhone" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["car"]>
+export type CarOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "licensePlate" | "vin" | "year" | "make" | "model" | "mileage" | "ownerName" | "ownerPhone" | "notes" | "color" | "createdAt" | "updatedAt", ExtArgs["result"]["car"]>
 export type CarInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workOrders?: boolean | Prisma.Car$workOrdersArgs<ExtArgs>
+  appointments?: boolean | Prisma.Car$appointmentsArgs<ExtArgs>
   _count?: boolean | Prisma.CarCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CarIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -715,6 +873,7 @@ export type $CarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   name: "Car"
   objects: {
     workOrders: Prisma.$Work_DonePayload<ExtArgs>[]
+    appointments: Prisma.$AppointmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -724,8 +883,10 @@ export type $CarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     make: string
     model: string
     mileage: number | null
+    ownerName: string | null
     ownerPhone: string
     notes: string | null
+    color: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["car"]>
@@ -1123,6 +1284,7 @@ readonly fields: CarFieldRefs;
 export interface Prisma__CarClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   workOrders<T extends Prisma.Car$workOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Car$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Work_DonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  appointments<T extends Prisma.Car$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Car$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1159,8 +1321,10 @@ export interface CarFieldRefs {
   readonly make: Prisma.FieldRef<"Car", 'String'>
   readonly model: Prisma.FieldRef<"Car", 'String'>
   readonly mileage: Prisma.FieldRef<"Car", 'Int'>
+  readonly ownerName: Prisma.FieldRef<"Car", 'String'>
   readonly ownerPhone: Prisma.FieldRef<"Car", 'String'>
   readonly notes: Prisma.FieldRef<"Car", 'String'>
+  readonly color: Prisma.FieldRef<"Car", 'String'>
   readonly createdAt: Prisma.FieldRef<"Car", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Car", 'DateTime'>
 }
@@ -1572,6 +1736,30 @@ export type Car$workOrdersArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.Work_DoneScalarFieldEnum | Prisma.Work_DoneScalarFieldEnum[]
+}
+
+/**
+ * Car.appointments
+ */
+export type Car$appointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Appointment
+   */
+  select?: Prisma.AppointmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Appointment
+   */
+  omit?: Prisma.AppointmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AppointmentInclude<ExtArgs> | null
+  where?: Prisma.AppointmentWhereInput
+  orderBy?: Prisma.AppointmentOrderByWithRelationInput | Prisma.AppointmentOrderByWithRelationInput[]
+  cursor?: Prisma.AppointmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AppointmentScalarFieldEnum | Prisma.AppointmentScalarFieldEnum[]
 }
 
 /**

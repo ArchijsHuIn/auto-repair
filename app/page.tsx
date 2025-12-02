@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type Car = {
     id: number;
@@ -18,6 +19,7 @@ type Car = {
 
 export default function HomePage() {
     const [cars, setCars] = useState<Car[]>([]);
+    const [showForm, setShowForm] = useState(false);
     const [form, setForm] = useState({
         licensePlate: "",
         vin: "",
@@ -39,7 +41,7 @@ export default function HomePage() {
         fetchCars();
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
@@ -78,105 +80,206 @@ export default function HomePage() {
             ownerPhone: "", 
             notes: "" 
         });
+        setShowForm(false);
         fetchCars();
     };
 
     return (
-        <main className="p-8 max-w-2xl mx-auto">
-            <h1 className="text-2xl font-bold mb-4">Cars</h1>
+        <div className="container mx-auto px-4 py-8 max-w-6xl">
+            <div className="mb-8">
+                <h1 className="text-4xl font-bold text-gray-800 mb-2">Vehicle Registry</h1>
+                <p className="text-gray-600">Manage and track all registered vehicles</p>
+            </div>
 
-            <form onSubmit={handleSubmit} className="space-y-2 mb-8">
-                <input
-                    name="licensePlate"
-                    value={form.licensePlate}
-                    onChange={handleChange}
-                    placeholder="License plate *"
-                    required
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="vin"
-                    value={form.vin}
-                    onChange={handleChange}
-                    placeholder="VIN (optional)"
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="year"
-                    type="number"
-                    value={form.year}
-                    onChange={handleChange}
-                    placeholder="Year (optional)"
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="make"
-                    value={form.make}
-                    onChange={handleChange}
-                    placeholder="Make *"
-                    required
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="model"
-                    value={form.model}
-                    onChange={handleChange}
-                    placeholder="Model *"
-                    required
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="mileage"
-                    type="number"
-                    value={form.mileage}
-                    onChange={handleChange}
-                    placeholder="Mileage (optional)"
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="ownerPhone"
-                    value={form.ownerPhone}
-                    onChange={handleChange}
-                    placeholder="Owner phone *"
-                    required
-                    className="border px-2 py-1 w-full"
-                />
-                <input
-                    name="notes"
-                    value={form.notes}
-                    onChange={handleChange}
-                    placeholder="Notes (optional)"
-                    className="border px-2 py-1 w-full"
-                />
-
-                <button type="submit" className="border px-4 py-1 mt-2 bg-blue-500 text-white hover:bg-blue-600">
-                    Add car
+            <div className="mb-6 flex justify-between items-center">
+                <div className="text-lg text-gray-700">
+                    Total Vehicles: <span className="font-bold text-blue-600">{cars.length}</span>
+                </div>
+                <button 
+                    onClick={() => setShowForm(!showForm)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200 flex items-center gap-2"
+                >
+                    <span className="text-xl">+</span>
+                    {showForm ? "Cancel" : "Register New Vehicle"}
                 </button>
-            </form>
+            </div>
 
-            <ul className="space-y-2">
-                {cars.map((car) => (
-                    <li key={car.id} className="border px-3 py-2 rounded">
+            {showForm && (
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-8 border-2 border-blue-100">
+                    <h2 className="text-2xl font-semibold mb-4 text-gray-800">Register New Vehicle</h2>
+                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <strong>{car.licensePlate}</strong> – {car.year || "N/A"} {car.make}{" "}
-                            {car.model}
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                License Plate <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                name="licensePlate"
+                                value={form.licensePlate}
+                                onChange={handleChange}
+                                placeholder="ABC-1234"
+                                required
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
                         </div>
-                        <div className="text-sm text-gray-600 mt-1">
-                            Owner: {car.ownerPhone}
-                            {car.mileage && ` • Mileage: ${car.mileage.toLocaleString()}`}
-                            {car.vin && ` • VIN: ${car.vin}`}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                VIN
+                            </label>
+                            <input
+                                name="vin"
+                                value={form.vin}
+                                onChange={handleChange}
+                                placeholder="17 character VIN"
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
                         </div>
-                        {car.notes && (
-                            <div className="text-sm text-gray-500 mt-1 italic">
-                                Notes: {car.notes}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Year
+                            </label>
+                            <input
+                                name="year"
+                                type="number"
+                                value={form.year}
+                                onChange={handleChange}
+                                placeholder="2024"
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Make <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                name="make"
+                                value={form.make}
+                                onChange={handleChange}
+                                placeholder="Toyota"
+                                required
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Model <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                name="model"
+                                value={form.model}
+                                onChange={handleChange}
+                                placeholder="Camry"
+                                required
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Mileage
+                            </label>
+                            <input
+                                name="mileage"
+                                type="number"
+                                value={form.mileage}
+                                onChange={handleChange}
+                                placeholder="50000"
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Owner Phone <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                name="ownerPhone"
+                                value={form.ownerPhone}
+                                onChange={handleChange}
+                                placeholder="(555) 123-4567"
+                                required
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Notes
+                            </label>
+                            <textarea
+                                name="notes"
+                                value={form.notes}
+                                onChange={handleChange}
+                                placeholder="Additional information..."
+                                rows={3}
+                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <button 
+                                type="submit" 
+                                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200"
+                            >
+                                Register Vehicle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {cars.length === 0 ? (
+                    <div className="col-span-full text-center py-12 bg-gray-50 rounded-lg">
+                        <p className="text-gray-500 text-lg">No vehicles registered yet.</p>
+                        <p className="text-gray-400 mt-2">Click "Register New Vehicle" to get started.</p>
+                    </div>
+                ) : (
+                    cars.map((car) => (
+                        <div key={car.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-200 overflow-hidden border border-gray-200">
+                            <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-3">
+                                <div className="text-xl font-bold">{car.licensePlate}</div>
+                                <div className="text-sm opacity-90">{car.year || "N/A"} {car.make} {car.model}</div>
                             </div>
-                        )}
-                        <div className="text-xs text-gray-400 mt-1">
-                            ID: {car.id} • Added: {new Date(car.createdAt).toLocaleDateString()}
+
+                            <div className="p-4 space-y-3">
+                                <div className="flex items-center text-gray-700">
+                                    <span className="font-medium mr-2">📞</span>
+                                    <span>{car.ownerPhone}</span>
+                                </div>
+
+                                {car.mileage && (
+                                    <div className="flex items-center text-gray-700">
+                                        <span className="font-medium mr-2">🛣️</span>
+                                        <span>{car.mileage.toLocaleString()} miles</span>
+                                    </div>
+                                )}
+
+                                {car.vin && (
+                                    <div className="flex items-center text-gray-600 text-sm">
+                                        <span className="font-medium mr-2">VIN:</span>
+                                        <span className="truncate">{car.vin}</span>
+                                    </div>
+                                )}
+
+                                {car.notes && (
+                                    <div className="bg-gray-50 p-3 rounded text-sm text-gray-600 italic">
+                                        "{car.notes}"
+                                    </div>
+                                )}
+
+                                <div className="pt-3 border-t border-gray-200 flex justify-between items-center">
+                                    <div className="text-xs text-gray-400">
+                                        ID: {car.id}
+                                    </div>
+                                    <Link 
+                                        href={`/work-orders?carId=${car.id}`}
+                                        className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
+                                    >
+                                        View Orders →
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                ))}
-            </ul>
-        </main>
+                    ))
+                )}
+            </div>
+        </div>
     );
 }

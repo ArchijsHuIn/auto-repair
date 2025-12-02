@@ -46,3 +46,12 @@ export const WorkOrderItemType = {
 } as const
 
 export type WorkOrderItemType = (typeof WorkOrderItemType)[keyof typeof WorkOrderItemType]
+
+
+export const UserRole = {
+  ADMIN: 'ADMIN',
+  MECHANIC: 'MECHANIC',
+  RECEPTIONIST: 'RECEPTIONIST'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
