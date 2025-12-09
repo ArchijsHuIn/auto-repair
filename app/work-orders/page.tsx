@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type Car = {
     id: number;
@@ -30,26 +30,7 @@ type WorkOrder = {
 };
 
 function WorkOrdersContent() {
-    const searchParams = useSearchParams();
-    const carIdFromUrl = searchParams.get("carId");
-    const openFormFlag = searchParams.get("openForm");
-
     const [workOrders, setWorkOrders] = useState<WorkOrder[]>([]);
-    const [cars, setCars] = useState<Car[]>([]);
-    const [showForm, setShowForm] = useState(false);
-    const [form, setForm] = useState({
-        carLicensePlate: "",
-        status: "NEW",
-        title: "",
-        customerComplaint: "",
-        internalNotes: "",
-        estimatedCompletion: "",
-        paymentStatus: "UNPAID",
-        paymentMethod: "",
-        totalLabor: "",
-        totalParts: "",
-        totalPrice: "",
-    });
 
     const fetchWorkOrders = async () => {
         const res = await fetch("/api/work-orders");
@@ -57,79 +38,9 @@ function WorkOrdersContent() {
         setWorkOrders(data);
     };
 
-    const fetchCars = async () => {
-        const res = await fetch("/api/cars");
-        const data = await res.json();
-        setCars(data);
-    };
-
     useEffect(() => {
         fetchWorkOrders();
-        fetchCars();
     }, []);
-
-    useEffect(() => {
-        // If a carId is present in URL, map it to licensePlate once cars are loaded
-        if (carIdFromUrl && cars.length > 0) {
-            const found = cars.find((c) => String(c.id) === String(carIdFromUrl));
-            if (found) {
-                setForm(prev => ({ ...prev, carLicensePlate: found.licensePlate }));
-                // Only auto-open the form if explicitly requested via openForm=true
-                if (openFormFlag === "true") {
-                    setShowForm(true);
-                }
-            }
-        }
-    }, [carIdFromUrl, cars, openFormFlag]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const res = await fetch("/api/work-orders", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                carLicensePlate: form.carLicensePlate,
-                status: form.status,
-                title: form.title,
-                customerComplaint: form.customerComplaint || null,
-                internalNotes: form.internalNotes || null,
-                estimatedCompletion: form.estimatedCompletion || null,
-                paymentStatus: form.paymentStatus,
-                paymentMethod: form.paymentMethod || null,
-                totalLabor: form.totalLabor ? Number(form.totalLabor) : null,
-                totalParts: form.totalParts ? Number(form.totalParts) : null,
-                totalPrice: form.totalPrice ? Number(form.totalPrice) : null,
-            }),
-        });
-
-        if (!res.ok) {
-            const error = await res.json();
-            console.error("Failed to create work order:", error);
-            alert(error.error || "Failed to create work order");
-            return;
-        }
-
-        setForm({
-            carLicensePlate: "",
-            status: "NEW",
-            title: "",
-            customerComplaint: "",
-            internalNotes: "",
-            estimatedCompletion: "",
-            paymentStatus: "UNPAID",
-            paymentMethod: "",
-            totalLabor: "",
-            totalParts: "",
-            totalPrice: "",
-        });
-        setShowForm(false);
-        fetchWorkOrders();
-    };
 
     const getStatusColor = (status: string) => {
         const colors: Record<string, string> = {
@@ -163,205 +74,14 @@ function WorkOrdersContent() {
                 <div className="text-lg text-gray-700">
                     Total Work Orders: <span className="font-bold text-blue-600">{workOrders.length}</span>
                 </div>
-                <button
-                    onClick={() => setShowForm(!showForm)}
+                <Link
+                    href="/work-orders/new"
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200 flex items-center gap-2"
                 >
                     <span className="text-xl">+</span>
-                    {showForm ? "Cancel" : "Create Work Order"}
-                </button>
+                    New Work Order
+                </Link>
             </div>
-
-            {showForm && (
-                <div className="bg-white rounded-lg shadow-lg p-6 mb-8 border-2 border-blue-100">
-                    <h2 className="text-2xl font-semibold mb-4 text-gray-800">Create New Work Order</h2>
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Select Vehicle <span className="text-red-500">*</span>
-                            </label>
-                            <select
-                                name="carLicensePlate"
-                                value={form.carLicensePlate}
-                                onChange={handleChange}
-                                required
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            >
-                                <option value="">-- Select a vehicle --</option>
-                                {cars.map((car) => (
-                                    <option key={car.id} value={car.licensePlate}>
-                                        {car.licensePlate} - {car.year} {car.make} {car.model}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Status <span className="text-red-500">*</span>
-                            </label>
-                            <select
-                                name="status"
-                                value={form.status}
-                                onChange={handleChange}
-                                required
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            >
-                                <option value="NEW">New</option>
-                                <option value="DIAGNOSTIC">Diagnostic</option>
-                                <option value="WAITING_PARTS">Waiting Parts</option>
-                                <option value="IN_PROGRESS">In Progress</option>
-                                <option value="DONE">Done</option>
-                                <option value="CANCELLED">Cancelled</option>
-                            </select>
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Title <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                name="title"
-                                value={form.title}
-                                onChange={handleChange}
-                                placeholder="Brief description of work"
-                                required
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Customer Complaint
-                            </label>
-                            <textarea
-                                name="customerComplaint"
-                                value={form.customerComplaint}
-                                onChange={handleChange}
-                                placeholder="What the customer reported..."
-                                rows={3}
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Internal Notes
-                            </label>
-                            <textarea
-                                name="internalNotes"
-                                value={form.internalNotes}
-                                onChange={handleChange}
-                                placeholder="Notes for mechanics (not visible to customer)..."
-                                rows={3}
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Estimated Completion
-                            </label>
-                            <input
-                                name="estimatedCompletion"
-                                type="datetime-local"
-                                value={form.estimatedCompletion}
-                                onChange={handleChange}
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Payment Status <span className="text-red-500">*</span>
-                            </label>
-                            <select
-                                name="paymentStatus"
-                                value={form.paymentStatus}
-                                onChange={handleChange}
-                                required
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            >
-                                <option value="UNPAID">Unpaid</option>
-                                <option value="PARTIAL">Partial</option>
-                                <option value="PAID">Paid</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Payment Method
-                            </label>
-                            <select
-                                name="paymentMethod"
-                                value={form.paymentMethod}
-                                onChange={handleChange}
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            >
-                                <option value="">-- Select method --</option>
-                                <option value="CASH">Cash</option>
-                                <option value="CARD">Card</option>
-                                <option value="TRANSFER">Transfer</option>
-                                <option value="OTHER">Other</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Total Labor ($)
-                            </label>
-                            <input
-                                name="totalLabor"
-                                type="number"
-                                step="0.01"
-                                value={form.totalLabor}
-                                onChange={handleChange}
-                                placeholder="0.00"
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Total Parts ($)
-                            </label>
-                            <input
-                                name="totalParts"
-                                type="number"
-                                step="0.01"
-                                value={form.totalParts}
-                                onChange={handleChange}
-                                placeholder="0.00"
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Total Price ($)
-                            </label>
-                            <input
-                                name="totalPrice"
-                                type="number"
-                                step="0.01"
-                                value={form.totalPrice}
-                                onChange={handleChange}
-                                placeholder="0.00"
-                                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <button
-                                type="submit"
-                                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200"
-                            >
-                                Create Work Order
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            )}
 
             <div className="space-y-4">
                 {workOrders.length === 0 ? (
@@ -377,18 +97,28 @@ function WorkOrdersContent() {
                         >
                             <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-800">{order.title}</h3>
+                                    <Link href={`/work-orders/${order.id}`} className="text-xl font-bold text-gray-800 hover:underline">
+                                        {order.title}
+                                    </Link>
                                     <p className="text-gray-600 mt-1">
-                                        {order.car.licensePlate} - {order.car.year} {order.car.make} {order.car.model}
+                                        <Link href={`/cars/${order.car.id}`} className="hover:underline">
+                                            {order.car.licensePlate} - {order.car.year} {order.car.make} {order.car.model}
+                                        </Link>
                                     </p>
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 items-center">
                                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
                                         {order.status.replace(/_/g, " ")}
                                     </span>
                                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getPaymentStatusColor(order.paymentStatus)}`}>
                                         {order.paymentStatus}
                                     </span>
+                                    <Link
+                                        href={`/work-orders/${order.id}`}
+                                        className="ml-2 text-sm px-3 py-1 rounded-md border border-gray-300 hover:bg-gray-50 text-gray-700"
+                                    >
+                                        Edit
+                                    </Link>
                                 </div>
                             </div>
 
@@ -407,6 +137,8 @@ function WorkOrdersContent() {
                                     </div>
                                 )}
                             </div>
+
+                            {/* Inline edit removed; use the dedicated edit page */}
 
                             <div className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap gap-4 text-sm text-gray-600">
                                 <div>

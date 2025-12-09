@@ -3,10 +3,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string; itemId: string } }
+    context: { params: Promise<{ id: string; itemId: string }> }
 ) {
     try {
-        const itemId = parseInt(params.itemId);
+        const { itemId: itemIdParam } = await context.params;
+        const itemId = parseInt(itemIdParam);
 
         if (isNaN(itemId)) {
             return NextResponse.json(
@@ -41,10 +42,11 @@ export async function PUT(
 
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string; itemId: string } }
+    context: { params: Promise<{ id: string; itemId: string }> }
 ) {
     try {
-        const itemId = parseInt(params.itemId);
+        const { itemId: itemIdParam } = await context.params;
+        const itemId = parseInt(itemIdParam);
 
         if (isNaN(itemId)) {
             return NextResponse.json(

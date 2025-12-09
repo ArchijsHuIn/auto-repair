@@ -112,7 +112,7 @@ export default function CarDetailPage() {
                         </p>
                     </div>
                     <Link
-                        href={`/work-orders?carId=${car.id}&openForm=true`}
+                        href={`/work-orders/new?carId=${car.id}`}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                     >
                         + New Work Order
@@ -167,7 +167,15 @@ export default function CarDetailPage() {
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Work Order History</h2>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-800">Work Order History</h2>
+                    <Link
+                        href={`/cars/${car.id}/history`}
+                        className="text-blue-600 hover:text-blue-800 font-medium"
+                    >
+                        View full history →
+                    </Link>
+                </div>
 
                 {car.workOrders.length === 0 ? (
                     <div className="text-center py-12 bg-gray-50 rounded-lg">
@@ -175,7 +183,7 @@ export default function CarDetailPage() {
                     </div>
                 ) : (
                     <div className="space-y-4">
-                        {car.workOrders.map((order) => (
+                        {car.workOrders.slice(0, 3).map((order) => (
                             <Link
                                 key={order.id}
                                 href={`/work-orders/${order.id}`}
