@@ -13,6 +13,24 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
+        <head>
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+(() => {
+  try {
+    const stored = localStorage.getItem('theme');
+    const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored === 'light' || stored === 'dark' ? stored : (systemDark ? 'dark' : 'light');
+    document.documentElement.dataset.theme = theme;
+  } catch (e) {
+    // no-op
+  }
+})();
+                    `.trim(),
+                }}
+            />
+        </head>
         <body className="min-h-screen flex flex-col">
         <Header />
 

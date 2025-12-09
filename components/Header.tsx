@@ -1,30 +1,34 @@
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Header() {
     return (
-        <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
+        <header className="shadow-lg" style={{ background: 'var(--primary)', color: 'var(--primary-foreground)' }}>
             <div className="container mx-auto px-4 py-4">
-                <div className="flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold hover:text-blue-200 transition-colors">
-                        🚗 Auto Repair Shop
+                <div className="flex justify-between items-center gap-4">
+                    <Link href="/" className="text-2xl font-bold transition-opacity hover:opacity-90">
+                        Auto Repair Shop
                     </Link>
-                    <nav className="flex gap-6">
-                        <Link href="/" className="hover:text-blue-200 transition-colors font-medium">
-                            Home
-                        </Link>
-                        <Link href="/cars" className="hover:text-blue-200 transition-colors font-medium">
-                            Search Cars
-                        </Link>
-                        <Link href="/cars/new" className="hover:text-blue-200 transition-colors font-medium">
-                            Register Vehicle
-                        </Link>
-                        <Link href="/work-orders" className="hover:text-blue-200 transition-colors font-medium">
-                            Work Orders
-                        </Link>
-                        <Link href="/about" className="hover:text-blue-200 transition-colors font-medium">
-                            About
-                        </Link>
-                    </nav>
+                    <div className="flex items-center gap-4">
+                        <nav className="flex gap-6">
+                            <Link href="/" className="font-medium transition-opacity hover:opacity-90">
+                                Home
+                            </Link>
+                            <Link href="/cars" className="font-medium transition-opacity hover:opacity-90">
+                                Search Cars
+                            </Link>
+                            <Link href="/cars/new" className="font-medium transition-opacity hover:opacity-90">
+                                Register Vehicle
+                            </Link>
+                            <Link href="/work-orders" className="font-medium transition-opacity hover:opacity-90">
+                                Work Orders
+                            </Link>
+                            <Link href="/about" className="font-medium transition-opacity hover:opacity-90">
+                                About
+                            </Link>
+                        </nav>
+                        <ThemeToggle />
+                    </div>
                 </div>
             </div>
         </header>

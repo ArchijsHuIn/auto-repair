@@ -1,24 +1,56 @@
 @import "tailwindcss";
+@import "./theme.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Theme variables are defined in app/theme.css */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* System preference is used only for initial value in layout script.
+   We no longer rely on this media query for live switching to avoid conflicts. */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Readability helpers and compatibility layer for existing Tailwind color utilities */
+@layer utilities {
+  .text-foreground { color: var(--foreground); }
+  .text-muted { color: var(--muted); }
+  .bg-surface { background-color: var(--surface); }
+  .bg-surface-2 { background-color: var(--surface-2); }
+  .border-token { border-color: var(--border); }
+}
+
+/* Map common hard-coded light theme classes to theme tokens so dark mode stays readable */
+:where(.bg-white) { background-color: var(--surface) !important; }
+:where(.bg-gray-50) { background-color: var(--surface-2) !important; }
+:where(.text-gray-800) { color: var(--foreground) !important; }
+:where(.text-gray-700), :where(.text-gray-600), :where(.text-gray-500), :where(.text-gray-400) { color: var(--muted) !important; }
+:where(.border-gray-100), :where(.border-gray-200), :where(.border-gray-300) { border-color: var(--border) !important; }
+
+/* Improve focus visibility for keyboard users */
+:where(a, button, [role="button"], input, select, textarea) {
+  outline: none;
+}
+:where(a, button, [role="button"], input, select, textarea):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 40%, transparent);
 }

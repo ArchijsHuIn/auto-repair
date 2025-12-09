@@ -165,19 +165,19 @@ function WorkOrdersContent() {
                                     {order.totalLabor && (
                                         <div>
                                             <span className="text-sm text-gray-600">Labor:</span>
-                                            <span className="ml-2 font-semibold text-gray-800">${Number(order.totalLabor).toFixed(2)}</span>
+                                            <span className="ml-2 font-semibold text-gray-800">€{Number(order.totalLabor).toFixed(2)}</span>
                                         </div>
                                     )}
                                     {order.totalParts && (
                                         <div>
                                             <span className="text-sm text-gray-600">Parts:</span>
-                                            <span className="ml-2 font-semibold text-gray-800">${Number(order.totalParts).toFixed(2)}</span>
+                                            <span className="ml-2 font-semibold text-gray-800">€{Number(order.totalParts).toFixed(2)}</span>
                                         </div>
                                     )}
                                     {order.totalPrice && (
                                         <div>
                                             <span className="text-sm text-gray-600">Total:</span>
-                                            <span className="ml-2 font-bold text-blue-600 text-lg">${Number(order.totalPrice).toFixed(2)}</span>
+                                            <span className="ml-2 font-bold text-blue-600 text-lg">€{Number(order.totalPrice).toFixed(2)}</span>
                                         </div>
                                     )}
                                 </div>

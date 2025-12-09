@@ -111,8 +111,8 @@ export async function GET(
             const desc = doc.splitTextToSize(item.description, 80);
             doc.text(desc, 45, yPos);
             doc.text(parseFloat(item.quantity.toString()).toFixed(2), 130, yPos);
-            doc.text(`$${parseFloat(item.unitPrice.toString()).toFixed(2)}`, 150, yPos);
-            doc.text(`$${total.toFixed(2)}`, 180, yPos);
+            doc.text(`€${parseFloat(item.unitPrice.toString()).toFixed(2)}`, 150, yPos);
+            doc.text(`€${total.toFixed(2)}`, 180, yPos);
 
             yPos += desc.length * 5 + 2;
 
@@ -129,17 +129,17 @@ export async function GET(
 
         doc.setFont(undefined, "normal");
         doc.text("Labor Subtotal:", 130, yPos);
-        doc.text(`$${laborTotal.toFixed(2)}`, 180, yPos);
+        doc.text(`€${laborTotal.toFixed(2)}`, 180, yPos);
         yPos += 6;
 
         doc.text("Parts Subtotal:", 130, yPos);
-        doc.text(`$${partsTotal.toFixed(2)}`, 180, yPos);
+        doc.text(`€${partsTotal.toFixed(2)}`, 180, yPos);
         yPos += 8;
 
         doc.setFont(undefined, "bold");
         doc.setFontSize(12);
         doc.text("TOTAL:", 130, yPos);
-        doc.text(`$${(laborTotal + partsTotal).toFixed(2)}`, 180, yPos);
+        doc.text(`€${(laborTotal + partsTotal).toFixed(2)}`, 180, yPos);
 
         // Payment status
         yPos += 10;

@@ -135,7 +135,7 @@ export default function CarFullHistoryPage() {
                             {order.totalPrice && (
                                 <div className="text-right">
                                     <span className="text-lg font-bold text-blue-600">
-                                        ${Number(order.totalPrice).toFixed(2)}
+                                        €{Number(order.totalPrice).toFixed(2)}
                                     </span>
                                 </div>
                             )}

@@ -233,7 +233,7 @@ export default function NewWorkOrderPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Labor ($)</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Labor (€)</label>
                         <input
                             name="totalLabor"
                             type="number"
@@ -246,7 +246,7 @@ export default function NewWorkOrderPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Parts ($)</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Parts (€)</label>
                         <input
                             name="totalParts"
                             type="number"
@@ -259,7 +259,7 @@ export default function NewWorkOrderPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Price ($)</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Price (€)</label>
                         <input
                             name="totalPrice"
                             type="number"

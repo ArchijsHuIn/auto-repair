@@ -154,7 +154,7 @@ export default function CarDetailPage() {
 
                     <div className="bg-indigo-50 p-4 rounded-lg">
                         <div className="text-sm text-gray-600 mb-1">Total Spent</div>
-                        <div className="text-2xl font-bold text-gray-800">${totalSpent.toFixed(2)}</div>
+                        <div className="text-2xl font-bold text-gray-800">€{totalSpent.toFixed(2)}</div>
                     </div>
                 </div>
 
@@ -208,7 +208,7 @@ export default function CarDetailPage() {
                                 {order.totalPrice && (
                                     <div className="text-right">
                                         <span className="text-lg font-bold text-blue-600">
-                                            ${Number(order.totalPrice).toFixed(2)}
+                                            €{Number(order.totalPrice).toFixed(2)}
                                         </span>
                                     </div>
                                 )}

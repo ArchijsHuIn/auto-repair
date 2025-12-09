@@ -427,7 +427,7 @@ export default function WorkOrderDetailPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Unit Price ($) <span className="text-red-500">*</span>
+                                    Unit Price (€) <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     name="unitPrice"
@@ -445,7 +445,7 @@ export default function WorkOrderDetailPage() {
                                 <div className="text-right mb-2">
                                     <span className="text-sm text-gray-600">Total: </span>
                                     <span className="text-lg font-bold text-blue-600">
-                                        ${(parseFloat(itemForm.quantity || "0") * parseFloat(itemForm.unitPrice || "0")).toFixed(2)}
+                                        €{(parseFloat(itemForm.quantity || "0") * parseFloat(itemForm.unitPrice || "0")).toFixed(2)}
                                     </span>
                                 </div>
                                 <button
@@ -488,8 +488,8 @@ export default function WorkOrderDetailPage() {
                                         </td>
                                         <td className="px-4 py-3 text-gray-800">{item.description}</td>
                                         <td className="px-4 py-3 text-right text-gray-800">{parseFloat(item.quantity).toFixed(2)}</td>
-                                        <td className="px-4 py-3 text-right text-gray-800">${parseFloat(item.unitPrice).toFixed(2)}</td>
-                                        <td className="px-4 py-3 text-right font-semibold text-gray-800">${parseFloat(item.total).toFixed(2)}</td>
+                                        <td className="px-4 py-3 text-right text-gray-800">€{parseFloat(item.unitPrice).toFixed(2)}</td>
+                                        <td className="px-4 py-3 text-right font-semibold text-gray-800">€{parseFloat(item.total).toFixed(2)}</td>
                                         <td className="px-4 py-3 text-right">
                                             <button
                                                 onClick={() => handleEditItem(item)}
@@ -510,17 +510,17 @@ export default function WorkOrderDetailPage() {
                             <tfoot className="bg-gray-100 font-semibold">
                                 <tr>
                                     <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Labor Subtotal:</td>
-                                    <td className="px-4 py-3 text-right text-gray-800">${laborTotal.toFixed(2)}</td>
+                                    <td className="px-4 py-3 text-right text-gray-800">€{laborTotal.toFixed(2)}</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Parts Subtotal:</td>
-                                    <td className="px-4 py-3 text-right text-gray-800">${partsTotal.toFixed(2)}</td>
+                                    <td className="px-4 py-3 text-right text-gray-800">€{partsTotal.toFixed(2)}</td>
                                     <td></td>
                                 </tr>
                                 <tr className="text-lg">
                                     <td colSpan={4} className="px-4 py-3 text-right text-gray-800">Grand Total:</td>
-                                    <td className="px-4 py-3 text-right text-blue-600">${totalFromItems.toFixed(2)}</td>
+                                    <td className="px-4 py-3 text-right text-blue-600">€{totalFromItems.toFixed(2)}</td>
                                     <td></td>
                                 </tr>
                             </tfoot>

@@ -1,0 +1,52 @@
+/* Light theme (default) */
+:root {
+  /* Neutrals */
+  --background: #ffffff;
+  --foreground: #111827; /* gray-900 */
+  --muted: #4b5563; /* gray-600 */
+
+  /* Brand palette */
+  --primary: #2563eb; /* blue-600 */
+  --primary-foreground: #ffffff;
+
+  --secondary: #0ea5e9; /* sky-500 */
+  --secondary-foreground: #052e4e;
+
+  --accent: #10b981; /* emerald-500 */
+  --accent-foreground: #053a2d;
+
+  /* Surfaces and borders */
+  --surface: #ffffff; /* cards/panels */
+  --surface-2: #f9fafb; /* subtle panel/hover, gray-50 */
+  --surface-foreground: var(--foreground);
+  --border: #e5e7eb; /* gray-200 */
+  --ring: var(--accent);
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --background: #0b0f1a; /* near slate-950 with slight blue */
+  --foreground: #e5e7eb; /* gray-200 */
+  --muted: #9ca3af; /* gray-400 */
+
+  --primary: #3b82f6; /* blue-500 */
+  --primary-foreground: #0b0f1a;
+
+  --secondary: #22d3ee; /* cyan-400 */
+  --secondary-foreground: #062129;
+
+  --accent: #34d399; /* emerald-400 */
+  --accent-foreground: #06261d;
+
+  /* Surfaces and borders */
+  --surface: #111827; /* gray-900 */
+  --surface-2: #0f172a; /* slate-900-ish for hover */
+  --surface-foreground: var(--foreground);
+  --border: #334155; /* slate-700 */
+  --ring: var(--accent);
+}
+
+/* Helpful base tokens */
+html {
+  color-scheme: light dark;
+}
