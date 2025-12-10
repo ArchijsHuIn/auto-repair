@@ -111,12 +111,20 @@ export default function CarDetailPage() {
                             {car.year} {car.make} {car.model}
                         </p>
                     </div>
-                    <Link
-                        href={`/work-orders/new?carId=${car.id}`}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
-                    >
-                        + New Work Order
-                    </Link>
+                    <div className="flex gap-3">
+                        <Link
+                            href={`/cars/${car.id}/edit`}
+                            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-5 py-3 rounded-lg shadow-sm border border-gray-300 transition-colors"
+                        >
+                            Edit Vehicle
+                        </Link>
+                        <Link
+                            href={`/work-orders/new?carId=${car.id}`}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
+                        >
+                            + New Work Order
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
