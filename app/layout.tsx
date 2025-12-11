@@ -3,9 +3,6 @@ import React from "react";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { I18nProvider } from "@/lib/i18n/I18nProvider";
-import { cookies } from "next/headers";
-import type { Lang } from "@/lib/i18n/dictionaries";
 
 
 export const metadata: Metadata = {
@@ -14,11 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const cookieStore = cookies();
-    const cookieLang = cookieStore.get('lang')?.value as Lang | undefined;
-    const lang: Lang = cookieLang === 'lv' || cookieLang === 'en' ? cookieLang : 'en';
     return (
-        <html lang={lang} suppressHydrationWarning>
+        <html lang="en">
         <head>
             <script
                 dangerouslySetInnerHTML={{
@@ -38,15 +32,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             />
         </head>
         <body className="min-h-screen flex flex-col">
-        <I18nProvider initialLang={lang}>
-            <Header />
+        <Header />
 
-            <main className="flex-1 p-4">
-                {children}
-            </main>
+        <main className="flex-1 p-4">
+            {children}
+        </main>
 
-            <Footer />
-        </I18nProvider>
+        <Footer />
         </body>
         </html>
     );
