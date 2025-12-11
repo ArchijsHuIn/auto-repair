@@ -66,28 +66,28 @@ function WorkOrdersContent() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-7xl">
             <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-800 mb-2">Work Orders</h1>
-                <p className="text-gray-600">Manage repair jobs and track progress</p>
+                <h1 className="text-4xl font-bold text-gray-800 mb-2">Darba uzdevumi</h1>
+                <p className="text-gray-600">Pārvaldiet remonta darbus un to progresu</p>
             </div>
 
             <div className="mb-6 flex justify-between items-center">
                 <div className="text-lg text-gray-700">
-                    Total Work Orders: <span className="font-bold text-blue-600">{workOrders.length}</span>
+                    Kopā darba uzdevumu: <span className="font-bold text-blue-600">{workOrders.length}</span>
                 </div>
                 <Link
                     href="/work-orders/new"
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200 flex items-center gap-2"
                 >
                     <span className="text-xl">+</span>
-                    New Work Order
+                    Jauns darba uzdevums
                 </Link>
             </div>
 
             <div className="space-y-4">
                 {workOrders.length === 0 ? (
                     <div className="text-center py-12 bg-gray-50 rounded-lg">
-                        <p className="text-gray-500 text-lg">No work orders yet.</p>
-                        <p className="text-gray-400 mt-2">Click "Create Work Order" to get started.</p>
+                        <p className="text-gray-500 text-lg">Vēl nav darba uzdevumu.</p>
+                        <p className="text-gray-400 mt-2">Noklikšķiniet uz "Izveidot darba uzdevumu", lai sāktu.</p>
                     </div>
                 ) : (
                     workOrders.map((order) => (
@@ -117,7 +117,7 @@ function WorkOrdersContent() {
                                         href={`/work-orders/${order.id}`}
                                         className="ml-2 text-sm px-3 py-1 rounded-md border border-gray-300 hover:bg-gray-50 text-gray-700"
                                     >
-                                        Edit
+                                        Rediģēt
                                     </Link>
                                 </div>
                             </div>
@@ -125,14 +125,14 @@ function WorkOrdersContent() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {order.customerComplaint && (
                                     <div className="bg-blue-50 p-3 rounded">
-                                        <p className="text-sm font-medium text-blue-800 mb-1">Customer Complaint:</p>
+                                        <p className="text-sm font-medium text-blue-800 mb-1">Klienta sūdzība:</p>
                                         <p className="text-sm text-gray-700">{order.customerComplaint}</p>
                                     </div>
                                 )}
 
                                 {order.internalNotes && (
                                     <div className="bg-yellow-50 p-3 rounded">
-                                        <p className="text-sm font-medium text-yellow-800 mb-1">Internal Notes:</p>
+                                        <p className="text-sm font-medium text-yellow-800 mb-1">Iekšējās piezīmes:</p>
                                         <p className="text-sm text-gray-700">{order.internalNotes}</p>
                                     </div>
                                 )}
@@ -142,20 +142,20 @@ function WorkOrdersContent() {
 
                             <div className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap gap-4 text-sm text-gray-600">
                                 <div>
-                                    <span className="font-medium">Order ID:</span> #{order.id}
+                                    <span className="font-medium">Uzdevuma ID:</span> #{order.id}
                                 </div>
                                 <div>
-                                    <span className="font-medium">Created:</span> {new Date(order.createdAt).toLocaleDateString()}
+                                    <span className="font-medium">Izveidots:</span> {new Date(order.createdAt).toLocaleDateString()}
                                 </div>
                                 {order.estimatedCompletion && (
                                     <div>
-                                        <span className="font-medium">Est. Completion:</span>{" "}
+                                        <span className="font-medium">Plānotais pabeigšanas laiks:</span>{" "}
                                         {new Date(order.estimatedCompletion).toLocaleString()}
                                     </div>
                                 )}
                                 {order.paymentMethod && (
                                     <div>
-                                        <span className="font-medium">Payment:</span> {order.paymentMethod}
+                                        <span className="font-medium">Maksājums:</span> {order.paymentMethod}
                                     </div>
                                 )}
                             </div>
@@ -164,19 +164,19 @@ function WorkOrdersContent() {
                                 <div className="mt-4 pt-4 border-t border-gray-200 flex gap-6">
                                     {order.totalLabor && (
                                         <div>
-                                            <span className="text-sm text-gray-600">Labor:</span>
+                                            <span className="text-sm text-gray-600">Darbs:</span>
                                             <span className="ml-2 font-semibold text-gray-800">€{Number(order.totalLabor).toFixed(2)}</span>
                                         </div>
                                     )}
                                     {order.totalParts && (
                                         <div>
-                                            <span className="text-sm text-gray-600">Parts:</span>
+                                            <span className="text-sm text-gray-600">Rezerves daļas:</span>
                                             <span className="ml-2 font-semibold text-gray-800">€{Number(order.totalParts).toFixed(2)}</span>
                                         </div>
                                     )}
                                     {order.totalPrice && (
                                         <div>
-                                            <span className="text-sm text-gray-600">Total:</span>
+                                            <span className="text-sm text-gray-600">Kopā:</span>
                                             <span className="ml-2 font-bold text-blue-600 text-lg">€{Number(order.totalPrice).toFixed(2)}</span>
                                         </div>
                                     )}
@@ -192,7 +192,7 @@ function WorkOrdersContent() {
 
 export default function WorkOrdersPage() {
     return (
-        <Suspense fallback={<div className="container mx-auto px-4 py-8">Loading...</div>}>
+        <Suspense fallback={<div className="container mx-auto px-4 py-8">Ielādē...</div>}>
             <WorkOrdersContent />
         </Suspense>
     );

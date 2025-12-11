@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <div className="mb-4 md:mb-0">
                         <p className="text-sm">
-                            © {new Date().getFullYear()} Auto Service Manager. All rights reserved.
+                            © {new Date().getFullYear()} AutoServiss informācijas sistēma. Visas tiesības aizsargātas.
                         </p>
                     </div>
                     <div className="flex space-x-6">
@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
                             rel="noopener noreferrer"
                             className="hover:text-blue-400 transition-colors"
                         >
-                            Twitter
+                            X (Twitter)
                         </a>
                         <a
                             href="https://facebook.com"

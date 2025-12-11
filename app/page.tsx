@@ -37,8 +37,8 @@ export default function HomePage() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-6xl">
             <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-800 mb-2">Active Vehicles</h1>
-                <p className="text-gray-600">Only cars with work orders that are not done</p>
+                <h1 className="text-4xl font-bold text-gray-800 mb-2">Aktuālās automašīnas</h1>
+                <p className="text-gray-600">Tikai automobīļi, kuriem nav pabeigta kāds no darbiem</p>
             </div>
 
             {loading ? (
@@ -61,7 +61,7 @@ export default function HomePage() {
                                     <span className="font-medium">📞</span>
                                     <span>{car.ownerPhone}</span>
                                 </div>
-                                <div className="mt-3 text-blue-600 font-medium">Open vehicle overview →</div>
+                                <div className="mt-3 text-blue-600 font-medium">Apskatīt auto →</div>
                             </div>
                         </Link>
                     ))}

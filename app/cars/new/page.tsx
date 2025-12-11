@@ -67,52 +67,56 @@ export default function NewCarPage() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-3xl">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">Register New Vehicle</h1>
-                <p className="text-gray-600">Add a vehicle to the registry</p>
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">Jauna jauna auto reģistrēšana</h1>
+                <p className="text-gray-600">Pievieno auto servisa reģistram</p>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-100">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            License Plate <span className="text-red-500">*</span>
+                            Valsts numura zīme <span className="text-red-500">*</span>
                         </label>
                         <input
                             name="licensePlate"
                             value={form.licensePlate}
                             onChange={handleChange}
-                            placeholder="ABC-1234"
+                            placeholder="AB-1234"
                             required
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">VIN</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            VIN numurs
+                        </label>
                         <input
                             name="vin"
                             value={form.vin}
                             onChange={handleChange}
-                            placeholder="17 character VIN"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
-                        <input
-                            name="year"
-                            type="number"
-                            value={form.year}
-                            onChange={handleChange}
-                            placeholder="2024"
+                            placeholder=""
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Make <span className="text-red-500">*</span>
+                            Izlaiduma gads
+                        </label>
+                        <input
+                            name="year"
+                            type="number"
+                            value={form.year}
+                            onChange={handleChange}
+                            placeholder="2000"
+                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Marka <span className="text-red-500">*</span>
                         </label>
                         <input
                             name="make"
@@ -126,7 +130,7 @@ export default function NewCarPage() {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Model <span className="text-red-500">*</span>
+                            Modelis <span className="text-red-500">*</span>
                         </label>
                         <input
                             name="model"
@@ -139,62 +143,68 @@ export default function NewCarPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Mileage</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Nobraukums (km)
+                        </label>
                         <input
                             name="mileage"
                             type="number"
                             value={form.mileage}
                             onChange={handleChange}
-                            placeholder="50000"
+                            placeholder=""
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Owner Name
+                            Īpašnieka vārds
                         </label>
                         <input
                             name="ownerName"
                             value={form.ownerName}
                             onChange={handleChange}
-                            placeholder="John Doe"
+                            placeholder=""
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Owner Phone <span className="text-red-500">*</span>
+                            Īpašnieka tālruņa numurs <span className="text-red-500">*</span>
                         </label>
                         <input
                             name="ownerPhone"
                             value={form.ownerPhone}
                             onChange={handleChange}
-                            placeholder="(555) 123-4567"
+                            placeholder="+371 21234567"
                             required
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Auto krāsa
+                        </label>
                         <input
                             name="color"
                             value={form.color}
                             onChange={handleChange}
-                            placeholder="Blue"
+                            placeholder="Melna"
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Piezīmes
+                        </label>
                         <textarea
                             name="notes"
                             value={form.notes}
                             onChange={handleChange}
-                            placeholder="Additional information..."
+                            placeholder="Papildus informācija par auto..."
                             rows={3}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                         />

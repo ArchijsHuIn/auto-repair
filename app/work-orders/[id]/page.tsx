@@ -57,6 +57,14 @@ export default function WorkOrderDetailPage() {
         unitPrice: "0",
     });
 
+    // Edit states for customer complaint and internal notes
+    const [editingComplaint, setEditingComplaint] = useState(false);
+    const [complaintDraft, setComplaintDraft] = useState("");
+    const [savingComplaint, setSavingComplaint] = useState(false);
+    const [editingNotes, setEditingNotes] = useState(false);
+    const [notesDraft, setNotesDraft] = useState("");
+    const [savingNotes, setSavingNotes] = useState(false);
+
     useEffect(() => {
         fetchWorkOrder();
     }, [orderId]);
@@ -65,13 +73,13 @@ export default function WorkOrderDetailPage() {
         try {
             const res = await fetch(`/api/work-orders/${orderId}`);
             if (!res.ok) {
-                throw new Error("Work order not found");
+                throw new Error("Darba uzdevums nav atrasts");
             }
             const data = await res.json();
             setWorkOrder(data);
         } catch (error) {
-            console.error("Error fetching work order:", error);
-            alert("Work order not found");
+            console.error("Kļūda ielādējot darba uzdevumu:", error);
+            alert("Darba uzdevums nav atrasts");
             router.push("/work-orders");
         } finally {
             setLoading(false);
@@ -150,6 +158,66 @@ export default function WorkOrderDetailPage() {
         } catch (error) {
             console.error("Error deleting item:", error);
             alert("Failed to delete item");
+        }
+    };
+
+    const startEditComplaint = () => {
+        if (!workOrder) return;
+        setComplaintDraft(workOrder.customerComplaint ?? "");
+        setEditingComplaint(true);
+    };
+
+    const cancelEditComplaint = () => {
+        setEditingComplaint(false);
+        setComplaintDraft("");
+    };
+
+    const saveComplaint = async () => {
+        try {
+            setSavingComplaint(true);
+            const res = await fetch(`/api/work-orders/${orderId}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ customerComplaint: complaintDraft }),
+            });
+            if (!res.ok) throw new Error("Failed to update complaint");
+            setEditingComplaint(false);
+            await fetchWorkOrder();
+        } catch (error) {
+            console.error("Error updating complaint:", error);
+            alert("Neizdevās atjaunināt sūdzību");
+        } finally {
+            setSavingComplaint(false);
+        }
+    };
+
+    const startEditNotes = () => {
+        if (!workOrder) return;
+        setNotesDraft(workOrder.internalNotes ?? "");
+        setEditingNotes(true);
+    };
+
+    const cancelEditNotes = () => {
+        setEditingNotes(false);
+        setNotesDraft("");
+    };
+
+    const saveNotes = async () => {
+        try {
+            setSavingNotes(true);
+            const res = await fetch(`/api/work-orders/${orderId}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ internalNotes: notesDraft }),
+            });
+            if (!res.ok) throw new Error("Failed to update notes");
+            setEditingNotes(false);
+            await fetchWorkOrder();
+        } catch (error) {
+            console.error("Error updating notes:", error);
+            alert("Neizdevās atjaunināt piezīmes");
+        } finally {
+            setSavingNotes(false);
         }
     };
 
@@ -237,7 +305,7 @@ export default function WorkOrderDetailPage() {
     if (loading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="text-center">Loading work order...</div>
+                <div className="text-center">Ielādē darba uzdevumu...</div>
             </div>
         );
     }
@@ -258,14 +326,14 @@ export default function WorkOrderDetailPage() {
         <div className="container mx-auto px-4 py-8 max-w-7xl">
             <div className="mb-6 flex justify-between items-center">
                 <Link href="/work-orders" className="text-blue-600 hover:text-blue-800">
-                    ← Back to Work Orders
+                    ← Atpakaļ uz darba uzdevumiem
                 </Link>
                 {workOrder.status === "DONE" && (
                     <button
                         onClick={downloadPDF}
                         className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors flex items-center gap-2"
                     >
-                        📄 Download PDF Invoice
+                        📄 Lejupielādēt PDF rēķinu
                     </button>
                 )}
             </div>
@@ -274,7 +342,7 @@ export default function WorkOrderDetailPage() {
                 <div className="flex justify-between items-start mb-6">
                     <div>
                         <h1 className="text-4xl font-bold text-gray-800 mb-2">{workOrder.title}</h1>
-                        <p className="text-gray-600">Work Order #{workOrder.id}</p>
+                        <p className="text-gray-600">Darba uzdevums #{workOrder.id}</p>
                     </div>
                     <div className="flex gap-2">
                         <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(workOrder.status)}`}>
@@ -288,7 +356,7 @@ export default function WorkOrderDetailPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-2">Vehicle</div>
+                        <div className="text-sm text-gray-600 mb-2">Transportlīdzeklis</div>
                         <Link href={`/cars/${workOrder.car.id}`} className="text-lg font-semibold text-blue-600 hover:text-blue-800">
                             {workOrder.car.licensePlate}
                         </Link>
@@ -298,34 +366,116 @@ export default function WorkOrderDetailPage() {
                     </div>
 
                     <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-2">Customer</div>
+                        <div className="text-sm text-gray-600 mb-2">Klients</div>
                         <div className="text-lg font-semibold text-gray-800">{workOrder.car.ownerName}</div>
                         <div className="text-gray-700">{workOrder.car.ownerPhone}</div>
                     </div>
                 </div>
 
-                {workOrder.customerComplaint && (
-                    <div className="bg-blue-50 p-4 rounded-lg mb-4">
-                        <div className="text-sm font-medium text-blue-800 mb-2">Customer Complaint:</div>
-                        <p className="text-gray-700">{workOrder.customerComplaint}</p>
+                <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="text-sm font-medium text-blue-800">Klienta sūdzība:</div>
+                        {!editingComplaint ? (
+                            <button
+                                type="button"
+                                onClick={startEditComplaint}
+                                className="text-blue-700 hover:text-blue-900 text-sm font-semibold"
+                            >
+                                Rediģēt
+                            </button>
+                        ) : null}
                     </div>
-                )}
+                    {editingComplaint ? (
+                        <div>
+                            <textarea
+                                value={complaintDraft}
+                                onChange={(e) => setComplaintDraft(e.target.value)}
+                                rows={3}
+                                placeholder="Aprakstiet klienta sūdzību..."
+                                className="border border-blue-200 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 bg-white"
+                            />
+                            <div className="mt-2 flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={saveComplaint}
+                                    disabled={savingComplaint}
+                                    className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
+                                >
+                                    {savingComplaint ? "Saglabā..." : "Saglabāt"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={cancelEditComplaint}
+                                    disabled={savingComplaint}
+                                    className="px-4 py-2 rounded-lg border border-blue-300 text-blue-700 hover:bg-blue-100"
+                                >
+                                    Atcelt
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="text-gray-700 min-h-5">
+                            {workOrder.customerComplaint ?? <span className="text-gray-400">Nav norādīts</span>}
+                        </p>
+                    )}
+                </div>
 
-                {workOrder.internalNotes && (
-                    <div className="bg-yellow-50 p-4 rounded-lg mb-4">
-                        <div className="text-sm font-medium text-yellow-800 mb-2">Internal Notes:</div>
-                        <p className="text-gray-700">{workOrder.internalNotes}</p>
+                <div className="bg-yellow-50 p-4 rounded-lg mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="text-sm font-medium text-yellow-800">Iekšējās piezīmes:</div>
+                        {!editingNotes ? (
+                            <button
+                                type="button"
+                                onClick={startEditNotes}
+                                className="text-yellow-700 hover:text-yellow-900 text-sm font-semibold"
+                            >
+                                Rediģēt
+                            </button>
+                        ) : null}
                     </div>
-                )}
+                    {editingNotes ? (
+                        <div>
+                            <textarea
+                                value={notesDraft}
+                                onChange={(e) => setNotesDraft(e.target.value)}
+                                rows={3}
+                                placeholder="Iekšējās piezīmes..."
+                                className="border border-yellow-200 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-yellow-500 bg-white"
+                            />
+                            <div className="mt-2 flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={saveNotes}
+                                    disabled={savingNotes}
+                                    className="bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
+                                >
+                                    {savingNotes ? "Saglabā..." : "Saglabāt"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={cancelEditNotes}
+                                    disabled={savingNotes}
+                                    className="px-4 py-2 rounded-lg border border-yellow-300 text-yellow-800 hover:bg-yellow-100"
+                                >
+                                    Atcelt
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="text-gray-700 min-h-5">
+                            {workOrder.internalNotes ?? <span className="text-gray-400">Nav norādīts</span>}
+                        </p>
+                    )}
+                </div>
 
                 <div className="flex gap-4 mb-6">
                     <div>
-                        <span className="text-sm text-gray-600">Created:</span>
+                        <span className="text-sm text-gray-600">Izveidots:</span>
                         <span className="ml-2 text-gray-800">{new Date(workOrder.createdAt).toLocaleString()}</span>
                     </div>
                     {workOrder.estimatedCompletion && (
                         <div>
-                            <span className="text-sm text-gray-600">Est. Completion:</span>
+                            <span className="text-sm text-gray-600">Plānotais pabeigšanas laiks:</span>
                             <span className="ml-2 text-gray-800">{new Date(workOrder.estimatedCompletion).toLocaleString()}</span>
                         </div>
                     )}
@@ -337,12 +487,12 @@ export default function WorkOrderDetailPage() {
                         onChange={(e) => handleStatusUpdate(e.target.value)}
                         className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
                     >
-                        <option value="NEW">New</option>
-                        <option value="DIAGNOSTIC">Diagnostic</option>
-                        <option value="WAITING_PARTS">Waiting Parts</option>
-                        <option value="IN_PROGRESS">In Progress</option>
-                        <option value="DONE">Done</option>
-                        <option value="CANCELLED">Cancelled</option>
+                        <option value="NEW">Jauns</option>
+                        <option value="DIAGNOSTIC">Diagnostika</option>
+                        <option value="WAITING_PARTS">Gaidām detaļas</option>
+                        <option value="IN_PROGRESS">Procesā</option>
+                        <option value="DONE">Pabeigts</option>
+                        <option value="CANCELLED">Atcelts</option>
                     </select>
 
                     <select
@@ -350,16 +500,16 @@ export default function WorkOrderDetailPage() {
                         onChange={(e) => handlePaymentUpdate(e.target.value)}
                         className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500"
                     >
-                        <option value="UNPAID">Unpaid</option>
-                        <option value="PARTIAL">Partial</option>
-                        <option value="PAID">Paid</option>
+                        <option value="UNPAID">Neapmaksāts</option>
+                        <option value="PARTIAL">Daļēji apmaksāts</option>
+                        <option value="PAID">Apmaksāts</option>
                     </select>
                 </div>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Work Items</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">Darba izejmateriāli</h2>
                     <button
                         onClick={() => {
                             setShowItemForm(!showItemForm);
@@ -368,19 +518,19 @@ export default function WorkOrderDetailPage() {
                         }}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors"
                     >
-                        {showItemForm ? "Cancel" : "+ Add Item"}
+                        {showItemForm ? "Atcelt" : "+ Pievienot izejmateriālu"}
                     </button>
                 </div>
 
                 {showItemForm && (
                     <div className="bg-gray-50 rounded-lg p-6 mb-6 border-2 border-blue-100">
                         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-                            {editingItem ? "Edit Item" : "Add New Item"}
+                            {editingItem ? "Rediģēt pozīciju" : "Pievienot jaunu pozīciju"}
                         </h3>
                         <form onSubmit={handleItemSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Type <span className="text-red-500">*</span>
+                                    Tips <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     name="type"
@@ -389,14 +539,14 @@ export default function WorkOrderDetailPage() {
                                     required
                                     className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                                 >
-                                    <option value="PART">Part</option>
-                                    <option value="LABOR">Labor</option>
+                                    <option value="PART">Detaļa</option>
+                                    <option value="LABOR">Darbs</option>
                                 </select>
                             </div>
 
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Description <span className="text-red-500">*</span>
+                                    Apraksts <span className="text-red-500">*</span>
                                 </label>
                                 <textarea
                                     name="description"
@@ -404,14 +554,14 @@ export default function WorkOrderDetailPage() {
                                     onChange={handleItemChange}
                                     required
                                     rows={2}
-                                    placeholder="e.g., Oil filter, Brake pads, Labor hours..."
+                                    placeholder="piem., Eļļas filtrs, Bremžu kluči, Darba stundas..."
                                     className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Quantity <span className="text-red-500">*</span>
+                                    Daudzums <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     name="quantity"
@@ -427,7 +577,7 @@ export default function WorkOrderDetailPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Unit Price (€) <span className="text-red-500">*</span>
+                                    Vienības cena (€) <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     name="unitPrice"
@@ -443,7 +593,7 @@ export default function WorkOrderDetailPage() {
 
                             <div className="md:col-span-2">
                                 <div className="text-right mb-2">
-                                    <span className="text-sm text-gray-600">Total: </span>
+                                    <span className="text-sm text-gray-600">Kopā: </span>
                                     <span className="text-lg font-bold text-blue-600">
                                         €{(parseFloat(itemForm.quantity || "0") * parseFloat(itemForm.unitPrice || "0")).toFixed(2)}
                                     </span>
@@ -452,7 +602,7 @@ export default function WorkOrderDetailPage() {
                                     type="submit"
                                     className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                                 >
-                                    {editingItem ? "Update Item" : "Add Item"}
+                                    {editingItem ? "Atjaunināt" : "Pievienot"}
                                 </button>
                             </div>
                         </form>
@@ -461,19 +611,19 @@ export default function WorkOrderDetailPage() {
 
                 {workOrder.items.length === 0 ? (
                     <div className="text-center py-8 bg-gray-50 rounded-lg">
-                        <p className="text-gray-500">No items added yet.</p>
+                        <p className="text-gray-500">Vēl nav pievienotu pozīciju.</p>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead className="bg-gray-100">
                                 <tr>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Type</th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Description</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Qty</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Unit Price</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Total</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Actions</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Tips</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Apraksts</th>
+                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Daudz.</th>
+                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vienības cena</th>
+                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Kopā</th>
+                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Darbības</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
@@ -495,13 +645,13 @@ export default function WorkOrderDetailPage() {
                                                 onClick={() => handleEditItem(item)}
                                                 className="text-blue-600 hover:text-blue-800 mr-3"
                                             >
-                                                Edit
+                                                Rediģēt
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteItem(item.id)}
                                                 className="text-red-600 hover:text-red-800"
                                             >
-                                                Delete
+                                                Dzēst
                                             </button>
                                         </td>
                                     </tr>
@@ -509,17 +659,17 @@ export default function WorkOrderDetailPage() {
                             </tbody>
                             <tfoot className="bg-gray-100 font-semibold">
                                 <tr>
-                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Labor Subtotal:</td>
+                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Darba starpsumma:</td>
                                     <td className="px-4 py-3 text-right text-gray-800">€{laborTotal.toFixed(2)}</td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Parts Subtotal:</td>
+                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Detaļu starpsumma:</td>
                                     <td className="px-4 py-3 text-right text-gray-800">€{partsTotal.toFixed(2)}</td>
                                     <td></td>
                                 </tr>
                                 <tr className="text-lg">
-                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-800">Grand Total:</td>
+                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-800">Kopējā summa:</td>
                                     <td className="px-4 py-3 text-right text-blue-600">€{totalFromItems.toFixed(2)}</td>
                                     <td></td>
                                 </tr>

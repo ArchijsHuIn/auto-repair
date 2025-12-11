@@ -6,26 +6,26 @@ export default function Header() {
             <nav className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="text-2xl font-bold">
-                        Auto Repair Shop
+                        Auto serviss
                     </Link>
                     <div className="flex gap-6">
                         <Link href="/" className="hover:text-blue-200 transition-colors">
-                            Home
+                            Sākums
                         </Link>
                         <Link href="/customers" className="hover:text-blue-200 transition-colors">
-                            Customers
+                            Klienti
                         </Link>
                         <Link href="/cars" className="hover:text-blue-200 transition-colors">
-                            Cars
+                            Automašīnas
                         </Link>
                         <Link href="/work-orders" className="hover:text-blue-200 transition-colors">
-                            Work Orders
+                            Darba uzdevumi
                         </Link>
                         <Link href="/calendar" className="hover:text-blue-200 transition-colors">
-                            Calendar
+                            Kalendārs
                         </Link>
                         <Link href="/about" className="hover:text-blue-200 transition-colors">
-                            About
+                            Par mums
                         </Link>
                     </div>
                 </div>

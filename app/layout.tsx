@@ -6,13 +6,13 @@ import Footer from "@/components/Footer";
 
 
 export const metadata: Metadata = {
-  title: "Auto Repair Shop Management",
-  description: "Manage cars, work orders, and repairs for your auto repair shop",
+  title: "Auto servisa pārvaldība",
+  description: "Pārvaldiet automašīnas, darba uzdevumus un remontus savā autoservisā",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
+        <html lang="lv">
         <head>
             <script
                 dangerouslySetInnerHTML={{

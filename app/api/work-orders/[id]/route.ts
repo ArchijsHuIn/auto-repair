@@ -87,6 +87,16 @@ export async function PATCH(
             }
         }
 
+        if (body.customerComplaint !== undefined) {
+            const v = body.customerComplaint;
+            updates.customerComplaint = typeof v === "string" ? (v.trim() === "" ? null : v) : null;
+        }
+
+        if (body.internalNotes !== undefined) {
+            const v = body.internalNotes;
+            updates.internalNotes = typeof v === "string" ? (v.trim() === "" ? null : v) : null;
+        }
+
         const workOrder = await prisma.work_Done.update({
             where: { id: orderId },
             data: updates,

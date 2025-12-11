@@ -34,7 +34,7 @@ export default function CarFullHistoryPage() {
         const fetchCarDetails = async () => {
             try {
                 const res = await fetch(`/api/cars/${carId}`);
-                if (!res.ok) throw new Error("Car not found");
+                if (!res.ok) throw new Error("Automašīna nav atrasta");
                 const data = await res.json();
                 setCar(data);
             } catch (e) {
@@ -70,7 +70,7 @@ export default function CarFullHistoryPage() {
     if (loading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="text-center">Loading history...</div>
+                <div className="text-center">Ielādē vēsturi...</div>
             </div>
         );
     }
@@ -78,8 +78,8 @@ export default function CarFullHistoryPage() {
     if (!car) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <Link href="/cars" className="text-blue-600 hover:text-blue-800">← Back to Cars</Link>
-                <div className="mt-6 text-center">Car not found.</div>
+                <Link href="/cars" className="text-blue-600 hover:text-blue-800">← Atpakaļ uz automašīnām</Link>
+                <div className="mt-6 text-center">Automašīna nav atrasta.</div>
             </div>
         );
     }
@@ -89,10 +89,10 @@ export default function CarFullHistoryPage() {
             <div className="mb-6 flex items-center justify-between">
                 <div>
                     <Link href={`/cars/${car.id}`} className="text-blue-600 hover:text-blue-800">
-                        ← Back to Car
+                        ← Atpakaļ uz automašīnu
                     </Link>
                     <h1 className="text-3xl font-bold text-gray-800 mt-2">
-                        {car.licensePlate} — Full Work Order History
+                        {car.licensePlate} — Pilna darba uzdevumu vēsture
                     </h1>
                     <p className="text-gray-600">{car.year} {car.make} {car.model}</p>
                 </div>
@@ -100,13 +100,13 @@ export default function CarFullHistoryPage() {
                     href={`/work-orders/new?carId=${car.id}`}
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                 >
-                    + New Work Order
+                    + Jauns darba uzdevums
                 </Link>
             </div>
 
             {car.workOrders.length === 0 ? (
                 <div className="text-center py-12 bg-gray-50 rounded-lg">
-                    <p className="text-gray-500 text-lg">No work orders yet.</p>
+                    <p className="text-gray-500 text-lg">Vēl nav darba uzdevumu.</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -120,7 +120,7 @@ export default function CarFullHistoryPage() {
                                 <div>
                                     <h3 className="text-lg font-semibold text-gray-800">{order.title}</h3>
                                     <p className="text-sm text-gray-600">
-                                        Created: {new Date(order.createdAt).toLocaleDateString()}
+                                        Izveidots: {new Date(order.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
                                 <div className="flex gap-2">

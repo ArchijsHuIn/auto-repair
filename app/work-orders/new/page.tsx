@@ -92,7 +92,7 @@ export default function NewWorkOrderPage() {
     if (loading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="text-center">Loading…</div>
+                <div className="text-center">Ielādē…</div>
             </div>
         );
     }
@@ -101,18 +101,18 @@ export default function NewWorkOrderPage() {
         <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="mb-6">
                 <Link href="/work-orders" className="text-blue-600 hover:text-blue-800">
-                    ← Back to Work Orders
+                    ← Atpakaļ uz darba uzdevumiem
                 </Link>
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">New Work Order</h1>
-            <p className="text-gray-600 mb-6">Create a new work order for a vehicle</p>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">Jauns darba uzdevums</h1>
+            <p className="text-gray-600 mb-6">Izveidot jaunu darba uzdevumu transportlīdzeklim</p>
 
             <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Select Vehicle <span className="text-red-500">*</span>
+                            Izvēlieties transportlīdzekli <span className="text-red-500">*</span>
                         </label>
                         <select
                             name="carId"
@@ -121,7 +121,7 @@ export default function NewWorkOrderPage() {
                             required
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="">-- Select a vehicle --</option>
+                            <option value="">-- Izvēlieties transportlīdzekli --</option>
                             {cars.map((car) => (
                                 <option key={car.id} value={car.id}>
                                     {car.licensePlate} - {car.year} {car.make} {car.model}
@@ -132,7 +132,7 @@ export default function NewWorkOrderPage() {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Status <span className="text-red-500">*</span>
+                            Statuss <span className="text-red-500">*</span>
                         </label>
                         <select
                             name="status"
@@ -141,55 +141,55 @@ export default function NewWorkOrderPage() {
                             required
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="NEW">New</option>
-                            <option value="DIAGNOSTIC">Diagnostic</option>
-                            <option value="WAITING_PARTS">Waiting Parts</option>
-                            <option value="IN_PROGRESS">In Progress</option>
-                            <option value="DONE">Done</option>
-                            <option value="CANCELLED">Cancelled</option>
+                            <option value="NEW">Jauns</option>
+                            <option value="DIAGNOSTIC">Diagnostika</option>
+                            <option value="WAITING_PARTS">Gaidām detaļas</option>
+                            <option value="IN_PROGRESS">Procesā</option>
+                            <option value="DONE">Pabeigts</option>
+                            <option value="CANCELLED">Atcelts</option>
                         </select>
                     </div>
 
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Title <span className="text-red-500">*</span>
+                            Nosaukums <span className="text-red-500">*</span>
                         </label>
                         <input
                             name="title"
                             value={form.title}
                             onChange={handleChange}
-                            placeholder="Brief description of work"
+                            placeholder="Īss darba apraksts"
                             required
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                     </div>
 
                     <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Customer Complaint</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Klienta sūdzība</label>
                         <textarea
                             name="customerComplaint"
                             value={form.customerComplaint}
                             onChange={handleChange}
-                            placeholder="What the customer reported..."
+                            placeholder="Ko ziņoja klients..."
                             rows={3}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                     </div>
 
                     <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Internal Notes</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Iekšējās piezīmes</label>
                         <textarea
                             name="internalNotes"
                             value={form.internalNotes}
                             onChange={handleChange}
-                            placeholder="Notes for mechanics (not visible to customer)..."
+                            placeholder="Piezīmes mehāniķiem (nav redzamas klientam)..."
                             rows={3}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Estimated Completion</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Plānotais pabeigšanas laiks</label>
                         <input
                             name="estimatedCompletion"
                             type="datetime-local"
@@ -201,7 +201,7 @@ export default function NewWorkOrderPage() {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Payment Status <span className="text-red-500">*</span>
+                            Apmaksas statuss <span className="text-red-500">*</span>
                         </label>
                         <select
                             name="paymentStatus"
@@ -210,73 +210,73 @@ export default function NewWorkOrderPage() {
                             required
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="UNPAID">Unpaid</option>
-                            <option value="PARTIAL">Partial</option>
-                            <option value="PAID">Paid</option>
+                            <option value="UNPAID">Neapmaksāts</option>
+                            <option value="PARTIAL">Daļēji apmaksāts</option>
+                            <option value="PAID">Apmaksāts</option>
                         </select>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Apmaksas veids</label>
                         <select
                             name="paymentMethod"
                             value={form.paymentMethod}
                             onChange={handleChange}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="">-- Select method --</option>
-                            <option value="CASH">Cash</option>
-                            <option value="CARD">Card</option>
-                            <option value="TRANSFER">Transfer</option>
-                            <option value="OTHER">Other</option>
+                            <option value="">-- Izvēlieties veidu --</option>
+                            <option value="CASH">Skaidrā naudā</option>
+                            <option value="CARD">Karte</option>
+                            <option value="TRANSFER">Pārskaitījums</option>
+                            <option value="OTHER">Cits</option>
                         </select>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Labor (€)</label>
-                        <input
-                            name="totalLabor"
-                            type="number"
-                            step="0.01"
-                            value={form.totalLabor}
-                            onChange={handleChange}
-                            placeholder="0.00"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
+                    {/*<div>*/}
+                    {/*    <label className="block text-sm font-medium text-gray-700 mb-1">Darbs kopā (€)</label>*/}
+                    {/*    <input*/}
+                    {/*        name="totalLabor"*/}
+                    {/*        type="number"*/}
+                    {/*        step="0.01"*/}
+                    {/*        value={form.totalLabor}*/}
+                    {/*        onChange={handleChange}*/}
+                    {/*        placeholder="0.00"*/}
+                    {/*        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"*/}
+                    {/*    />*/}
+                    {/*</div>*/}
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Parts (€)</label>
-                        <input
-                            name="totalParts"
-                            type="number"
-                            step="0.01"
-                            value={form.totalParts}
-                            onChange={handleChange}
-                            placeholder="0.00"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
+                    {/*<div>*/}
+                    {/*    <label className="block text-sm font-medium text-gray-700 mb-1">Rezerves daļas kopā (€)</label>*/}
+                    {/*    <input*/}
+                    {/*        name="totalParts"*/}
+                    {/*        type="number"*/}
+                    {/*        step="0.01"*/}
+                    {/*        value={form.totalParts}*/}
+                    {/*        onChange={handleChange}*/}
+                    {/*        placeholder="0.00"*/}
+                    {/*        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"*/}
+                    {/*    />*/}
+                    {/*</div>*/}
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Price (€)</label>
-                        <input
-                            name="totalPrice"
-                            type="number"
-                            step="0.01"
-                            value={form.totalPrice}
-                            onChange={handleChange}
-                            placeholder="0.00"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
+                    {/*<div>*/}
+                    {/*    <label className="block text-sm font-medium text-gray-700 mb-1">Kopējā cena (€)</label>*/}
+                    {/*    <input*/}
+                    {/*        name="totalPrice"*/}
+                    {/*        type="number"*/}
+                    {/*        step="0.01"*/}
+                    {/*        value={form.totalPrice}*/}
+                    {/*        onChange={handleChange}*/}
+                    {/*        placeholder="0.00"*/}
+                    {/*        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"*/}
+                    {/*    />*/}
+                    {/*</div>*/}
 
                     <div className="md:col-span-2">
                         <button
                             type="submit"
                             className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200"
                         >
-                            Create Work Order
+                            Izveidot darba uzdevumu
                         </button>
                     </div>
                 </form>

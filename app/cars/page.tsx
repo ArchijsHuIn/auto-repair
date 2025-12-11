@@ -138,7 +138,7 @@ export default function CarsPage() {
             <div className="container mx-auto px-4 py-8 max-w-7xl">
                 <div className="text-center py-12">
                     <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    <p className="mt-4 text-gray-600">Loading vehicles...</p>
+                    <p className="mt-4 text-gray-600">Ielādē transportlīdzekļus...</p>
                 </div>
             </div>
         );
@@ -148,39 +148,39 @@ export default function CarsPage() {
         <div className="container mx-auto px-4 py-8 max-w-7xl">
             <div className="mb-8 flex items-start justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-bold text-gray-800 mb-2">Search Vehicles</h1>
-                    <p className="text-gray-600">Find vehicles by any metric</p>
+                    <h1 className="text-4xl font-bold text-gray-800 mb-2">Meklēt transportlīdzekļus</h1>
+                    <p className="text-gray-600">Atrodiet transportlīdzekļus pēc jebkura kritērija</p>
                 </div>
                 <Link
                     href="/cars/new"
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md transition-colors"
                 >
-                    + Register Vehicle
+                    + Reģistrēt transportlīdzekli
                 </Link>
             </div>
 
             {/* Search and Filters */}
             <div className="bg-white rounded-lg shadow-lg p-6 mb-8 border border-gray-200">
                 <div className="mb-4 flex justify-between items-center">
-                    <h2 className="text-xl font-semibold text-gray-800">Filters</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">Filtri</h2>
                     <button
                         onClick={clearFilters}
                         className="text-sm text-blue-600 hover:text-blue-800 font-medium"
                     >
-                        Clear All
+                        Notīrīt visu
                     </button>
                 </div>
 
                 {/* General Search */}
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                        General Search (License Plate, VIN, Phone, Notes)
+                        Vispārējā meklēšana (numura zīme, VIN, tālrunis, piezīmes)
                     </label>
                     <input
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search..."
+                        placeholder="Meklēt..."
                         className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                 </div>
@@ -188,13 +188,13 @@ export default function CarsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Make */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Make</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Marka</label>
                         <select
                             value={makeFilter}
                             onChange={(e) => setMakeFilter(e.target.value)}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="">All Makes</option>
+                            <option value="">Visas markas</option>
                             {uniqueMakes.map(make => (
                                 <option key={make} value={make}>{make}</option>
                             ))}
@@ -203,13 +203,13 @@ export default function CarsPage() {
 
                     {/* Model */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Model</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Modelis</label>
                         <select
                             value={modelFilter}
                             onChange={(e) => setModelFilter(e.target.value)}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="">All Models</option>
+                            <option value="">Visi modeļi</option>
                             {uniqueModels.map(model => (
                                 <option key={model} value={model}>{model}</option>
                             ))}
@@ -218,13 +218,13 @@ export default function CarsPage() {
 
                     {/* Color */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Krāsa</label>
                         <select
                             value={colorFilter}
                             onChange={(e) => setColorFilter(e.target.value)}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                            <option value="">All Colors</option>
+                            <option value="">Visas krāsas</option>
                             {uniqueColors.map(color => (
                                 <option key={color} value={color}>{color}</option>
                             ))}
@@ -233,7 +233,7 @@ export default function CarsPage() {
 
                     {/* Year From */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Year From</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Gads no</label>
                         <input
                             type="number"
                             value={yearFrom}
@@ -245,7 +245,7 @@ export default function CarsPage() {
 
                     {/* Year To */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Year To</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Gads līdz</label>
                         <input
                             type="number"
                             value={yearTo}
@@ -257,7 +257,7 @@ export default function CarsPage() {
 
                     {/* Mileage From */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Mileage From</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Nobraukums no</label>
                         <input
                             type="number"
                             value={mileageFrom}
@@ -269,7 +269,7 @@ export default function CarsPage() {
 
                     {/* Mileage To */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Mileage To</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Nobraukums līdz</label>
                         <input
                             type="number"
                             value={mileageTo}
@@ -281,19 +281,19 @@ export default function CarsPage() {
                 </div>
 
                 <div className="mt-4 text-sm text-gray-600">
-                    Showing <span className="font-bold text-blue-600">{filteredCars.length}</span> of {cars.length} vehicles
+                    Rāda <span className="font-bold text-blue-600">{filteredCars.length}</span> no {cars.length} transportlīdzekļiem
                 </div>
             </div>
 
             {/* Results */}
             {filteredCars.length === 0 ? (
                 <div className="text-center py-12 bg-gray-50 rounded-lg">
-                    <p className="text-gray-500 text-lg">No vehicles match your search criteria.</p>
+                    <p className="text-gray-500 text-lg">Nevienam transportlīdzeklim neatbilst meklēšanas kritēriji.</p>
                     <button
                         onClick={clearFilters}
                         className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
                     >
-                        Clear filters
+                        Notīrīt filtrus
                     </button>
                 </div>
             ) : (
@@ -302,28 +302,28 @@ export default function CarsPage() {
                         <thead className="bg-gray-50">
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    License Plate
+                                    Numura zīme
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Vehicle
+                                    Auto
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Color
+                                    Krāsa
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Year
+                                    Gads
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Mileage
+                                    Nobraukums
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Owner Phone
+                                    Īpašnieka tālrunis
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     VIN
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
+                                    Darbības
                                 </th>
                             </tr>
                         </thead>
@@ -342,23 +342,23 @@ export default function CarsPage() {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {car.year || "N/A"}
+                                        {car.year || "Nav"}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {car.mileage ? car.mileage.toLocaleString() : "N/A"}
+                                        {car.mileage ? car.mileage.toLocaleString() : "Nav"}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {car.ownerPhone}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                                        {car.vin || "N/A"}
+                                        {car.vin || "Nav"}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                                         <Link
                                             href={`/cars/${car.id}`}
                                             className="text-blue-600 hover:text-blue-800 font-medium"
                                         >
-                                            Open Overview
+                                            Atvērt pārskatu
                                         </Link>
                                     </td>
                                 </tr>

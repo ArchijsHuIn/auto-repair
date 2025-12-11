@@ -82,7 +82,7 @@ export default function CarDetailPage() {
     if (loading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="text-center">Loading car details...</div>
+                <div className="text-center">Ielādē automašīnas detaļas...</div>
             </div>
         );
     }
@@ -99,7 +99,7 @@ export default function CarDetailPage() {
         <div className="container mx-auto px-4 py-8 max-w-7xl">
             <div className="mb-6">
                 <Link href="/cars" className="text-blue-600 hover:text-blue-800">
-                    ← Back to Cars
+                    ← Atpakaļ uz automašīnām
                 </Link>
             </div>
 
@@ -115,27 +115,27 @@ export default function CarDetailPage() {
                         href={`/work-orders/new?carId=${car.id}`}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                     >
-                        + New Work Order
+                        + Jauns darba uzdevums
                     </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                     <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Owner</div>
+                        <div className="text-sm text-gray-600 mb-1">Īpašnieks</div>
                         <div className="text-lg font-semibold text-gray-800">{car.ownerName}</div>
                         <div className="text-sm text-gray-600">{car.ownerPhone}</div>
                     </div>
 
                     <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Color</div>
+                        <div className="text-sm text-gray-600 mb-1">Krāsa</div>
                         <div className="text-lg font-semibold text-gray-800">{car.color}</div>
                     </div>
 
                     {car.mileage && (
                         <div className="bg-purple-50 p-4 rounded-lg">
-                            <div className="text-sm text-gray-600 mb-1">Mileage</div>
+                            <div className="text-sm text-gray-600 mb-1">Nobraukums</div>
                             <div className="text-lg font-semibold text-gray-800">
-                                {car.mileage.toLocaleString()} miles
+                                {car.mileage.toLocaleString()} jūdzes
                             </div>
                         </div>
                     )}
@@ -148,19 +148,19 @@ export default function CarDetailPage() {
                     )}
 
                     <div className="bg-orange-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Total Work Orders</div>
+                        <div className="text-sm text-gray-600 mb-1">Darba uzdevumi kopā</div>
                         <div className="text-2xl font-bold text-gray-800">{car.workOrders.length}</div>
                     </div>
 
                     <div className="bg-indigo-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Total Spent</div>
+                        <div className="text-sm text-gray-600 mb-1">Kopējie izdevumi</div>
                         <div className="text-2xl font-bold text-gray-800">€{totalSpent.toFixed(2)}</div>
                     </div>
                 </div>
 
                 {car.notes && (
                     <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm font-medium text-gray-700 mb-2">Notes:</div>
+                        <div className="text-sm font-medium text-gray-700 mb-2">Piezīmes:</div>
                         <p className="text-gray-800">{car.notes}</p>
                     </div>
                 )}
@@ -168,18 +168,18 @@ export default function CarDetailPage() {
 
             <div className="bg-white rounded-lg shadow-lg p-8">
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Work Order History</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">Darba uzdevumu vēsture</h2>
                     <Link
                         href={`/cars/${car.id}/history`}
                         className="text-blue-600 hover:text-blue-800 font-medium"
                     >
-                        View full history →
+                        Skatīt visu vēsturi →
                     </Link>
                 </div>
 
                 {car.workOrders.length === 0 ? (
                     <div className="text-center py-12 bg-gray-50 rounded-lg">
-                        <p className="text-gray-500 text-lg">No work orders yet.</p>
+                        <p className="text-gray-500 text-lg">Vēl nav darba uzdevumu.</p>
                     </div>
                 ) : (
                     <div className="space-y-4">
@@ -193,7 +193,7 @@ export default function CarDetailPage() {
                                     <div>
                                         <h3 className="text-lg font-semibold text-gray-800">{order.title}</h3>
                                         <p className="text-sm text-gray-600">
-                                            Created: {new Date(order.createdAt).toLocaleDateString()}
+                                            Izveidots: {new Date(order.createdAt).toLocaleDateString()}
                                         </p>
                                     </div>
                                     <div className="flex gap-2">

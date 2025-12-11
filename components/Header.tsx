@@ -7,24 +7,24 @@ export default function Header() {
             <div className="container mx-auto px-4 py-4">
                 <div className="flex justify-between items-center gap-4">
                     <Link href="/" className="text-2xl font-bold transition-opacity hover:opacity-90">
-                        Auto Repair Shop
+                        AutoServiss
                     </Link>
                     <div className="flex items-center gap-4">
                         <nav className="flex gap-6">
                             <Link href="/" className="font-medium transition-opacity hover:opacity-90">
-                                Home
+                                Sākumlapa
                             </Link>
                             <Link href="/cars" className="font-medium transition-opacity hover:opacity-90">
-                                Search Cars
+                                Meklēt auto
                             </Link>
                             <Link href="/cars/new" className="font-medium transition-opacity hover:opacity-90">
-                                Register Vehicle
+                                Reģistrēt auto
                             </Link>
                             <Link href="/work-orders" className="font-medium transition-opacity hover:opacity-90">
-                                Work Orders
+                                Darba uzdevumi
                             </Link>
                             <Link href="/about" className="font-medium transition-opacity hover:opacity-90">
-                                About
+                                Par
                             </Link>
                         </nav>
                         <ThemeToggle />
