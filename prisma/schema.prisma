@@ -47,49 +47,21 @@ enum UserRole {
 
 // ---------- MODELS ----------
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(255)
-  name      String   @db.VarChar(100)
-  role      UserRole @default(MECHANIC)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([email])
-}
-
-model Appointment {
-  id          Int      @id @default(autoincrement())
-  carId       Int
-  car         Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
-  title       String   @db.VarChar(255)
-  description String?
-  startTime   DateTime
-  endTime     DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([carId])
-  @@index([startTime])
-}
-
 model Car {
-  id           Int           @id @default(autoincrement())
-  licensePlate String        @db.VarChar(20)
-  vin          String?       @db.VarChar(30)
+  id           Int         @id @default(autoincrement())
+  licensePlate String      @db.VarChar(20)
+  vin          String?     @db.VarChar(30)
   year         Int?
-  make         String        @db.VarChar(50)
-  model        String        @db.VarChar(50)
+  make         String      @db.VarChar(50)
+  model        String      @db.VarChar(50)
   mileage      Int?
-  ownerName    String        @default("Unknown") @db.VarChar(100)
-  ownerPhone   String        @db.VarChar(30)
+  ownerName    String      @default("Unknown") @db.VarChar(100)
+  ownerPhone   String      @db.VarChar(30)
   notes        String?
-  color        String        @default("Not specified") @db.VarChar(50)
+  color        String      @default("Not specified") @db.VarChar(50)
   workOrders   Work_Done[]
-  appointments Appointment[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@unique([licensePlate])
   @@index([ownerPhone])
