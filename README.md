@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Auto Repair Shop — Next.js + Prisma
 
-## Getting Started
+Single-shop auto-repair manager for cars, work orders, item lines, and PDF invoices.
 
-First, run the development server:
+#### Tech Stack
+- Next.js (App Router), React 19, TypeScript
+- Prisma ORM + PostgreSQL (Prisma client output at `generated/prisma`)
+- NextAuth (basic auth), Tailwind CSS v4
+- date-fns, react-pdf/@react-pdf/renderer
 
+---
+
+### Quick Start
+
+1) Prerequisites
+- Node.js LTS, npm
+- PostgreSQL database
+
+2) Install
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3) Configure environment
+Create `.env` in project root with at least:
+```env
+DATABASE_URL=postgres://user:pass@host:5432/dbname
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-strong-secret
+```
+Notes:
+- Prisma datasource URL is read via `prisma.config.ts` (not inline in `schema.prisma`).
+- `postinstall` runs `prisma generate` automatically.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4) Database migrate
+```bash
+npx prisma migrate dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5) Seed sample data (cars + demo work orders; no users)
+```bash
+npx prisma db seed
+```
+The seed is idempotent: if work orders already exist, it will skip (cars are upserted by license plate).
 
-## Learn More
+6) Run the app
+```bash
+npm run dev
+```
+Open http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Available Scripts
+- `npm run dev` — start Next.js in development
+- `npm run build` — production build
+- `npm run start` — start production server
+- `npm run lint` — run ESLint
+- `postinstall` — `prisma generate` (auto)
+- `npx prisma migrate dev` — create/apply local DB migrations
+- `npx prisma migrate deploy` — apply migrations in deploy environments
+- `npx prisma db seed` — run the seed (`prisma/seed.ts` via ts-node)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### Data Model (summary)
+- `Car`: license plate (unique), VIN, make/model, owner name/phone, color, mileage, notes
+- `Work_Done`: work order with status, notes, totals (`totalLabor`, `totalParts`, `totalPrice`), payment fields
+- `Work_Item_Used`: items (LABOR/PART) with `quantity`, `unitPrice`, `total`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See full schema in `prisma/schema.prisma`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### API Conventions
+- Routes under `app/api` (e.g., cars, work-orders, work-order items)
+- JSON payloads use camelCase
+- Pagination: `?page=&limit=` with defaults `page=1`, `limit=20`
+- Error shape: `{ error: { code, message }, details? }`
+
+---
+
+### Invoices (PDF)
+- Only invoice PDF is required at this stage
+- Filename format: `rekins-<work_order_id>_<date>.pdf`
+  - Date format: `DD-MM-YYYY` (example: `rekins-1234_17-12-2025.pdf`)
+- Contents: shop info, car details, work order ID, items (labor/parts), totals, payment status
+
+---
+
+### Seeding Details
+- Location: `prisma/seed.ts`
+- Creates ~5 demo cars and 5 demo work orders with realistic items
+- Computes totals server-side and sets payment status
+
+---
+
+### Testing
+A baseline test suite will include:
+- Integration tests for core API endpoints (cars, work-orders, invoice generation)
+- Unit tests for pricing/total calculations
+
+Run tests: TBD (once tests are added). For now, focus on API and totals logic per `GUIDELINES.md`.
+
+---
+
+### Troubleshooting
+- Prisma cannot connect: verify `DATABASE_URL` and that the DB is reachable
+- Migration errors: inspect migrations under `prisma/migrations`; try `npx prisma migrate reset` (will wipe data)
+- Reseed: `npx prisma db seed` (if needed, reset first)
+
+---
+
+### More
+Read `GUIDELINES.md` for architecture, conventions, and decisions.

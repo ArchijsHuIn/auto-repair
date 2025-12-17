@@ -7,8 +7,9 @@ export default defineConfig({
     schema: "prisma/schema.prisma",
     migrations: {
         path: "prisma/migrations",
+        seed: "ts-node --esm prisma/seed.ts",
     },
     datasource: {
-        url: env("DATABASE_URL"),
+        url: "postgresql://postgres:password@localhost:5432/auto-repair-db?schema=public",
     },
 });
