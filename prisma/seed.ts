@@ -18,7 +18,7 @@ async function main() {
   // Basic idempotency: if there are already work orders, skip to avoid duplicates
   const woCount = await prisma.work_Done.count();
   if (woCount > 0) {
-    console.log(`Seed skipped: ${woCount} work orders already exist.`);
+    console.log(`Sēkošana izlaista: ${woCount} darba pasūtījumi jau eksistē.`);
     return;
   }
 
@@ -31,10 +31,10 @@ async function main() {
       make: "Toyota",
       model: "Corolla",
       mileage: 150000,
-      ownerName: "Rekins Auto Service",
-      ownerPhone: "+371 0000 0000",
-      color: "Silver",
-      notes: "Demo car 1",
+      ownerName: "Rēķins Auto Serviss",
+      ownerPhone: "+371 2000 0000",
+      color: "Sudraba",
+      notes: "Demo auto 1",
     },
     {
       licensePlate: "BB-5678",
@@ -43,10 +43,10 @@ async function main() {
       make: "Volkswagen",
       model: "Golf",
       mileage: 98000,
-      ownerName: "Rekins Auto Service",
-      ownerPhone: "+371 0000 0000",
-      color: "Blue",
-      notes: "Demo car 2",
+      ownerName: "Rēķins Auto Serviss",
+      ownerPhone: "+371 2000 0001",
+      color: "Zila",
+      notes: "Demo auto 2",
     },
     {
       licensePlate: "CC-9012",
@@ -55,10 +55,10 @@ async function main() {
       make: "BMW",
       model: "320d",
       mileage: 210000,
-      ownerName: "Rekins Auto Service",
-      ownerPhone: "+371 0000 0000",
-      color: "Black",
-      notes: "Demo car 3",
+      ownerName: "Rēķins Auto Serviss",
+      ownerPhone: "+371 2000 0002",
+      color: "Melna",
+      notes: "Demo auto 3",
     },
     {
       licensePlate: "DD-3456",
@@ -67,10 +67,10 @@ async function main() {
       make: "Skoda",
       model: "Octavia",
       mileage: 45000,
-      ownerName: "Rekins Auto Service",
-      ownerPhone: "+371 0000 0000",
-      color: "White",
-      notes: "Demo car 4",
+      ownerName: "Rēķins Auto Serviss",
+      ownerPhone: "+371 2000 0003",
+      color: "Balta",
+      notes: "Demo auto 4",
     },
     {
       licensePlate: "EE-7890",
@@ -79,10 +79,10 @@ async function main() {
       make: "Audi",
       model: "A4",
       mileage: 165000,
-      ownerName: "Rekins Auto Service",
-      ownerPhone: "+371 0000 0000",
-      color: "Grey",
-      notes: "Demo car 5",
+      ownerName: "Rēķins Auto Serviss",
+      ownerPhone: "+371 2000 0004",
+      color: "Pelēka",
+      notes: "Demo auto 5",
     },
   ];
 
@@ -112,74 +112,74 @@ async function main() {
   const workOrdersToCreate = [
     {
       carIdx: 0,
-      title: "Oil change and inspection",
+      title: "Eļļas maiņa un apkope",
       status: WorkOrderStatus.DONE,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "Oil change labor", quantity: 1, unitPrice: 30 },
-        { type: WorkOrderItemType.PART, description: "5W30 Oil 5L", quantity: 1, unitPrice: 40 },
-        { type: WorkOrderItemType.PART, description: "Oil filter", quantity: 1, unitPrice: 10 },
+        { type: WorkOrderItemType.LABOR, description: "Eļļas maiņas darbs", quantity: 1, unitPrice: 30 },
+        { type: WorkOrderItemType.PART, description: "Eļļa 5W30 5L", quantity: 1, unitPrice: 40 },
+        { type: WorkOrderItemType.PART, description: "Eļļas filtrs", quantity: 1, unitPrice: 10 },
       ],
       paymentStatus: PaymentStatus.PAID,
       // mark paid info
     },
     {
       carIdx: 1,
-      title: "Front brake pads replacement",
+      title: "Priekšējo bremžu kluču maiņa",
       status: WorkOrderStatus.IN_PROGRESS,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "Replace pads labor", quantity: 1.5, unitPrice: 35 },
-        { type: WorkOrderItemType.PART, description: "Front brake pads set", quantity: 1, unitPrice: 65 },
+        { type: WorkOrderItemType.LABOR, description: "Kluču maiņas darbs", quantity: 1.5, unitPrice: 35 },
+        { type: WorkOrderItemType.PART, description: "Priekšējo bremžu kluču komplekts", quantity: 1, unitPrice: 65 },
       ],
       paymentStatus: PaymentStatus.UNPAID,
     },
     {
       carIdx: 2,
-      title: "Diagnostics for engine noise",
+      title: "Dzinēja trokšņa diagnostika",
       status: WorkOrderStatus.DIAGNOSTIC,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "Engine diagnostic", quantity: 1, unitPrice: 50 },
+        { type: WorkOrderItemType.LABOR, description: "Dzinēja diagnostika", quantity: 1, unitPrice: 50 },
       ],
       paymentStatus: PaymentStatus.UNPAID,
     },
     {
       carIdx: 3,
-      title: "Replace battery",
+      title: "Akumulatora maiņa",
       status: WorkOrderStatus.WAITING_PARTS,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "Install new battery", quantity: 0.5, unitPrice: 35 },
-        { type: WorkOrderItemType.PART, description: "12V 70Ah battery", quantity: 1, unitPrice: 120 },
+        { type: WorkOrderItemType.LABOR, description: "Akumulatora uzstādīšana", quantity: 0.5, unitPrice: 35 },
+        { type: WorkOrderItemType.PART, description: "Akumulators 12V 70Ah", quantity: 1, unitPrice: 120 },
       ],
       paymentStatus: PaymentStatus.PARTIAL,
     },
     {
       carIdx: 4,
-      title: "Timing belt kit replacement",
+      title: "Zobsiksnas komplekta maiņa",
       status: WorkOrderStatus.NEW,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "Timing belt labor", quantity: 4, unitPrice: 40 },
-        { type: WorkOrderItemType.PART, description: "Timing belt kit", quantity: 1, unitPrice: 180 },
-        { type: WorkOrderItemType.PART, description: "Water pump", quantity: 1, unitPrice: 80 },
+        { type: WorkOrderItemType.LABOR, description: "Zobsiksnas maiņas darbs", quantity: 4, unitPrice: 40 },
+        { type: WorkOrderItemType.PART, description: "Zobsiksnas komplekts", quantity: 1, unitPrice: 180 },
+        { type: WorkOrderItemType.PART, description: "Ūdens sūknis", quantity: 1, unitPrice: 80 },
       ],
       paymentStatus: PaymentStatus.UNPAID,
     },
     {
       carIdx: 0,
-      title: "Rear shock absorbers",
+      title: "Aizmugurējo amortizatoru maiņa",
       status: WorkOrderStatus.IN_PROGRESS,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "Replace rear shocks", quantity: 1.2, unitPrice: 40 },
-        { type: WorkOrderItemType.PART, description: "Rear shock absorber (pair)", quantity: 1, unitPrice: 150 },
+        { type: WorkOrderItemType.LABOR, description: "Amortizatoru maiņas darbs", quantity: 1.2, unitPrice: 40 },
+        { type: WorkOrderItemType.PART, description: "Aizmugurējie amortizatori (pāris)", quantity: 1, unitPrice: 150 },
       ],
       paymentStatus: PaymentStatus.PARTIAL,
     },
     {
       carIdx: 2,
-      title: "AC recharge and leak test",
+      title: "Kondicioniera uzpilde un noplūdes pārbaude",
       status: WorkOrderStatus.DONE,
       items: [
-        { type: WorkOrderItemType.LABOR, description: "AC service", quantity: 1, unitPrice: 45 },
-        { type: WorkOrderItemType.PART, description: "Refrigerant R134a", quantity: 0.6, unitPrice: 50 },
-        { type: WorkOrderItemType.PART, description: "UV dye", quantity: 1, unitPrice: 8 },
+        { type: WorkOrderItemType.LABOR, description: "AC apkope", quantity: 1, unitPrice: 45 },
+        { type: WorkOrderItemType.PART, description: "Freons R134a", quantity: 0.6, unitPrice: 50 },
+        { type: WorkOrderItemType.PART, description: "UV krāsviela", quantity: 1, unitPrice: 8 },
       ],
       paymentStatus: PaymentStatus.PAID,
     },
@@ -237,7 +237,7 @@ async function main() {
     });
   }
 
-  console.log("Seed completed: created sample cars and work orders.");
+  console.log("Sēkošana pabeigta: izveidoti demo auto un darba pasūtījumi.");
 }
 
 main()

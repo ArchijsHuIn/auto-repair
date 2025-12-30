@@ -1,0 +1,173 @@
+Ievads
+
+    Darba aktualitāte
+
+    Darba mērķis un nolūks
+
+    Darba uzdevumi
+
+    Darba objekts un priekšmets
+
+    Izmantotās tehnoloģijas un rīki
+
+    Darba struktūras apraksts
+
+1. Sistēmas vispārējs apraksts
+
+    (atbilst LVS 68 – Vispārējais apraksts)
+
+    Sistēmas darbības sfēra
+
+    Sistēmas pielietojuma apraksts
+
+    Sistēmas lietotāju grupas un lomas
+
+    Sistēmas darbības vide
+
+    Vispārējie ierobežojumi
+
+    Pieņēmumi un atkarības
+
+2. Programmatūras prasību specifikācija (LVS 68:1996)
+
+    (prasības – ne projektējums)
+
+    2.1. Ievads
+
+        Prasību specifikācijas nolūks
+
+        Saistība ar citiem dokumentiem
+
+        Definīcijas, akronīmi un saīsinājumi
+
+    2.2. Produkta vispārējs apraksts
+
+        Produkta perspektīva
+
+        Produkta galvenās funkcijas
+
+        Lietotāja raksturiezīmes
+
+        Sistēmas ierobežojumi
+
+    2.3. Funkcionālās prasības
+
+        Automašīnu uzskaites prasības
+
+        Darba uzdevumu reģistrēšanas prasības
+
+        Veikto darbu un detaļu uzskaites prasības
+
+        Maksājumu un statusu pārvaldības prasības
+
+    2.4. Nefunkcionālās prasības
+
+        Veiktspējas prasības
+
+        Drošības prasības
+
+        Uzturamības prasības
+
+        Lietojamības prasības
+
+    2.5. Datu prasības
+
+        Datu bāzes loģiskā struktūra
+
+        Datu integritātes nosacījumi
+
+3. Programmatūras projektējuma apraksts (LVS 72:1996)
+
+(kā sistēma ir uzbūvēta)
+
+    3.1. Projektējuma nolūks un vieta dzīves ciklā
+    3.2. Sistēmas arhitektūra
+
+        Augsta līmeņa arhitektūras apraksts
+
+        Sistēmas komponentes
+
+    3.3. Dekompozīcijas apraksts
+
+        Moduļu dekompozīcija
+
+        Datu entītiju dekompozīcija
+
+    3.4. Atkarību apraksts
+
+        Komponentu savstarpējās atkarības
+
+        Datu plūsmas starp komponentēm
+
+    3.5. Saskarnes apraksts
+
+        Lietotāja saskarne
+
+        Programmatūras saskarnes
+
+        Datu bāzes saskarne
+
+    3.6. Detalizētais projektējums
+
+        Galveno moduļu apraksts
+
+        Algoritmu un datu struktūru apraksts
+
+4. Sistēmas realizācija
+
+    Izstrādes vides apraksts
+
+    Datu bāzes realizācija
+
+    Galveno funkcionalitāšu realizācija
+
+    Koda struktūras organizācija
+
+5. Testēšana
+
+    Testēšanas pieeja
+
+    Vienībtestēšana
+
+    Testēšanas scenāriji
+
+    Testēšanas rezultāti
+
+6. Programmatūras projekta organizācija
+
+    (obligāta daļa pēc LU un Borzova ieteikumiem)
+
+    Projekta organizatoriskā struktūra
+
+    Izmantotā izstrādes pieeja
+
+    Kvalitātes nodrošināšana
+
+    Konfigurāciju pārvaldība
+
+7. Darbietilpības novērtējums
+
+    Programmas apjoma raksturojums
+
+    Normatīvās darbietilpības pamatojums
+
+    Atbilstība 3 personmēnešiem
+
+    Secinājumi
+
+    Sasniegtie rezultāti
+
+    Sistēmas ierobežojumi
+
+    Iespējamie uzlabojumi
+
+    Izmantotie informācijas avoti
+    Pielikumi
+
+    Datu bāzes shēmas
+
+    Prasību tabulas
+
+    Koda fragmenti
+
+    Testēšanas materiāli

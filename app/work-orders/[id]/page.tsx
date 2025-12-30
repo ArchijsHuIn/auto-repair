@@ -266,11 +266,15 @@ export default function WorkOrderDetailPage() {
                 throw new Error("Failed to generate PDF");
             }
 
+            const contentDisposition = res.headers.get("Content-Disposition");
+            const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
+            const filename = filenameMatch ? filenameMatch[1] : `rekins-${orderId}.pdf`;
+
             const blob = await res.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `invoice-${orderId}.pdf`;
+            a.download = filename;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);

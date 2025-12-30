@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import jsPDF from "jspdf";
+import { RobotoRegularBase64, RobotoBoldBase64 } from "@/lib/fonts";
 
 export async function GET(
     request: NextRequest,
@@ -39,39 +40,46 @@ export async function GET(
         // Generate PDF
         const doc = new jsPDF();
 
+        // Add Latvian font
+        doc.addFileToVFS("Roboto-Regular.ttf", RobotoRegularBase64);
+        doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+        doc.addFileToVFS("Roboto-Bold.ttf", RobotoBoldBase64);
+        doc.addFont("Roboto-Bold.ttf", "Roboto", "bold");
+        doc.setFont("Roboto");
+
         // Header
         doc.setFontSize(24);
-        doc.setFont(undefined, "bold");
-        doc.text("INVOICE", 105, 20, { align: "center" });
+        doc.setFont("Roboto", "bold");
+        doc.text("RĒĶINS", 105, 20, { align: "center" });
 
         doc.setFontSize(12);
-        doc.setFont(undefined, "normal");
-        doc.text("Auto Repair Shop", 105, 30, { align: "center" });
+        doc.setFont("Roboto", "normal");
+        doc.text("Autoserviss", 105, 30, { align: "center" });
 
         // Invoice details
         doc.setFontSize(10);
-        doc.text(`Invoice #: ${workOrder.id}`, 20, 50);
-        doc.text(`Date: ${new Date(workOrder.createdAt).toLocaleDateString()}`, 20, 56);
-        doc.text(`Status: ${workOrder.status}`, 20, 62);
+        doc.text(`Rēķina #: ${workOrder.id}`, 20, 50);
+        doc.text(`Datums: ${new Date(workOrder.createdAt).toLocaleDateString("lv-LV")}`, 20, 56);
+        doc.text(`Statuss: ${workOrder.status}`, 20, 62);
 
         // Customer info
-        doc.setFont(undefined, "bold");
-        doc.text("Bill To:", 20, 75);
-        doc.setFont(undefined, "normal");
+        doc.setFont("Roboto", "bold");
+        doc.text("Klients:", 20, 75);
+        doc.setFont("Roboto", "normal");
         doc.text(workOrder.car.ownerName, 20, 81);
         doc.text(workOrder.car.ownerPhone, 20, 87);
 
         // Vehicle info
-        doc.setFont(undefined, "bold");
-        doc.text("Vehicle:", 120, 75);
-        doc.setFont(undefined, "normal");
+        doc.setFont("Roboto", "bold");
+        doc.text("Transportlīdzeklis:", 120, 75);
+        doc.setFont("Roboto", "normal");
         doc.text(workOrder.car.licensePlate, 120, 81);
         doc.text(`${workOrder.car.year || ""} ${workOrder.car.make} ${workOrder.car.model}`, 120, 87);
 
         // Work description
-        doc.setFont(undefined, "bold");
-        doc.text("Work Description:", 20, 100);
-        doc.setFont(undefined, "normal");
+        doc.setFont("Roboto", "bold");
+        doc.text("Darba apraksts:", 20, 100);
+        doc.setFont("Roboto", "normal");
         doc.text(workOrder.title, 20, 106);
 
         if (workOrder.customerComplaint) {
@@ -82,18 +90,18 @@ export async function GET(
 
         // Items table
         let yPos = 130;
-        doc.setFont(undefined, "bold");
+        doc.setFont("Roboto", "bold");
         doc.setFontSize(10);
-        doc.text("Type", 20, yPos);
-        doc.text("Description", 45, yPos);
-        doc.text("Qty", 130, yPos);
-        doc.text("Unit Price", 150, yPos);
-        doc.text("Total", 180, yPos);
+        doc.text("Veids", 20, yPos);
+        doc.text("Apraksts", 45, yPos);
+        doc.text("Skaits", 130, yPos);
+        doc.text("Cena", 150, yPos);
+        doc.text("Kopā", 180, yPos);
 
         doc.line(20, yPos + 2, 190, yPos + 2);
         yPos += 8;
 
-        doc.setFont(undefined, "normal");
+        doc.setFont("Roboto", "normal");
         doc.setFontSize(9);
 
         let laborTotal = 0;
@@ -107,7 +115,7 @@ export async function GET(
                 partsTotal += total;
             }
 
-            doc.text(item.type, 20, yPos);
+            doc.text(item.type === "LABOR" ? "DARBS" : "DETAĻA", 20, yPos);
             const desc = doc.splitTextToSize(item.description, 80);
             doc.text(desc, 45, yPos);
             doc.text(parseFloat(item.quantity.toString()).toFixed(2), 130, yPos);
@@ -118,6 +126,7 @@ export async function GET(
 
             if (yPos > 250) {
                 doc.addPage();
+                doc.setFont("Roboto", "normal");
                 yPos = 20;
             }
         });
@@ -127,32 +136,32 @@ export async function GET(
         doc.line(20, yPos, 190, yPos);
         yPos += 8;
 
-        doc.setFont(undefined, "normal");
-        doc.text("Labor Subtotal:", 130, yPos);
+        doc.setFont("Roboto", "normal");
+        doc.text("Darbs kopā:", 130, yPos);
         doc.text(`€${laborTotal.toFixed(2)}`, 180, yPos);
         yPos += 6;
 
-        doc.text("Parts Subtotal:", 130, yPos);
+        doc.text("Detaļas kopā:", 130, yPos);
         doc.text(`€${partsTotal.toFixed(2)}`, 180, yPos);
         yPos += 8;
 
-        doc.setFont(undefined, "bold");
+        doc.setFont("Roboto", "bold");
         doc.setFontSize(12);
-        doc.text("TOTAL:", 130, yPos);
+        doc.text("KOPĀ:", 130, yPos);
         doc.text(`€${(laborTotal + partsTotal).toFixed(2)}`, 180, yPos);
 
         // Payment status
         yPos += 10;
         doc.setFontSize(10);
-        doc.text(`Payment Status: ${workOrder.paymentStatus}`, 20, yPos);
+        doc.text(`Maksājuma statuss: ${workOrder.paymentStatus}`, 20, yPos);
         if (workOrder.paymentMethod) {
-            doc.text(`Payment Method: ${workOrder.paymentMethod}`, 20, yPos + 6);
+            doc.text(`Maksājuma veids: ${workOrder.paymentMethod}`, 20, yPos + 6);
         }
 
         // Footer
-        doc.setFont(undefined, "normal");
+        doc.setFont("Roboto", "normal");
         doc.setFontSize(9);
-        doc.text("Thank you for your business!", 105, 280, { align: "center" });
+        doc.text("Paldies par uzticību!", 105, 280, { align: "center" });
 
         // Generate PDF buffer
         const pdfBuffer = Buffer.from(doc.output("arraybuffer"));
@@ -160,7 +169,7 @@ export async function GET(
         return new NextResponse(pdfBuffer, {
             headers: {
                 "Content-Type": "application/pdf",
-                "Content-Disposition": `attachment; filename="invoice-${orderId}.pdf"`,
+                "Content-Disposition": `attachment; filename="rekins-${orderId}_${new Date(workOrder.createdAt).toLocaleDateString("lv-LV").replace(/\./g, "-")}.pdf"`,
             },
         });
     } catch (error) {
