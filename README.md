@@ -96,11 +96,12 @@ Pilna shēma atrodama `prisma/schema.prisma`.
 ---
 
 ### Testēšana
-Pamata testu komplekts ietvers:
-- Integrācijas testi galvenajiem API galapunktiem (automašīnas, darba uzdevumi, rēķinu ģenerēšana)
-- Vienību testi cenu/kopsummu aprēķiniem
+- `npm run test` — palaist testus interaktīvā režīmā
+- `npm run test:run` — palaist visus testus vienu reizi
 
-Palaist testus: TBD (kad testi tiks pievienoti). Pagaidām koncentrējieties uz API un kopsummu loģiku saskaņā ar `GUIDELINES.md`.
+Testu komplekts ietver:
+- Vienību testi (Unit tests) lietotāja saskarnes komponentēm un utilītfunkcijām
+- Integrācijas testi (Integration tests) API maršrutiem ar Prisma simulāciju (mocking)
 
 ---
 
