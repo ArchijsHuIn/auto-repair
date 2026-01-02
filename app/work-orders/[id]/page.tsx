@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { translateWorkOrderStatus, translatePaymentStatus, translateWorkOrderItemType } from "@/lib/translations";
 
 type WorkItem = {
     id: number;
@@ -64,6 +65,10 @@ export default function WorkOrderDetailPage() {
     const [editingNotes, setEditingNotes] = useState(false);
     const [notesDraft, setNotesDraft] = useState("");
     const [savingNotes, setSavingNotes] = useState(false);
+
+    const [editingTitle, setEditingTitle] = useState(false);
+    const [titleDraft, setTitleDraft] = useState("");
+    const [savingTitle, setSavingTitle] = useState(false);
 
     useEffect(() => {
         fetchWorkOrder();
@@ -221,6 +226,40 @@ export default function WorkOrderDetailPage() {
         }
     };
 
+    const startEditTitle = () => {
+        if (!workOrder) return;
+        setTitleDraft(workOrder.title);
+        setEditingTitle(true);
+    };
+
+    const cancelEditTitle = () => {
+        setEditingTitle(false);
+        setTitleDraft("");
+    };
+
+    const saveTitle = async () => {
+        if (!titleDraft.trim()) {
+            alert("Nosaukums nevar būt tukšs");
+            return;
+        }
+        try {
+            setSavingTitle(true);
+            const res = await fetch(`/api/work-orders/${orderId}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title: titleDraft }),
+            });
+            if (!res.ok) throw new Error("Failed to update title");
+            setEditingTitle(false);
+            await fetchWorkOrder();
+        } catch (error) {
+            console.error("Error updating title:", error);
+            alert("Neizdevās atjaunināt nosaukumu");
+        } finally {
+            setSavingTitle(false);
+        }
+    };
+
     const handleStatusUpdate = async (newStatus: string) => {
         try {
             const res = await fetch(`/api/work-orders/${orderId}`, {
@@ -344,16 +383,57 @@ export default function WorkOrderDetailPage() {
 
             <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
                 <div className="flex justify-between items-start mb-6">
-                    <div>
-                        <h1 className="text-4xl font-bold text-gray-800 mb-2">{workOrder.title}</h1>
-                        <p className="text-gray-600">Darba uzdevums #{workOrder.id}</p>
+                    <div className="flex-1 mr-4">
+                        <div className="flex items-center justify-between mb-2">
+                            {!editingTitle ? (
+                                <>
+                                    <h1 className="text-4xl font-bold text-gray-800">{workOrder.title}</h1>
+                                    <button
+                                        type="button"
+                                        onClick={startEditTitle}
+                                        className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
+                                    >
+                                        Rediģēt
+                                    </button>
+                                </>
+                            ) : null}
+                        </div>
+                        {editingTitle ? (
+                            <div className="mb-4">
+                                <input
+                                    type="text"
+                                    value={titleDraft}
+                                    onChange={(e) => setTitleDraft(e.target.value)}
+                                    className="text-4xl font-bold text-gray-800 border border-blue-200 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 bg-white"
+                                    autoFocus
+                                />
+                                <div className="mt-2 flex gap-2">
+                                    <button
+                                        onClick={saveTitle}
+                                        disabled={savingTitle}
+                                        className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
+                                    >
+                                        {savingTitle ? "Saglabā..." : "Saglabāt"}
+                                    </button>
+                                    <button
+                                        onClick={cancelEditTitle}
+                                        disabled={savingTitle}
+                                        className="px-4 py-2 rounded-lg border border-blue-300 text-blue-700 hover:bg-blue-100 font-semibold"
+                                    >
+                                        Atcelt
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <p className="text-gray-600">Darba uzdevums #{workOrder.id}</p>
+                        )}
                     </div>
                     <div className="flex gap-2">
                         <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(workOrder.status)}`}>
-                            {workOrder.status.replace(/_/g, " ")}
+                            {translateWorkOrderStatus(workOrder.status)}
                         </span>
                         <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getPaymentStatusColor(workOrder.paymentStatus)}`}>
-                            {workOrder.paymentStatus}
+                            {translatePaymentStatus(workOrder.paymentStatus)}
                         </span>
                     </div>
                 </div>
@@ -637,7 +717,7 @@ export default function WorkOrderDetailPage() {
                                             <span className={`px-2 py-1 rounded text-xs font-semibold ${
                                                 item.type === "LABOR" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
                                             }`}>
-                                                {item.type}
+                                                {translateWorkOrderItemType(item.type)}
                                             </span>
                                         </td>
                                         <td className="px-4 py-3 text-gray-800">{item.description}</td>

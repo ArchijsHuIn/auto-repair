@@ -1,77 +1,77 @@
-### Project Guidelines
+### Projekta vadlīnijas
 
-#### 1) Overview
-- Single-shop auto-repair management for cars, work orders, items, and PDF invoices.
-- Stack: Next.js (App Router), TypeScript, Prisma + PostgreSQL, NextAuth, Tailwind CSS, React 19, date-fns.
-- Core domains per schema: `Car`, `Work_Done`, `Work_Item_Used`, with enums for statuses and payments.
+#### 1) Pārskats
+- Viena autoservisa pārvaldības sistēma automašīnām, darba uzdevumiem, precēm un PDF rēķiniem.
+- Tehnoloģiju kopums: Next.js (App Router), TypeScript, Prisma + PostgreSQL, NextAuth, Tailwind CSS, React 19, date-fns.
+- Galvenie domēni saskaņā ar shēmu: `Car`, `Work_Done`, `Work_Item_Used`, ar uzskaitījumiem (enums) statusiem un maksājumiem.
 
-#### 2) Local Development
-- Requirements: Node LTS, PostgreSQL, npm.
-- Install: `npm install`
-- Run dev: `npm run dev` → http://localhost:3000
-- Code quality: ESLint + TypeScript. No mandatory pre-commit hooks for now.
+#### 2) Lokālā izstrāde
+- Prasības: Node LTS, PostgreSQL, npm.
+- Instalēšana: `npm install`
+- Palaist izstrādes režīmā: `npm run dev` → http://localhost:3000
+- Koda kvalitāte: ESLint + TypeScript. Pašlaik nav obligātu pre-commit āķu (hooks).
 
-#### 3) Environment & Secrets
-- Required env vars:
+#### 3) Vide un noslēpumi
+- Nepieciešamie vides mainīgie:
   - `DATABASE_URL=postgres://…`
   - `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
-- Prisma datasource configuration remains as currently set in the repo.
-- Secret storage: TBD (platform envs initially are fine).
+- Prisma datu avota konfigurācija paliek tāda, kāda tā pašlaik ir iestatīta repozitorijā.
+- Noslēpumu glabāšana: tiks precizēta (sākumā pietiek ar platformas vides mainīgajiem).
 
-#### 4) Database & Migrations
-- Prisma 7.x; runtime client from `@prisma/client` (generated into `node_modules`).
-- Local schema changes: `npx prisma migrate dev`
-- Deploy migrations: `npx prisma migrate deploy`
-- Seeding: includes sample cars and demo orders (no users): `npx prisma db seed`
+#### 4) Datubāze un migrācijas
+- Prisma 7.x; izpildlaika klients no `@prisma/client` (ģenerēts `node_modules`).
+- Lokālās shēmas izmaiņas: `npx prisma migrate dev`
+- Migrāciju izvietošana (deploy): `npx prisma migrate deploy`
+- Sākotnējie dati (seeding): ietver parauga automašīnas un demonstrācijas pasūtījumus (bez lietotājiem): `npx prisma db seed`
 
-#### 5) Data Model (Glossary)
-- `Car`: license plate (unique), VIN, make/model, owner name/phone, notes, color, mileage.
-- `Work_Done`: status lifecycle (NEW, DIAGNOSTIC, WAITING_PARTS, IN_PROGRESS, DONE, CANCELLED), payment fields, totals (`totalLabor`, `totalParts`, `totalPrice`).
-- `Work_Item_Used`: LABOR/PART items, qty, unit price, total.
+#### 5) Datu modelis (Glosārijs)
+- `Car`: valsts reģistrācijas numurs (unikāls), VIN, marka/modelis, īpašnieka vārds/tālrunis, piezīmes, krāsa, nobraukums.
+- `Work_Done`: statusa dzīves cikls (NEW, DIAGNOSTIC, WAITING_PARTS, IN_PROGRESS, DONE, CANCELLED), maksājumu lauki, kopsummas (`totalLabor`, `totalParts`, `totalPrice`).
+- `Work_Item_Used`: LABOR/PART pozīcijas, daudzums, vienības cena, kopsumma.
 
-#### 6) API Conventions
-- REST under `app/api` (cars, work-orders, work-order items).
-- JSON responses; camelCase fields.
-- Pagination: `?page=&limit=` with defaults `page=1`, `limit=20`.
-- Error shape: `{ error: { code, message }, details? }`.
+#### 6) API konvencijas
+- REST zem `app/api` (cars, work-orders, work-order items).
+- JSON atbildes; camelCase lauki.
+- Lappušu numerācija: `?page=&limit=` ar noklusējuma vērtībām `page=1`, `limit=20`.
+- Kļūdu formāts: `{ error: { code, message }, details? }`.
 
-#### 7) Authentication & Authorization
-- No role-based restrictions at this stage. Keep NextAuth minimal.
+#### 7) Autentifikācija un autorizācija
+- Šajā posmā nav lomu ierobežojumu. Saglabājiet NextAuth minimālu.
 
 #### 8) UI/UX
-- Tailwind CSS. Keep forms simple; may add schema validation later.
+- Tailwind CSS. Saglabājiet formas vienkāršas; vēlāk var pievienot shēmas validāciju.
 
-#### 9) Business Rules
-- Status transitions: permissive for now (no strict matrix).
-- Payments: `UNPAID` → `PARTIAL` → `PAID`. No taxes/discounts logic yet.
-- Totals are computed/validated server-side to maintain integrity.
+#### 9) Biznesa noteikumi
+- Statusu pārejas: pagaidām pieļaujamas (nav stingras matricas).
+- Maksājumi: `UNPAID` → `PARTIAL` → `PAID`. Pagaidām nav nodokļu/atlažu loģikas.
+- Kopsummas tiek aprēķinātas/validētas servera pusē, lai saglabātu integritāti.
 
-#### 10) Documents (PDF)
-- Only Invoice PDF is required.
-- Filename format: `rekins-<work_order_id>_<date>.pdf` where date is `DD-MM-YYYY` (e.g., `rekins-1234_17-12-2025.pdf`).
-- Invoice includes: shop info (placeholder for now), car details, work order ID, items (labor and parts), totals, payment status.
+#### 10) Dokumenti (PDF)
+- Nepieciešams tikai rēķina PDF.
+- Failu nosaukumu formāts: `rekins-<work_order_id>_<date>.pdf`, kur datums ir `DD-MM-YYYY` (piemēram, `rekins-1234_17-12-2025.pdf`).
+- Rēķinā iekļauts: informācija par servisu (pagaidām vietturītis), informācija par automašīnu, darba uzdevuma ID, pozīcijas (darbs un detaļas), kopsummas, maksājuma statuss.
 
-#### 11) Scheduling
-- Appointments are out of scope for now.
+#### 11) Plānošana
+- Pieraksti uz laiku pašlaik nav paredzēti.
 
-#### 12) Error Handling & Logging
-- Map common Prisma errors to 4xx; otherwise 500.
-- Minimal server logging; can add Sentry/Logtail later.
+#### 12) Kļūdu apstrāde un žurnalēšana
+- Kartējiet biežākās Prisma kļūdas uz 4xx; pretējā gadījumā 500.
+- Minimāla servera žurnalēšana; vēlāk var pievienot Sentry/Logtail.
 
-#### 13) Testing Strategy
-- Provide tests:
-  - API integration tests for cars, work orders, and invoice generation.
-  - Unit tests for pricing/total calculations.
-- E2E optional later.
+#### 13) Testēšanas stratēģija
+- Nodrošiniet testus:
+  - API integrācijas testi automašīnām, darba uzdevumiem un rēķinu ģenerēšanai.
+  - Vienību testi cenu/kopsummu aprēķiniem.
+- E2E nav obligāti, iespējami vēlāk.
 
-#### 14) Deployment & Operations
-- Likely Vercel + managed Postgres (e.g., Neon/Supabase/RDS) with a single environment initially.
-- Use provider backups by default; formal policy can be added later.
+#### 14) Izvietošana un darbība
+- Visticamāk Vercel + pārvaldīts Postgres (piemēram, Neon/Supabase/RDS) ar vienu vidi sākumā.
+- Pēc noklusējuma izmantojiet pakalpojumu sniedzēja rezerves kopijas; oficiālu politiku var pievienot vēlāk.
 
-#### 15) Security & Compliance
-- Protect PII (owner name/phone). No formal compliance constraints now.
-- Use least-privilege DB credentials in production.
+#### 15) Drošība un atbilstība
+- Aizsargājiet PII (īpašnieka vārds/tālrunis). Pašlaik nav oficiālu atbilstības ierobežojumu.
+- Produkcijā izmantojiet DB akreditācijas datus ar vismazākajām privilēģijām.
 
-#### 16) Performance
-- Current indexes are adequate for ~3–5 users and up to ~10 cars/day.
-- Use pagination on list endpoints as data grows.
+#### 16) Veiktspēja
+- Pašreizējie indeksi ir pietiekami ~3–5 lietotājiem un līdz ~10 automašīnām dienā.
+- Izmantojiet lappušu numerāciju sarakstu galapunktos, pieaugot datu apjomam.

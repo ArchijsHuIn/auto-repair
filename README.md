@@ -1,115 +1,115 @@
-### Auto Repair Shop — Next.js + Prisma
+### Autoservisa pārvaldība — Next.js + Prisma
 
-Single-shop auto-repair manager for cars, work orders, item lines, and PDF invoices.
+Viena autoservisa pārvaldības sistēma automašīnām, darba uzdevumiem, preču pozīcijām un PDF rēķiniem.
 
-#### Tech Stack
+#### Tehnoloģiju kopums
 - Next.js (App Router), React 19, TypeScript
-- Prisma ORM + PostgreSQL (Prisma client output at `generated/prisma`)
-- NextAuth (basic auth), Tailwind CSS v4
+- Prisma ORM + PostgreSQL (Prisma klienta izvade `generated/prisma`)
+- NextAuth (pamata autentifikācija), Tailwind CSS v4
 - date-fns, react-pdf/@react-pdf/renderer
 
 ---
 
-### Quick Start
+### Ātrā darba sākšana
 
-1) Prerequisites
+1) Priekšnosacījumi
 - Node.js LTS, npm
-- PostgreSQL database
+- PostgreSQL datubāze
 
-2) Install
+2) Instalēšana
 ```bash
 npm install
 ```
 
-3) Configure environment
-Create `.env` in project root with at least:
+3) Vides konfigurēšana
+Izveidojiet `.env` failu projekta saknes direktorijā ar vismaz šādiem mainīgajiem:
 ```env
 DATABASE_URL=postgres://user:pass@host:5432/dbname
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-strong-secret
 ```
-Notes:
-- Prisma datasource URL is read via `prisma.config.ts` (not inline in `schema.prisma`).
-- `postinstall` runs `prisma generate` automatically.
+Piezīmes:
+- Prisma datu avota URL tiek lasīts caur `prisma.config.ts` (nevis tieši `schema.prisma`).
+- `postinstall` automātiski palaiž `prisma generate`.
 
-4) Database migrate
+4) Datubāzes migrācija
 ```bash
 npx prisma migrate dev
 ```
 
-5) Seed sample data (cars + demo work orders; no users)
+5) Sākotnējo datu ielāde (automašīnas + demonstrācijas darba uzdevumi; bez lietotājiem)
 ```bash
 npx prisma db seed
 ```
-The seed is idempotent: if work orders already exist, it will skip (cars are upserted by license plate).
+Sākotnējo datu ielāde ir idempotenta: ja darba uzdevumi jau eksistē, tā tiks izlaista (automašīnas tiek atjauninātas pēc valsts reģistrācijas numura).
 
-6) Run the app
+6) Lietotnes palaišana
 ```bash
 npm run dev
 ```
-Open http://localhost:3000
+Atveriet http://localhost:3000
 
 ---
 
-### Available Scripts
-- `npm run dev` — start Next.js in development
-- `npm run build` — production build
-- `npm run start` — start production server
-- `npm run lint` — run ESLint
-- `postinstall` — `prisma generate` (auto)
-- `npx prisma migrate dev` — create/apply local DB migrations
-- `npx prisma migrate deploy` — apply migrations in deploy environments
-- `npx prisma db seed` — run the seed (`prisma/seed.ts` via ts-node)
+### Pieejamās komandas
+- `npm run dev` — palaist Next.js izstrādes režīmā
+- `npm run build` — produkcijas būvējums
+- `npm run start` — palaist produkcijas serveri
+- `npm run lint` — palaist ESLint
+- `postinstall` — `prisma generate` (automātiski)
+- `npx prisma migrate dev` — izveidot/piemērot lokālās DB migrācijas
+- `npx prisma migrate deploy` — piemērot migrācijas izvietošanas vidēs
+- `npx prisma db seed` — palaist sākotnējo datu ielādi (`prisma/seed.ts` caur ts-node)
 
 ---
 
-### Data Model (summary)
-- `Car`: license plate (unique), VIN, make/model, owner name/phone, color, mileage, notes
-- `Work_Done`: work order with status, notes, totals (`totalLabor`, `totalParts`, `totalPrice`), payment fields
-- `Work_Item_Used`: items (LABOR/PART) with `quantity`, `unitPrice`, `total`
+### Datu modelis (kopsavilkums)
+- `Car`: valsts reģistrācijas numurs (unikāls), VIN, marka/modelis, īpašnieka vārds/tālrunis, krāsa, nobraukums, piezīmes
+- `Work_Done`: darba uzdevums ar statusu, piezīmēm, kopsummām (`totalLabor`, `totalParts`, `totalPrice`), maksājumu laukiem
+- `Work_Item_Used`: pozīcijas (LABOR/PART) ar `quantity` (daudzums), `unitPrice` (vienības cena), `total` (kopā)
 
-See full schema in `prisma/schema.prisma`.
-
----
-
-### API Conventions
-- Routes under `app/api` (e.g., cars, work-orders, work-order items)
-- JSON payloads use camelCase
-- Pagination: `?page=&limit=` with defaults `page=1`, `limit=20`
-- Error shape: `{ error: { code, message }, details? }`
+Pilna shēma atrodama `prisma/schema.prisma`.
 
 ---
 
-### Invoices (PDF)
-- Only invoice PDF is required at this stage
-- Filename format: `rekins-<work_order_id>_<date>.pdf`
-  - Date format: `DD-MM-YYYY` (example: `rekins-1234_17-12-2025.pdf`)
-- Contents: shop info, car details, work order ID, items (labor/parts), totals, payment status
+### API konvencijas
+- Maršruti zem `app/api` (piemēram, cars, work-orders, work-order items)
+- JSON dati izmanto camelCase
+- Lappušu numerācija: `?page=&limit=` ar noklusējuma vērtībām `page=1`, `limit=20`
+- Kļūdu formāts: `{ error: { code, message }, details? }`
 
 ---
 
-### Seeding Details
-- Location: `prisma/seed.ts`
-- Creates ~5 demo cars and 5 demo work orders with realistic items
-- Computes totals server-side and sets payment status
+### Rēķini (PDF)
+- Šajā posmā ir nepieciešams tikai rēķina PDF
+- Failu nosaukumu formāts: `rekins-<work_order_id>_<date>.pdf`
+  - Datuma formāts: `DD-MM-YYYY` (piemērs: `rekins-1234_17-12-2025.pdf`)
+- Saturs: informācija par servisu, informācija par automašīnu, darba uzdevuma ID, pozīcijas (darbs/detaļas), kopsummas, maksājuma statuss
 
 ---
 
-### Testing
-A baseline test suite will include:
-- Integration tests for core API endpoints (cars, work-orders, invoice generation)
-- Unit tests for pricing/total calculations
-
-Run tests: TBD (once tests are added). For now, focus on API and totals logic per `GUIDELINES.md`.
+### Sākotnējo datu ielādes informācija
+- Atrašanās vieta: `prisma/seed.ts`
+- Izveido ~5 parauga automašīnas un 5 parauga darba uzdevumus ar reālistiskām pozīcijām
+- Aprēķina kopsummas servera pusē un iestata maksājuma statusu
 
 ---
 
-### Troubleshooting
-- Prisma cannot connect: verify `DATABASE_URL` and that the DB is reachable
-- Migration errors: inspect migrations under `prisma/migrations`; try `npx prisma migrate reset` (will wipe data)
-- Reseed: `npx prisma db seed` (if needed, reset first)
+### Testēšana
+Pamata testu komplekts ietvers:
+- Integrācijas testi galvenajiem API galapunktiem (automašīnas, darba uzdevumi, rēķinu ģenerēšana)
+- Vienību testi cenu/kopsummu aprēķiniem
+
+Palaist testus: TBD (kad testi tiks pievienoti). Pagaidām koncentrējieties uz API un kopsummu loģiku saskaņā ar `GUIDELINES.md`.
 
 ---
 
-### More
-Read `GUIDELINES.md` for architecture, conventions, and decisions.
+### Problēmu novēršana
+- Prisma nevar izveidot savienojumu: pārbaudiet `DATABASE_URL` un vai DB ir pieejama
+- Migrācijas kļūdas: pārbaudiet migrācijas zem `prisma/migrations`; mēģiniet `npx prisma migrate reset` (izdzēsīs datus)
+- Atkārtota datu ielāde: `npx prisma db seed` (ja nepieciešams, vispirms veiciet atiestatīšanu)
+
+---
+
+### Vairāk informācijas
+Lasiet `GUIDELINES.md` par arhitektūru, konvencijām un lēmumiem.

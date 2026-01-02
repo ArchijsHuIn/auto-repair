@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { translateWorkOrderStatus, translatePaymentStatus } from "@/lib/translations";
 
 type WorkOrder = {
     id: number;
@@ -125,10 +126,10 @@ export default function CarFullHistoryPage() {
                                 </div>
                                 <div className="flex gap-2">
                                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
-                                        {order.status.replace(/_/g, " ")}
+                                        {translateWorkOrderStatus(order.status)}
                                     </span>
                                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getPaymentStatusColor(order.paymentStatus)}`}>
-                                        {order.paymentStatus}
+                                        {translatePaymentStatus(order.paymentStatus)}
                                     </span>
                                 </div>
                             </div>

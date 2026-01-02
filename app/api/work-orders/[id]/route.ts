@@ -97,6 +97,10 @@ export async function PATCH(
             updates.internalNotes = typeof v === "string" ? (v.trim() === "" ? null : v) : null;
         }
 
+        if (body.title !== undefined) {
+            updates.title = body.title;
+        }
+
         const workOrder = await prisma.work_Done.update({
             where: { id: orderId },
             data: updates,

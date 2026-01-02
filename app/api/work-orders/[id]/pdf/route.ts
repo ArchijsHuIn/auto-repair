@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import jsPDF from "jspdf";
 import { RobotoRegularBase64, RobotoBoldBase64 } from "@/lib/fonts";
+import { translateWorkOrderStatus, translatePaymentStatus, translatePaymentMethod, translateWorkOrderItemType } from "@/lib/translations";
 
 export async function GET(
     request: NextRequest,
@@ -60,7 +61,7 @@ export async function GET(
         doc.setFontSize(10);
         doc.text(`Rēķina #: ${workOrder.id}`, 20, 50);
         doc.text(`Datums: ${new Date(workOrder.createdAt).toLocaleDateString("lv-LV")}`, 20, 56);
-        doc.text(`Statuss: ${workOrder.status}`, 20, 62);
+        doc.text(`Statuss: ${translateWorkOrderStatus(workOrder.status)}`, 20, 62);
 
         // Customer info
         doc.setFont("Roboto", "bold");
@@ -115,7 +116,7 @@ export async function GET(
                 partsTotal += total;
             }
 
-            doc.text(item.type === "LABOR" ? "DARBS" : "DETAĻA", 20, yPos);
+            doc.text(translateWorkOrderItemType(item.type).toUpperCase(), 20, yPos);
             const desc = doc.splitTextToSize(item.description, 80);
             doc.text(desc, 45, yPos);
             doc.text(parseFloat(item.quantity.toString()).toFixed(2), 130, yPos);
@@ -153,9 +154,9 @@ export async function GET(
         // Payment status
         yPos += 10;
         doc.setFontSize(10);
-        doc.text(`Maksājuma statuss: ${workOrder.paymentStatus}`, 20, yPos);
+        doc.text(`Maksājuma statuss: ${translatePaymentStatus(workOrder.paymentStatus)}`, 20, yPos);
         if (workOrder.paymentMethod) {
-            doc.text(`Maksājuma veids: ${workOrder.paymentMethod}`, 20, yPos + 6);
+            doc.text(`Maksājuma veids: ${translatePaymentMethod(workOrder.paymentMethod)}`, 20, yPos + 6);
         }
 
         // Footer

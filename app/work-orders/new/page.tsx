@@ -143,7 +143,7 @@ export default function NewWorkOrderPage() {
                         >
                             <option value="NEW">Jauns</option>
                             <option value="DIAGNOSTIC">Diagnostika</option>
-                            <option value="WAITING_PARTS">Gaidām detaļas</option>
+                            <option value="WAITING_PARTS">Gaida detaļas</option>
                             <option value="IN_PROGRESS">Procesā</option>
                             <option value="DONE">Pabeigts</option>
                             <option value="CANCELLED">Atcelts</option>
