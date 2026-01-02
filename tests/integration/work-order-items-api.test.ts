@@ -65,9 +65,40 @@ describe('Work Order Items API Routes', () => {
             expect(response.status).toBe(400);
             expect(data.error).toBe('Missing required fields');
         });
+
+        it('should return 400 if work order ID is not a number', async () => {
+            const context = { params: Promise.resolve({ id: 'abc' }) };
+            const request = new NextRequest('http://localhost/api/work-orders/abc/items', {
+                method: 'POST',
+                body: JSON.stringify({
+                    type: 'PART',
+                    description: 'Brake pads',
+                    quantity: 2,
+                    unitPrice: 25.50,
+                    total: 51.00
+                })
+            });
+            const response = await POST(request, context);
+            const data = await response.json();
+
+            expect(response.status).toBe(400);
+            expect(data.error).toBe('Invalid work order ID');
+        });
     });
 
     describe('PUT /api/work-orders/[id]/items/[itemId]', () => {
+        it('should return 400 if item ID is not a number', async () => {
+            const context = { params: Promise.resolve({ id: '10', itemId: 'abc' }) };
+            const request = new NextRequest('http://localhost/api/work-orders/10/items/abc', {
+                method: 'PUT',
+                body: JSON.stringify({ description: 'New description' })
+            });
+            const response = await PUT(request, context);
+            const data = await response.json();
+
+            expect(response.status).toBe(400);
+            expect(data.error).toBe('Invalid item ID');
+        });
         it('should update a work item', async () => {
             const updatedItem = {
                 description: 'Premium Brake pads',
@@ -93,6 +124,18 @@ describe('Work Order Items API Routes', () => {
     });
 
     describe('DELETE /api/work-orders/[id]/items/[itemId]', () => {
+        it('should return 400 if item ID is not a number', async () => {
+            const context = { params: Promise.resolve({ id: '10', itemId: 'abc' }) };
+            const request = new NextRequest('http://localhost/api/work-orders/10/items/abc', {
+                method: 'DELETE'
+            });
+            const response = await DELETE(request, context);
+            const data = await response.json();
+
+            expect(response.status).toBe(400);
+            expect(data.error).toBe('Invalid item ID');
+        });
+
         it('should delete a work item', async () => {
             prismaMock.work_Item_Used.delete.mockResolvedValue({ id: 1 });
 

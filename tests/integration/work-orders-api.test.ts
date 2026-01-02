@@ -74,9 +74,71 @@ describe('Work Orders API Routes', () => {
             expect(response.status).toBe(400);
             expect(data.error).toContain('Missing required fields');
         });
+
+        it('should return 404 if car is not found by ID', async () => {
+            prismaMock.car.findUnique.mockResolvedValue(null);
+
+            const request = new NextRequest('http://localhost/api/work-orders', {
+                method: 'POST',
+                body: JSON.stringify({
+                    carId: 999,
+                    status: 'NEW',
+                    title: 'Oil Change',
+                    paymentStatus: 'UNPAID'
+                })
+            });
+            const response = await POST(request);
+            const data = await response.json();
+
+            expect(response.status).toBe(404);
+            expect(data.error).toBe('Car not found');
+        });
+
+        it('should return 404 if car is not found by license plate', async () => {
+            prismaMock.car.findUnique.mockResolvedValue(null);
+
+            const request = new NextRequest('http://localhost/api/work-orders', {
+                method: 'POST',
+                body: JSON.stringify({
+                    carLicensePlate: 'NON-EXISTENT',
+                    status: 'NEW',
+                    title: 'Oil Change',
+                    paymentStatus: 'UNPAID'
+                })
+            });
+            const response = await POST(request);
+            const data = await response.json();
+
+            expect(response.status).toBe(404);
+            expect(data.error).toBe('Car not found for provided license plate');
+        });
+
+        it('should return 400 if neither carId nor carLicensePlate is provided', async () => {
+            const request = new NextRequest('http://localhost/api/work-orders', {
+                method: 'POST',
+                body: JSON.stringify({
+                    status: 'NEW',
+                    title: 'Oil Change',
+                    paymentStatus: 'UNPAID'
+                })
+            });
+            const response = await POST(request);
+            const data = await response.json();
+
+            expect(response.status).toBe(400);
+            expect(data.error).toContain('Missing required fields');
+        });
     });
 
     describe('GET /api/work-orders/[id]', () => {
+        it('should return 400 if ID is not a number', async () => {
+            const context = { params: Promise.resolve({ id: 'abc' }) };
+            const response = await GET_BY_ID(new NextRequest('http://localhost/api/work-orders/abc'), context);
+            const data = await response.json();
+
+            expect(response.status).toBe(400);
+            expect(data.error).toBe('Invalid work order ID');
+        });
         it('should return a work order by id', async () => {
             const mockOrder = { id: 1, title: 'Brake Repair', car: {}, items: [] };
             prismaMock.work_Done.findUnique.mockResolvedValue(mockOrder);
@@ -105,6 +167,19 @@ describe('Work Orders API Routes', () => {
     });
 
     describe('PATCH /api/work-orders/[id]', () => {
+        it('should return 400 if ID is not a number', async () => {
+            const context = { params: Promise.resolve({ id: 'abc' }) };
+            const request = new NextRequest('http://localhost/api/work-orders/abc', {
+                method: 'PATCH',
+                body: JSON.stringify({ status: 'DONE' })
+            });
+            const response = await PATCH(request, context);
+            const data = await response.json();
+
+            expect(response.status).toBe(400);
+            expect(data.error).toBe('Invalid work order ID');
+        });
+
         it('should update a work order status to DONE and set completedAt', async () => {
             const mockUpdatedOrder = { id: 1, status: 'DONE', completedAt: new Date() };
             prismaMock.work_Done.update.mockResolvedValue(mockUpdatedOrder);
