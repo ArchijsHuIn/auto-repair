@@ -105,12 +105,12 @@ export default function NewWorkOrderPage() {
                 </Link>
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Jauns darba uzdevums</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Jauns darba uzdevums</h1>
             <p className="text-gray-600 mb-6">Izveidot jaunu darba uzdevumu transportlīdzeklim</p>
 
-            <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-gray-200">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
+                    <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             Izvēlieties transportlīdzekli <span className="text-red-500">*</span>
                         </label>
@@ -119,7 +119,7 @@ export default function NewWorkOrderPage() {
                             value={form.carId}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="">-- Izvēlieties transportlīdzekli --</option>
                             {cars.map((car) => (
@@ -139,7 +139,7 @@ export default function NewWorkOrderPage() {
                             value={form.status}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="NEW">Jauns</option>
                             <option value="DIAGNOSTIC">Diagnostika</option>
@@ -160,7 +160,7 @@ export default function NewWorkOrderPage() {
                             onChange={handleChange}
                             placeholder="Īss darba apraksts"
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         />
                     </div>
 
@@ -172,7 +172,7 @@ export default function NewWorkOrderPage() {
                             onChange={handleChange}
                             placeholder="Ko ziņoja klients..."
                             rows={3}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         />
                     </div>
 
@@ -184,7 +184,7 @@ export default function NewWorkOrderPage() {
                             onChange={handleChange}
                             placeholder="Piezīmes mehāniķiem (nav redzamas klientam)..."
                             rows={3}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         />
                     </div>
 
@@ -195,7 +195,7 @@ export default function NewWorkOrderPage() {
                             type="datetime-local"
                             value={form.estimatedCompletion}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         />
                     </div>
 
@@ -208,7 +208,7 @@ export default function NewWorkOrderPage() {
                             value={form.paymentStatus}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="UNPAID">Neapmaksāts</option>
                             <option value="PARTIAL">Daļēji apmaksāts</option>
@@ -222,7 +222,7 @@ export default function NewWorkOrderPage() {
                             name="paymentMethod"
                             value={form.paymentMethod}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="">-- Izvēlieties veidu --</option>
                             <option value="CASH">Skaidrā naudā</option>
@@ -271,10 +271,16 @@ export default function NewWorkOrderPage() {
                     {/*    />*/}
                     {/*</div>*/}
 
-                    <div className="md:col-span-2">
+                    <div className="md:col-span-2 flex flex-col sm:flex-row gap-3 mt-4">
+                        <Link
+                            href="/work-orders"
+                            className="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded-lg border border-gray-300 transition-colors"
+                        >
+                            Atcelt
+                        </Link>
                         <button
                             type="submit"
-                            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200"
+                            className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200"
                         >
                             Izveidot darba uzdevumu
                         </button>

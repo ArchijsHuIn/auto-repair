@@ -367,31 +367,31 @@ export default function WorkOrderDetailPage() {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-            <div className="mb-6 flex justify-between items-center">
-                <Link href="/work-orders" className="text-blue-600 hover:text-blue-800">
+            <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <Link href="/work-orders" className="text-blue-600 hover:text-blue-800 font-medium">
                     ← Atpakaļ uz darba uzdevumiem
                 </Link>
                 {workOrder.status === "DONE" && (
                     <button
                         onClick={downloadPDF}
-                        className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors flex items-center gap-2"
+                        className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 md:py-2 rounded-lg shadow-md transition-colors flex justify-center items-center gap-2"
                     >
                         📄 Lejupielādēt PDF rēķinu
                     </button>
                 )}
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-                <div className="flex justify-between items-start mb-6">
-                    <div className="flex-1 mr-4">
-                        <div className="flex items-center justify-between mb-2">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-6 border border-gray-100">
+                <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                    <div className="flex-1 w-full">
+                        <div className="flex items-center justify-between mb-2 gap-2">
                             {!editingTitle ? (
                                 <>
-                                    <h1 className="text-4xl font-bold text-gray-800">{workOrder.title}</h1>
+                                    <h1 className="text-2xl md:text-4xl font-bold text-gray-800 break-words">{workOrder.title}</h1>
                                     <button
                                         type="button"
                                         onClick={startEditTitle}
-                                        className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
+                                        className="text-blue-600 hover:text-blue-800 text-sm font-semibold whitespace-nowrap"
                                     >
                                         Rediģēt
                                     </button>
@@ -404,21 +404,21 @@ export default function WorkOrderDetailPage() {
                                     type="text"
                                     value={titleDraft}
                                     onChange={(e) => setTitleDraft(e.target.value)}
-                                    className="text-4xl font-bold text-gray-800 border border-blue-200 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 bg-white"
+                                    className="text-xl md:text-4xl font-bold text-gray-800 border border-blue-200 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 bg-white text-base"
                                     autoFocus
                                 />
                                 <div className="mt-2 flex gap-2">
                                     <button
                                         onClick={saveTitle}
                                         disabled={savingTitle}
-                                        className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
+                                        className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-6 py-3 md:py-2 rounded-lg shadow-sm"
                                     >
                                         {savingTitle ? "Saglabā..." : "Saglabāt"}
                                     </button>
                                     <button
                                         onClick={cancelEditTitle}
                                         disabled={savingTitle}
-                                        className="px-4 py-2 rounded-lg border border-blue-300 text-blue-700 hover:bg-blue-100 font-semibold"
+                                        className="flex-1 sm:flex-none px-6 py-3 md:py-2 rounded-lg border border-blue-300 text-blue-700 hover:bg-blue-100 font-semibold shadow-sm"
                                     >
                                         Atcelt
                                     </button>
@@ -428,37 +428,37 @@ export default function WorkOrderDetailPage() {
                             <p className="text-gray-600">Darba uzdevums #{workOrder.id}</p>
                         )}
                     </div>
-                    <div className="flex gap-2">
-                        <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(workOrder.status)}`}>
+                    <div className="flex flex-wrap gap-2 w-full md:w-auto">
+                        <span className={`flex-1 md:flex-none text-center px-4 py-2 rounded-full text-xs md:text-sm font-semibold ${getStatusColor(workOrder.status)}`}>
                             {translateWorkOrderStatus(workOrder.status)}
                         </span>
-                        <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getPaymentStatusColor(workOrder.paymentStatus)}`}>
+                        <span className={`flex-1 md:flex-none text-center px-4 py-2 rounded-full text-xs md:text-sm font-semibold ${getPaymentStatusColor(workOrder.paymentStatus)}`}>
                             {translatePaymentStatus(workOrder.paymentStatus)}
                         </span>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-2">Transportlīdzeklis</div>
-                        <Link href={`/cars/${workOrder.car.id}`} className="text-lg font-semibold text-blue-600 hover:text-blue-800">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6 mb-6">
+                    <div className="bg-blue-50 p-3 md:p-4 rounded-lg">
+                        <div className="text-xs md:text-sm text-gray-600 mb-1">Transportlīdzeklis</div>
+                        <Link href={`/cars/${workOrder.car.id}`} className="text-base md:text-lg font-semibold text-blue-600 hover:text-blue-800 block">
                             {workOrder.car.licensePlate}
                         </Link>
-                        <div className="text-gray-700">
+                        <div className="text-sm md:text-base text-gray-700">
                             {workOrder.car.year} {workOrder.car.make} {workOrder.car.model}
                         </div>
                     </div>
 
-                    <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-2">Klients</div>
-                        <div className="text-lg font-semibold text-gray-800">{workOrder.car.ownerName}</div>
-                        <div className="text-gray-700">{workOrder.car.ownerPhone}</div>
+                    <div className="bg-green-50 p-3 md:p-4 rounded-lg">
+                        <div className="text-xs md:text-sm text-gray-600 mb-1">Klients</div>
+                        <div className="text-base md:text-lg font-semibold text-gray-800">{workOrder.car.ownerName}</div>
+                        <div className="text-sm md:text-base text-gray-700">{workOrder.car.ownerPhone}</div>
                     </div>
                 </div>
 
-                <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                <div className="bg-blue-50 p-3 md:p-4 rounded-lg mb-4 border border-blue-100">
                     <div className="flex items-center justify-between mb-2">
-                        <div className="text-sm font-medium text-blue-800">Klienta sūdzība:</div>
+                        <div className="text-xs md:text-sm font-medium text-blue-800">Klienta sūdzība:</div>
                         {!editingComplaint ? (
                             <button
                                 type="button"
@@ -476,14 +476,14 @@ export default function WorkOrderDetailPage() {
                                 onChange={(e) => setComplaintDraft(e.target.value)}
                                 rows={3}
                                 placeholder="Aprakstiet klienta sūdzību..."
-                                className="border border-blue-200 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 bg-white"
+                                className="border border-blue-200 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 bg-white text-base"
                             />
                             <div className="mt-2 flex gap-2">
                                 <button
                                     type="button"
                                     onClick={saveComplaint}
                                     disabled={savingComplaint}
-                                    className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
+                                    className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-6 py-3 md:py-2 rounded-lg"
                                 >
                                     {savingComplaint ? "Saglabā..." : "Saglabāt"}
                                 </button>
@@ -491,22 +491,22 @@ export default function WorkOrderDetailPage() {
                                     type="button"
                                     onClick={cancelEditComplaint}
                                     disabled={savingComplaint}
-                                    className="px-4 py-2 rounded-lg border border-blue-300 text-blue-700 hover:bg-blue-100"
+                                    className="flex-1 sm:flex-none px-6 py-3 md:py-2 rounded-lg border border-blue-300 text-blue-700 hover:bg-blue-100 font-semibold"
                                 >
                                     Atcelt
                                 </button>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-700 min-h-5">
+                        <p className="text-sm md:text-base text-gray-700 min-h-5 italic">
                             {workOrder.customerComplaint ?? <span className="text-gray-400">Nav norādīts</span>}
                         </p>
                     )}
                 </div>
 
-                <div className="bg-yellow-50 p-4 rounded-lg mb-4">
+                <div className="bg-yellow-50 p-3 md:p-4 rounded-lg mb-4 border border-yellow-100">
                     <div className="flex items-center justify-between mb-2">
-                        <div className="text-sm font-medium text-yellow-800">Iekšējās piezīmes:</div>
+                        <div className="text-xs md:text-sm font-medium text-yellow-800">Iekšējās piezīmes:</div>
                         {!editingNotes ? (
                             <button
                                 type="button"
@@ -524,14 +524,14 @@ export default function WorkOrderDetailPage() {
                                 onChange={(e) => setNotesDraft(e.target.value)}
                                 rows={3}
                                 placeholder="Iekšējās piezīmes..."
-                                className="border border-yellow-200 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-yellow-500 bg-white"
+                                className="border border-yellow-200 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-yellow-500 bg-white text-base"
                             />
                             <div className="mt-2 flex gap-2">
                                 <button
                                     type="button"
                                     onClick={saveNotes}
                                     disabled={savingNotes}
-                                    className="bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
+                                    className="flex-1 sm:flex-none bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 text-white font-semibold px-6 py-3 md:py-2 rounded-lg"
                                 >
                                     {savingNotes ? "Saglabā..." : "Saglabāt"}
                                 </button>
@@ -539,37 +539,37 @@ export default function WorkOrderDetailPage() {
                                     type="button"
                                     onClick={cancelEditNotes}
                                     disabled={savingNotes}
-                                    className="px-4 py-2 rounded-lg border border-yellow-300 text-yellow-800 hover:bg-yellow-100"
+                                    className="flex-1 sm:flex-none px-6 py-3 md:py-2 rounded-lg border border-yellow-300 text-yellow-800 hover:bg-yellow-100 font-semibold"
                                 >
                                     Atcelt
                                 </button>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-700 min-h-5">
+                        <p className="text-sm md:text-base text-gray-700 min-h-5 italic">
                             {workOrder.internalNotes ?? <span className="text-gray-400">Nav norādīts</span>}
                         </p>
                     )}
                 </div>
 
-                <div className="flex gap-4 mb-6">
+                <div className="flex flex-col sm:flex-row gap-x-6 gap-y-2 mb-6 text-sm">
                     <div>
-                        <span className="text-sm text-gray-600">Izveidots:</span>
-                        <span className="ml-2 text-gray-800">{new Date(workOrder.createdAt).toLocaleString()}</span>
+                        <span className="text-gray-600">Izveidots:</span>
+                        <span className="ml-2 font-medium text-gray-800">{new Date(workOrder.createdAt).toLocaleString()}</span>
                     </div>
                     {workOrder.estimatedCompletion && (
                         <div>
-                            <span className="text-sm text-gray-600">Plānotais pabeigšanas laiks:</span>
-                            <span className="ml-2 text-gray-800">{new Date(workOrder.estimatedCompletion).toLocaleString()}</span>
+                            <span className="text-gray-600">Plānotais pabeigšanas laiks:</span>
+                            <span className="ml-2 font-medium text-orange-700">{new Date(workOrder.estimatedCompletion).toLocaleString()}</span>
                         </div>
                     )}
                 </div>
 
-                <div className="flex gap-2 mb-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                     <select
                         value={workOrder.status}
                         onChange={(e) => handleStatusUpdate(e.target.value)}
-                        className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+                        className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 focus:ring-2 focus:ring-blue-500 text-base"
                     >
                         <option value="NEW">Jauns</option>
                         <option value="DIAGNOSTIC">Diagnostika</option>
@@ -582,7 +582,7 @@ export default function WorkOrderDetailPage() {
                     <select
                         value={workOrder.paymentStatus}
                         onChange={(e) => handlePaymentUpdate(e.target.value)}
-                        className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500"
+                        className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 focus:ring-2 focus:ring-green-500 text-base"
                     >
                         <option value="UNPAID">Neapmaksāts</option>
                         <option value="PARTIAL">Daļēji apmaksāts</option>
@@ -591,23 +591,25 @@ export default function WorkOrderDetailPage() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Darba izejmateriāli</h2>
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-6 border border-gray-100">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800">Darba izejmateriāli</h2>
                     <button
                         onClick={() => {
                             setShowItemForm(!showItemForm);
                             setEditingItem(null);
                             setItemForm({ type: "PART", description: "", quantity: "1", unitPrice: "0" });
                         }}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors"
+                        className={`w-full sm:w-auto font-semibold px-6 py-3 md:py-2 rounded-lg shadow-md transition-colors ${
+                            showItemForm ? "bg-gray-100 text-gray-800 hover:bg-gray-200" : "bg-blue-600 text-white hover:bg-blue-700"
+                        }`}
                     >
                         {showItemForm ? "Atcelt" : "+ Pievienot izejmateriālu"}
                     </button>
                 </div>
 
                 {showItemForm && (
-                    <div className="bg-gray-50 rounded-lg p-6 mb-6 border-2 border-blue-100">
+                    <div className="bg-blue-50 rounded-lg p-4 md:p-6 mb-6 border border-blue-100">
                         <h3 className="text-lg font-semibold mb-4 text-gray-800">
                             {editingItem ? "Rediģēt pozīciju" : "Pievienot jaunu pozīciju"}
                         </h3>
@@ -621,7 +623,7 @@ export default function WorkOrderDetailPage() {
                                     value={itemForm.type}
                                     onChange={handleItemChange}
                                     required
-                                    className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                                    className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                                 >
                                     <option value="PART">Detaļa</option>
                                     <option value="LABOR">Darbs</option>
@@ -639,54 +641,56 @@ export default function WorkOrderDetailPage() {
                                     required
                                     rows={2}
                                     placeholder="piem., Eļļas filtrs, Bremžu kluči, Darba stundas..."
-                                    className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                                    className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Daudzums <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    name="quantity"
-                                    type="number"
-                                    step="0.01"
-                                    value={itemForm.quantity}
-                                    onChange={handleItemChange}
-                                    required
-                                    min="0"
-                                    className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
+                            <div className="grid grid-cols-2 gap-4 col-span-1 md:col-span-2">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Daudzums <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        name="quantity"
+                                        type="number"
+                                        step="0.01"
+                                        value={itemForm.quantity}
+                                        onChange={handleItemChange}
+                                        required
+                                        min="0"
+                                        className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
+                                    />
+                                </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Vienības cena (€) <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    name="unitPrice"
-                                    type="number"
-                                    step="0.01"
-                                    value={itemForm.unitPrice}
-                                    onChange={handleItemChange}
-                                    required
-                                    min="0"
-                                    className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
-                                />
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Vienības cena (€) <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        name="unitPrice"
+                                        type="number"
+                                        step="0.01"
+                                        value={itemForm.unitPrice}
+                                        onChange={handleItemChange}
+                                        required
+                                        min="0"
+                                        className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
+                                    />
+                                </div>
                             </div>
 
                             <div className="md:col-span-2">
-                                <div className="text-right mb-2">
+                                <div className="text-right mb-4">
                                     <span className="text-sm text-gray-600">Kopā: </span>
-                                    <span className="text-lg font-bold text-blue-600">
+                                    <span className="text-xl font-bold text-blue-600">
                                         €{(parseFloat(itemForm.quantity || "0") * parseFloat(itemForm.unitPrice || "0")).toFixed(2)}
                                     </span>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
+                                    className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-4 md:py-3 rounded-lg shadow-md transition-colors text-lg"
                                 >
-                                    {editingItem ? "Atjaunināt" : "Pievienot"}
+                                    {editingItem ? "Saglabāt izmaiņas" : "Pievienot pozīciju"}
                                 </button>
                             </div>
                         </form>
@@ -698,69 +702,100 @@ export default function WorkOrderDetailPage() {
                         <p className="text-gray-500">Vēl nav pievienotu pozīciju.</p>
                     </div>
                 ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-100">
-                                <tr>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Tips</th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Apraksts</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Daudz.</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vienības cena</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Kopā</th>
-                                    <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Darbības</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {workOrder.items.map((item) => (
-                                    <tr key={item.id} className="hover:bg-gray-50">
-                                        <td className="px-4 py-3">
-                                            <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                                                item.type === "LABOR" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
-                                            }`}>
-                                                {translateWorkOrderItemType(item.type)}
-                                            </span>
-                                        </td>
-                                        <td className="px-4 py-3 text-gray-800">{item.description}</td>
-                                        <td className="px-4 py-3 text-right text-gray-800">{parseFloat(item.quantity).toFixed(2)}</td>
-                                        <td className="px-4 py-3 text-right text-gray-800">€{parseFloat(item.unitPrice).toFixed(2)}</td>
-                                        <td className="px-4 py-3 text-right font-semibold text-gray-800">€{parseFloat(item.total).toFixed(2)}</td>
-                                        <td className="px-4 py-3 text-right">
-                                            <button
-                                                onClick={() => handleEditItem(item)}
-                                                className="text-blue-600 hover:text-blue-800 mr-3"
-                                            >
-                                                Rediģēt
-                                            </button>
-                                            <button
-                                                onClick={() => handleDeleteItem(item.id)}
-                                                className="text-red-600 hover:text-red-800"
-                                            >
-                                                Dzēst
-                                            </button>
-                                        </td>
+                    <>
+                        {/* Mobile view for items */}
+                        <div className="grid grid-cols-1 gap-4 md:hidden">
+                            {workOrder.items.map((item) => (
+                                <div key={item.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                            item.type === "LABOR" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"
+                                        }`}>
+                                            {translateWorkOrderItemType(item.type)}
+                                        </span>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => handleEditItem(item)} className="text-blue-600 font-medium text-sm">Rediģēt</button>
+                                            <button onClick={() => handleDeleteItem(item.id)} className="text-red-600 font-medium text-sm">Dzēst</button>
+                                        </div>
+                                    </div>
+                                    <p className="font-semibold text-gray-800 mb-2">{item.description}</p>
+                                    <div className="grid grid-cols-2 gap-2 text-sm">
+                                        <div className="text-gray-600">Daudzums: <span className="text-gray-900 font-medium">{item.quantity}</span></div>
+                                        <div className="text-gray-600 text-right">Cena: <span className="text-gray-900 font-medium">€{Number(item.unitPrice).toFixed(2)}</span></div>
+                                        <div className="col-span-2 mt-1 pt-1 border-t border-gray-200 flex justify-between items-center">
+                                            <span className="text-gray-600">Kopā:</span>
+                                            <span className="text-lg font-bold text-blue-600">€{Number(item.total).toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Desktop view for items */}
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="w-full">
+                                <thead className="bg-gray-100">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Tips</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Apraksts</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Daudz.</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vienības cena</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Kopā</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Darbības</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                            <tfoot className="bg-gray-100 font-semibold">
-                                <tr>
-                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Darba starpsumma:</td>
-                                    <td className="px-4 py-3 text-right text-gray-800">€{laborTotal.toFixed(2)}</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-700">Detaļu starpsumma:</td>
-                                    <td className="px-4 py-3 text-right text-gray-800">€{partsTotal.toFixed(2)}</td>
-                                    <td></td>
-                                </tr>
-                                <tr className="text-lg">
-                                    <td colSpan={4} className="px-4 py-3 text-right text-gray-800">Kopējā summa:</td>
-                                    <td className="px-4 py-3 text-right text-blue-600">€{totalFromItems.toFixed(2)}</td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200">
+                                    {workOrder.items.map((item) => (
+                                        <tr key={item.id} className="hover:bg-gray-50">
+                                            <td className="px-4 py-3">
+                                                <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                                                    item.type === "LABOR" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"
+                                                }`}>
+                                                    {translateWorkOrderItemType(item.type)}
+                                                </span>
+                                            </td>
+                                            <td className="px-4 py-3 text-gray-800">{item.description}</td>
+                                            <td className="px-4 py-3 text-right text-gray-800">{parseFloat(item.quantity).toFixed(2)}</td>
+                                            <td className="px-4 py-3 text-right text-gray-800">€{parseFloat(item.unitPrice).toFixed(2)}</td>
+                                            <td className="px-4 py-3 text-right font-semibold text-gray-800">€{parseFloat(item.total).toFixed(2)}</td>
+                                            <td className="px-4 py-3 text-right">
+                                                <button
+                                                    onClick={() => handleEditItem(item)}
+                                                    className="text-blue-600 hover:text-blue-800 mr-3"
+                                                >
+                                                    Rediģēt
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteItem(item.id)}
+                                                    className="text-red-600 hover:text-red-800"
+                                                >
+                                                    Dzēst
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
                 )}
+
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                    <div className="flex flex-col items-end gap-2">
+                        <div className="flex justify-between w-full sm:w-64 text-sm text-gray-600">
+                            <span>Darba starpsumma:</span>
+                            <span className="font-semibold text-gray-800">€{laborTotal.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between w-full sm:w-64 text-sm text-gray-600">
+                            <span>Detaļu starpsumma:</span>
+                            <span className="font-semibold text-gray-800">€{partsTotal.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between w-full sm:w-64 text-xl font-bold mt-2 pt-2 border-t border-gray-100">
+                            <span className="text-gray-800">Kopējā summa:</span>
+                            <span className="text-blue-600">€{totalFromItems.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

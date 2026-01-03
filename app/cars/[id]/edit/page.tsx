@@ -122,13 +122,13 @@ export default function EditCarPage() {
         <div className="container mx-auto px-4 py-8 max-w-3xl">
             <div className="mb-6">
                 <Link href={`/cars/${carId}`} className="text-blue-600 hover:text-blue-800">
-                    ← Atpakaļ uz auto
+                    ← Atpakaļ uz transportlīdzekli
                 </Link>
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">Rediģēt auto</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Rediģēt transportlīdzekli</h1>
 
-            <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-100">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-gray-100">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -139,7 +139,7 @@ export default function EditCarPage() {
                             value={form.licensePlate}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -149,7 +149,7 @@ export default function EditCarPage() {
                             name="vin"
                             value={form.vin}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -160,7 +160,7 @@ export default function EditCarPage() {
                             type="number"
                             value={form.year}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -171,7 +171,7 @@ export default function EditCarPage() {
                             value={form.make}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -182,7 +182,7 @@ export default function EditCarPage() {
                             value={form.model}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -193,7 +193,7 @@ export default function EditCarPage() {
                             type="number"
                             value={form.mileage}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -203,7 +203,7 @@ export default function EditCarPage() {
                             name="ownerName"
                             value={form.ownerName}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -214,7 +214,7 @@ export default function EditCarPage() {
                             value={form.ownerPhone}
                             onChange={handleChange}
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -224,7 +224,7 @@ export default function EditCarPage() {
                             name="color"
                             value={form.color}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -235,23 +235,23 @@ export default function EditCarPage() {
                             value={form.notes}
                             onChange={handleChange}
                             rows={4}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
-                    <div className="md:col-span-2 flex justify-end gap-3 mt-2">
+                    <div className="md:col-span-2 flex flex-col sm:flex-row justify-end gap-3 mt-4">
                         <Link
                             href={`/cars/${carId}`}
-                            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+                            className="w-full sm:w-auto text-center px-4 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
                         >
                             Atcelt
                         </Link>
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-6 py-2 rounded-lg shadow-md"
+                            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                         >
-                            {submitting ? "Saglabā..." : "Saglabāt"}
+                            {submitting ? "Saglabā..." : "Saglabāt izmaiņas"}
                         </button>
                     </div>
                 </form>

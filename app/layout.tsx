@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="lv">
+        <html lang="lv" suppressHydrationWarning>
         <head>
             <script
                 dangerouslySetInnerHTML={{

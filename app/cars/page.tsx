@@ -146,21 +146,21 @@ export default function CarsPage() {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-            <div className="mb-8 flex items-start justify-between gap-4">
+            <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-bold text-gray-800 mb-2">Meklēt transportlīdzekļus</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Meklēt transportlīdzekļus</h1>
                     <p className="text-gray-600">Atrodiet transportlīdzekļus pēc jebkura kritērija</p>
                 </div>
                 <Link
                     href="/cars/new"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md transition-colors"
+                    className="w-full sm:w-auto text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md transition-colors"
                 >
                     + Reģistrēt transportlīdzekli
                 </Link>
             </div>
 
             {/* Search and Filters */}
-            <div className="bg-white rounded-lg shadow-lg p-6 mb-8 border border-gray-200">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 mb-8 border border-gray-200">
                 <div className="mb-4 flex justify-between items-center">
                     <h2 className="text-xl font-semibold text-gray-800">Filtri</h2>
                     <button
@@ -181,18 +181,18 @@ export default function CarsPage() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Meklēt..."
-                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                     />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Make */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Marka</label>
                         <select
                             value={makeFilter}
                             onChange={(e) => setMakeFilter(e.target.value)}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="">Visas markas</option>
                             {uniqueMakes.map(make => (
@@ -207,7 +207,7 @@ export default function CarsPage() {
                         <select
                             value={modelFilter}
                             onChange={(e) => setModelFilter(e.target.value)}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="">Visi modeļi</option>
                             {uniqueModels.map(model => (
@@ -222,7 +222,7 @@ export default function CarsPage() {
                         <select
                             value={colorFilter}
                             onChange={(e) => setColorFilter(e.target.value)}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                         >
                             <option value="">Visas krāsas</option>
                             {uniqueColors.map(color => (
@@ -231,52 +231,56 @@ export default function CarsPage() {
                         </select>
                     </div>
 
-                    {/* Year From */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Gads no</label>
-                        <input
-                            type="number"
-                            value={yearFrom}
-                            onChange={(e) => setYearFrom(e.target.value)}
-                            placeholder="1990"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
+                    <div className="grid grid-cols-2 gap-4 col-span-1 sm:col-span-2 lg:col-span-1">
+                        {/* Year From */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Gads no</label>
+                            <input
+                                type="number"
+                                value={yearFrom}
+                                onChange={(e) => setYearFrom(e.target.value)}
+                                placeholder="1990"
+                                className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                            />
+                        </div>
+
+                        {/* Year To */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Gads līdz</label>
+                            <input
+                                type="number"
+                                value={yearTo}
+                                onChange={(e) => setYearTo(e.target.value)}
+                                placeholder="2025"
+                                className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                            />
+                        </div>
                     </div>
 
-                    {/* Year To */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Gads līdz</label>
-                        <input
-                            type="number"
-                            value={yearTo}
-                            onChange={(e) => setYearTo(e.target.value)}
-                            placeholder="2025"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
+                    <div className="grid grid-cols-2 gap-4 col-span-1 sm:col-span-2 lg:col-span-1">
+                        {/* Mileage From */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Nobraukums no</label>
+                            <input
+                                type="number"
+                                value={mileageFrom}
+                                onChange={(e) => setMileageFrom(e.target.value)}
+                                placeholder="0"
+                                className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                            />
+                        </div>
 
-                    {/* Mileage From */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Nobraukums no</label>
-                        <input
-                            type="number"
-                            value={mileageFrom}
-                            onChange={(e) => setMileageFrom(e.target.value)}
-                            placeholder="0"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
-
-                    {/* Mileage To */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Nobraukums līdz</label>
-                        <input
-                            type="number"
-                            value={mileageTo}
-                            onChange={(e) => setMileageTo(e.target.value)}
-                            placeholder="200000"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
+                        {/* Mileage To */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Nobraukums līdz</label>
+                            <input
+                                type="number"
+                                value={mileageTo}
+                                onChange={(e) => setMileageTo(e.target.value)}
+                                placeholder="200k"
+                                className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -297,75 +301,113 @@ export default function CarsPage() {
                     </button>
                 </div>
             ) : (
-                <div className="overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Numura zīme
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Auto
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Krāsa
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Gads
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Nobraukums
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Īpašnieka tālrunis
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    VIN
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Darbības
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {filteredCars.map((car) => (
-                                <tr key={car.id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm font-bold text-gray-900">{car.licensePlate}</div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm text-gray-900">{car.make} {car.model}</div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                            {car.color}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {car.year || "Nav"}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {car.mileage ? car.mileage.toLocaleString() : "Nav"}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {car.ownerPhone}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                                        {car.vin || "Nav"}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                        <Link
-                                            href={`/cars/${car.id}`}
-                                            className="text-blue-600 hover:text-blue-800 font-medium"
-                                        >
-                                            Atvērt pārskatu
-                                        </Link>
-                                    </td>
+                <>
+                    {/* Mobile View: Card List */}
+                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                        {filteredCars.map((car) => (
+                            <Link
+                                key={car.id}
+                                href={`/cars/${car.id}`}
+                                className="bg-white p-4 rounded-lg shadow border border-gray-200 hover:border-blue-500 transition-colors"
+                            >
+                                <div className="flex justify-between items-start mb-2">
+                                    <div>
+                                        <div className="text-lg font-bold text-gray-900">{car.licensePlate}</div>
+                                        <div className="text-gray-700">{car.make} {car.model}</div>
+                                    </div>
+                                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                        {car.color}
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                                    <div>
+                                        <span className="font-medium">Gads:</span> {car.year || "Nav"}
+                                    </div>
+                                    <div>
+                                        <span className="font-medium">Nobraukums:</span> {car.mileage ? car.mileage.toLocaleString() : "Nav"}
+                                    </div>
+                                    <div className="col-span-2">
+                                        <span className="font-medium">Tālrunis:</span> {car.ownerPhone}
+                                    </div>
+                                </div>
+                                <div className="mt-3 text-blue-600 font-medium text-sm">
+                                    Atvērt pārskatu →
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Numura zīme
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Auto
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Krāsa
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Gads
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Nobraukums
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Īpašnieka tālrunis
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        VIN
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Darbības
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {filteredCars.map((car) => (
+                                    <tr key={car.id} className="hover:bg-gray-50 transition-colors">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm font-bold text-gray-900">{car.licensePlate}</div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">{car.make} {car.model}</div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                {car.color}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {car.year || "Nav"}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {car.mileage ? car.mileage.toLocaleString() : "Nav"}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {car.ownerPhone}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                            {car.vin || "Nav"}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                            <Link
+                                                href={`/cars/${car.id}`}
+                                                className="text-blue-600 hover:text-blue-800 font-medium"
+                                            >
+                                                Atvērt pārskatu
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </>
             )}
         </div>
     );

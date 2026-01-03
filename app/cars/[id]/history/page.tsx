@@ -87,19 +87,19 @@ export default function CarFullHistoryPage() {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <Link href={`/cars/${car.id}`} className="text-blue-600 hover:text-blue-800">
                         ← Atpakaļ uz automašīnu
                     </Link>
-                    <h1 className="text-3xl font-bold text-gray-800 mt-2">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
                         {car.licensePlate} — Pilna darba uzdevumu vēsture
                     </h1>
                     <p className="text-gray-600">{car.year} {car.make} {car.model}</p>
                 </div>
                 <Link
                     href={`/work-orders/new?carId=${car.id}`}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
+                    className="w-full md:w-auto text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                 >
                     + Jauns darba uzdevums
                 </Link>
@@ -117,14 +117,14 @@ export default function CarFullHistoryPage() {
                             href={`/work-orders/${order.id}`}
                             className="block bg-white hover:bg-gray-50 p-4 rounded-lg border border-gray-200 transition-colors"
                         >
-                            <div className="flex justify-between items-start mb-2">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-2">
                                 <div>
                                     <h3 className="text-lg font-semibold text-gray-800">{order.title}</h3>
                                     <p className="text-sm text-gray-600">
                                         Izveidots: {new Date(order.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex flex-wrap gap-2">
                                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
                                         {translateWorkOrderStatus(order.status)}
                                     </span>
@@ -134,7 +134,7 @@ export default function CarFullHistoryPage() {
                                 </div>
                             </div>
                             {order.totalPrice && (
-                                <div className="text-right">
+                                <div className="text-left sm:text-right mt-2 sm:mt-0">
                                     <span className="text-lg font-bold text-blue-600">
                                         €{Number(order.totalPrice).toFixed(2)}
                                     </span>

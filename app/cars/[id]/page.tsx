@@ -104,66 +104,66 @@ export default function CarDetailPage() {
                 </Link>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-                <div className="flex justify-between items-start mb-6">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                     <div>
-                        <h1 className="text-4xl font-bold text-gray-800 mb-2">{car.licensePlate}</h1>
-                        <p className="text-2xl text-gray-700">
+                        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">{car.licensePlate}</h1>
+                        <p className="text-xl md:text-2xl text-gray-700">
                             {car.year} {car.make} {car.model}
                         </p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap gap-3 w-full sm:w-auto">
                         <Link
                             href={`/cars/${car.id}/edit`}
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 shadow-sm transition-colors"
+                            className="flex-1 sm:flex-none text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 shadow-sm transition-colors"
                         >
                             Rediģēt
                         </Link>
                         <Link
                             href={`/work-orders/new?carId=${car.id}`}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
+                            className="flex-1 sm:flex-none text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                         >
                             + Jauns darba uzdevums
                         </Link>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Īpašnieks</div>
-                        <div className="text-lg font-semibold text-gray-800">{car.ownerName}</div>
-                        <div className="text-sm text-gray-600">{car.ownerPhone}</div>
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-6">
+                    <div className="bg-blue-50 p-3 md:p-4 rounded-lg col-span-2 sm:col-span-1">
+                        <div className="text-xs md:text-sm text-gray-600 mb-1">Īpašnieks</div>
+                        <div className="text-base md:text-lg font-semibold text-gray-800">{car.ownerName}</div>
+                        <div className="text-xs md:text-sm text-gray-600">{car.ownerPhone}</div>
                     </div>
 
-                    <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Krāsa</div>
-                        <div className="text-lg font-semibold text-gray-800">{car.color}</div>
+                    <div className="bg-green-50 p-3 md:p-4 rounded-lg">
+                        <div className="text-xs md:text-sm text-gray-600 mb-1">Krāsa</div>
+                        <div className="text-base md:text-lg font-semibold text-gray-800">{car.color}</div>
                     </div>
 
                     {car.mileage && (
-                        <div className="bg-purple-50 p-4 rounded-lg">
-                            <div className="text-sm text-gray-600 mb-1">Nobraukums</div>
-                            <div className="text-lg font-semibold text-gray-800">
-                                {car.mileage.toLocaleString()} jūdzes
+                        <div className="bg-purple-50 p-3 md:p-4 rounded-lg">
+                            <div className="text-xs md:text-sm text-gray-600 mb-1">Nobraukums</div>
+                            <div className="text-base md:text-lg font-semibold text-gray-800">
+                                {car.mileage.toLocaleString()}
                             </div>
                         </div>
                     )}
 
                     {car.vin && (
-                        <div className="bg-yellow-50 p-4 rounded-lg">
-                            <div className="text-sm text-gray-600 mb-1">VIN</div>
-                            <div className="text-sm font-mono font-semibold text-gray-800">{car.vin}</div>
+                        <div className="bg-yellow-50 p-3 md:p-4 rounded-lg col-span-2 lg:col-span-1">
+                            <div className="text-xs md:text-sm text-gray-600 mb-1">VIN</div>
+                            <div className="text-xs md:text-sm font-mono font-semibold text-gray-800 break-all">{car.vin}</div>
                         </div>
                     )}
 
-                    <div className="bg-orange-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Darba uzdevumi kopā</div>
-                        <div className="text-2xl font-bold text-gray-800">{car.workOrders.length}</div>
+                    <div className="bg-orange-50 p-3 md:p-4 rounded-lg">
+                        <div className="text-xs md:text-sm text-gray-600 mb-1">Darba uzdevumi</div>
+                        <div className="text-xl md:text-2xl font-bold text-gray-800">{car.workOrders.length}</div>
                     </div>
 
-                    <div className="bg-indigo-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">Kopējie izdevumi</div>
-                        <div className="text-2xl font-bold text-gray-800">€{totalSpent.toFixed(2)}</div>
+                    <div className="bg-indigo-50 p-3 md:p-4 rounded-lg">
+                        <div className="text-xs md:text-sm text-gray-600 mb-1">Kopā izdevumi</div>
+                        <div className="text-xl md:text-2xl font-bold text-gray-800">€{totalSpent.toFixed(2)}</div>
                     </div>
                 </div>
 
@@ -175,8 +175,8 @@ export default function CarDetailPage() {
                 )}
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8">
-                <div className="flex items-center justify-between mb-6">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-8">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
                     <h2 className="text-2xl font-bold text-gray-800">Darba uzdevumu vēsture</h2>
                     <Link
                         href={`/cars/${car.id}/history`}
@@ -198,14 +198,14 @@ export default function CarDetailPage() {
                                 href={`/work-orders/${order.id}`}
                                 className="block bg-gray-50 hover:bg-gray-100 p-4 rounded-lg border border-gray-200 transition-colors"
                             >
-                                <div className="flex justify-between items-start mb-2">
+                                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-2">
                                     <div>
                                         <h3 className="text-lg font-semibold text-gray-800">{order.title}</h3>
                                         <p className="text-sm text-gray-600">
                                             Izveidots: {new Date(order.createdAt).toLocaleDateString()}
                                         </p>
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-wrap gap-2">
                                         <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
                                             {translateWorkOrderStatus(order.status)}
                                         </span>
@@ -215,7 +215,7 @@ export default function CarDetailPage() {
                                     </div>
                                 </div>
                                 {order.totalPrice && (
-                                    <div className="text-right">
+                                    <div className="text-left sm:text-right mt-2 sm:mt-0">
                                         <span className="text-lg font-bold text-blue-600">
                                             €{Number(order.totalPrice).toFixed(2)}
                                         </span>

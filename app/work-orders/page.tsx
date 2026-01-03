@@ -81,20 +81,20 @@ function WorkOrdersContent() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-7xl">
             <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-800 mb-2">Darba uzdevumi</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Darba uzdevumi</h1>
                 <p className="text-gray-600">Pārvaldiet remonta darbus un to progresu</p>
             </div>
 
-            <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="mb-6 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
                 <div className="relative w-full md:w-96">
                     <input
                         type="text"
                         placeholder="Meklēt pēc virsraksta, auto, ID..."
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="w-full pl-10 pr-4 py-3 md:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-base"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <div className="absolute left-3 top-2.5 text-gray-400">
+                    <div className="absolute left-3 top-3.5 md:top-2.5 text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
                         </svg>
@@ -106,7 +106,7 @@ function WorkOrdersContent() {
                     </div>
                     <Link
                         href="/work-orders/new"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 flex items-center gap-2"
+                        className="flex-1 md:flex-none justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 md:py-2 rounded-lg shadow-md transition-colors duration-200 flex items-center gap-2"
                     >
                         <span className="text-xl">+</span>
                         Jauns
@@ -128,29 +128,29 @@ function WorkOrdersContent() {
                     filteredWorkOrders.map((order) => (
                         <div
                             key={order.id}
-                            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 border border-gray-200"
+                            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-4 md:p-6 border border-gray-200"
                         >
-                            <div className="flex justify-between items-start mb-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                                 <div>
-                                    <Link href={`/work-orders/${order.id}`} className="text-xl font-bold text-gray-800 hover:underline">
+                                    <Link href={`/work-orders/${order.id}`} className="text-xl font-bold text-gray-800 hover:underline break-words">
                                         {order.title}
                                     </Link>
-                                    <p className="text-gray-600 mt-1">
+                                    <p className="text-gray-600 mt-1 text-sm md:text-base">
                                         <Link href={`/cars/${order.car.id}`} className="hover:underline">
                                             {order.car.licensePlate} - {order.car.year} {order.car.make} {order.car.model}
                                         </Link>
                                     </p>
                                 </div>
-                                <div className="flex gap-2 items-center">
-                                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
+                                <div className="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                                    <span className={`px-3 py-1 rounded-full text-xs md:text-sm font-semibold ${getStatusColor(order.status)}`}>
                                         {translateWorkOrderStatus(order.status)}
                                     </span>
-                                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getPaymentStatusColor(order.paymentStatus)}`}>
+                                    <span className={`px-3 py-1 rounded-full text-xs md:text-sm font-semibold ${getPaymentStatusColor(order.paymentStatus)}`}>
                                         {translatePaymentStatus(order.paymentStatus)}
                                     </span>
                                     <Link
                                         href={`/work-orders/${order.id}`}
-                                        className="ml-2 text-sm px-3 py-1 rounded-md border border-gray-300 hover:bg-gray-50 text-gray-700"
+                                        className="ml-auto sm:ml-2 text-sm px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium"
                                     >
                                         Rediģēt
                                     </Link>
@@ -175,7 +175,7 @@ function WorkOrdersContent() {
 
                             {/* Inline edit removed; use the dedicated edit page */}
 
-                            <div className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap gap-4 text-sm text-gray-600">
+                            <div className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap gap-x-6 gap-y-2 text-xs md:text-sm text-gray-600">
                                 <div>
                                     <span className="font-medium">Uzdevuma ID:</span> #{order.id}
                                 </div>
@@ -184,7 +184,7 @@ function WorkOrdersContent() {
                                 </div>
                                 {order.estimatedCompletion && (
                                     <div>
-                                        <span className="font-medium">Plānotais pabeigšanas laiks:</span>{" "}
+                                        <span className="font-medium text-orange-700">Plānotais pabeigšanas laiks:</span>{" "}
                                         {new Date(order.estimatedCompletion).toLocaleString()}
                                     </div>
                                 )}
@@ -196,23 +196,23 @@ function WorkOrdersContent() {
                             </div>
 
                             {(order.totalLabor || order.totalParts || order.totalPrice) && (
-                                <div className="mt-4 pt-4 border-t border-gray-200 flex gap-6">
+                                <div className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap gap-x-6 gap-y-2">
                                     {order.totalLabor && (
                                         <div>
-                                            <span className="text-sm text-gray-600">Darbs:</span>
-                                            <span className="ml-2 font-semibold text-gray-800">€{Number(order.totalLabor).toFixed(2)}</span>
+                                            <span className="text-xs md:text-sm text-gray-600">Darbs:</span>
+                                            <span className="ml-2 font-semibold text-gray-800 text-sm md:text-base">€{Number(order.totalLabor).toFixed(2)}</span>
                                         </div>
                                     )}
                                     {order.totalParts && (
                                         <div>
-                                            <span className="text-sm text-gray-600">Rezerves daļas:</span>
-                                            <span className="ml-2 font-semibold text-gray-800">€{Number(order.totalParts).toFixed(2)}</span>
+                                            <span className="text-xs md:text-sm text-gray-600">Rezerves daļas:</span>
+                                            <span className="ml-2 font-semibold text-gray-800 text-sm md:text-base">€{Number(order.totalParts).toFixed(2)}</span>
                                         </div>
                                     )}
                                     {order.totalPrice && (
-                                        <div>
-                                            <span className="text-sm text-gray-600">Kopā:</span>
-                                            <span className="ml-2 font-bold text-blue-600 text-lg">€{Number(order.totalPrice).toFixed(2)}</span>
+                                        <div className="ml-auto">
+                                            <span className="text-xs md:text-sm text-gray-600">Kopā:</span>
+                                            <span className="ml-2 font-bold text-blue-600 text-lg md:text-xl">€{Number(order.totalPrice).toFixed(2)}</span>
                                         </div>
                                     )}
                                 </div>

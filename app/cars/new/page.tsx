@@ -67,11 +67,11 @@ export default function NewCarPage() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-3xl">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">Jauna jauna auto reģistrēšana</h1>
-                <p className="text-gray-600">Pievieno auto servisa reģistram</p>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Jauna transportlīdzekļa reģistrēšana</h1>
+                <p className="text-gray-600">Pievieno transportlīdzekli servisa reģistram</p>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-100">
+            <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-gray-100">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -83,7 +83,7 @@ export default function NewCarPage() {
                             onChange={handleChange}
                             placeholder="AB-1234"
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -96,7 +96,7 @@ export default function NewCarPage() {
                             value={form.vin}
                             onChange={handleChange}
                             placeholder=""
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -110,7 +110,7 @@ export default function NewCarPage() {
                             value={form.year}
                             onChange={handleChange}
                             placeholder="2000"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -124,7 +124,7 @@ export default function NewCarPage() {
                             onChange={handleChange}
                             placeholder="Toyota"
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -138,7 +138,7 @@ export default function NewCarPage() {
                             onChange={handleChange}
                             placeholder="Camry"
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -152,7 +152,7 @@ export default function NewCarPage() {
                             value={form.mileage}
                             onChange={handleChange}
                             placeholder=""
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -165,7 +165,7 @@ export default function NewCarPage() {
                             value={form.ownerName}
                             onChange={handleChange}
                             placeholder=""
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -179,7 +179,7 @@ export default function NewCarPage() {
                             onChange={handleChange}
                             placeholder="+371 21234567"
                             required
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -192,7 +192,7 @@ export default function NewCarPage() {
                             value={form.color}
                             onChange={handleChange}
                             placeholder="Melna"
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -206,7 +206,7 @@ export default function NewCarPage() {
                             onChange={handleChange}
                             placeholder="Papildus informācija par auto..."
                             rows={3}
-                            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
+                            className="border border-gray-300 rounded-lg px-4 py-3 md:py-2 w-full focus:ring-2 focus:ring-blue-500 text-base"
                         />
                     </div>
 
@@ -216,7 +216,7 @@ export default function NewCarPage() {
                             disabled={submitting}
                             className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-colors"
                         >
-                            {submitting ? "Registering..." : "Register Vehicle"}
+                            {submitting ? "Reģistrē..." : "Reģistrēt transportlīdzekli"}
                         </button>
                     </div>
                 </form>
