@@ -25,8 +25,8 @@ async function main() {
   // Sample cars
   const carsData = [
     {
-      licensePlate: "AA-1234",
-      vin: "LVV00000000000001",
+      licensePlate: "AB-1234",
+      vin: "LVV00000010000001",
       year: 2015,
       make: "Toyota",
       model: "Corolla",
@@ -37,8 +37,8 @@ async function main() {
       notes: "Demo auto 1",
     },
     {
-      licensePlate: "BB-5678",
-      vin: "LVV00000000000002",
+      licensePlate: "BC-5678",
+      vin: "LVV00000100000002",
       year: 2018,
       make: "Volkswagen",
       model: "Golf",
@@ -49,8 +49,8 @@ async function main() {
       notes: "Demo auto 2",
     },
     {
-      licensePlate: "CC-9012",
-      vin: "LVV00000000000003",
+      licensePlate: "CD-9012",
+      vin: "LVV00001000000003",
       year: 2012,
       make: "BMW",
       model: "320d",
@@ -61,8 +61,8 @@ async function main() {
       notes: "Demo auto 3",
     },
     {
-      licensePlate: "DD-3456",
-      vin: "LVV00000000000004",
+      licensePlate: "DE-3456",
+      vin: "LVV00010000000004",
       year: 2020,
       make: "Skoda",
       model: "Octavia",
@@ -73,8 +73,8 @@ async function main() {
       notes: "Demo auto 4",
     },
     {
-      licensePlate: "EE-7890",
-      vin: "LVV00000000000005",
+      licensePlate: "EFx-7890",
+      vin: "LVV00001000000005",
       year: 2016,
       make: "Audi",
       model: "A4",

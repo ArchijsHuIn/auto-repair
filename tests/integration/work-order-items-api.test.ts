@@ -19,11 +19,19 @@ vi.mock('next/server', async (importOriginal) => {
     };
 });
 
+/**
+ * Integration tests for Work Order Items API routes.
+ * Covers adding, updating, and deleting line items (parts or labor) within a work order.
+ */
 describe('Work Order Items API Routes', () => {
     beforeEach(() => {
+        // Clear all mock call history between tests
         vi.clearAllMocks();
     });
 
+    /**
+     * Tests for the POST /api/work-orders/[id]/items endpoint.
+     */
     describe('POST /api/work-orders/[id]/items', () => {
         it('should create a new work item', async () => {
             const newItem = {
@@ -33,7 +41,8 @@ describe('Work Order Items API Routes', () => {
                 unitPrice: 25.50,
                 total: 51.00
             };
-            prismaMock.work_Item_Used.create.mockResolvedValue({ id: 1, ...newItem, workOrderId: 10 });
+            // Setup mock to return the created item
+            prismaMock.work_Item_Used.create.mockResolvedValue({ id: 1, ...newItem, workOrderId: 10 } as any);
 
             const context = { params: Promise.resolve({ id: '10' }) };
             const request = new NextRequest('http://localhost/api/work-orders/10/items', {
@@ -45,6 +54,7 @@ describe('Work Order Items API Routes', () => {
 
             expect(response.status).toBe(201);
             expect(data.id).toBe(1);
+            // Verify correct data was passed to Prisma
             expect(prismaMock.work_Item_Used.create).toHaveBeenCalledWith(expect.objectContaining({
                 data: expect.objectContaining({
                     workOrderId: 10,
@@ -57,7 +67,7 @@ describe('Work Order Items API Routes', () => {
             const context = { params: Promise.resolve({ id: '10' }) };
             const request = new NextRequest('http://localhost/api/work-orders/10/items', {
                 method: 'POST',
-                body: JSON.stringify({ type: 'PART' })
+                body: JSON.stringify({ type: 'PART' }) // Missing description, quantity, unitPrice
             });
             const response = await POST(request, context);
             const data = await response.json();
@@ -86,6 +96,9 @@ describe('Work Order Items API Routes', () => {
         });
     });
 
+    /**
+     * Tests for the PUT /api/work-orders/[id]/items/[itemId] endpoint.
+     */
     describe('PUT /api/work-orders/[id]/items/[itemId]', () => {
         it('should return 400 if item ID is not a number', async () => {
             const context = { params: Promise.resolve({ id: '10', itemId: 'abc' }) };
@@ -99,6 +112,7 @@ describe('Work Order Items API Routes', () => {
             expect(response.status).toBe(400);
             expect(data.error).toBe('Invalid item ID');
         });
+
         it('should update a work item', async () => {
             const updatedItem = {
                 description: 'Premium Brake pads',
@@ -106,7 +120,7 @@ describe('Work Order Items API Routes', () => {
                 unitPrice: 30.00,
                 total: 60.00
             };
-            prismaMock.work_Item_Used.update.mockResolvedValue({ id: 1, ...updatedItem });
+            prismaMock.work_Item_Used.update.mockResolvedValue({ id: 1, ...updatedItem } as any);
 
             const context = { params: Promise.resolve({ id: '10', itemId: '1' }) };
             const request = new NextRequest('http://localhost/api/work-orders/10/items/1', {
@@ -123,6 +137,9 @@ describe('Work Order Items API Routes', () => {
         });
     });
 
+    /**
+     * Tests for the DELETE /api/work-orders/[id]/items/[itemId] endpoint.
+     */
     describe('DELETE /api/work-orders/[id]/items/[itemId]', () => {
         it('should return 400 if item ID is not a number', async () => {
             const context = { params: Promise.resolve({ id: '10', itemId: 'abc' }) };
@@ -137,7 +154,7 @@ describe('Work Order Items API Routes', () => {
         });
 
         it('should delete a work item', async () => {
-            prismaMock.work_Item_Used.delete.mockResolvedValue({ id: 1 });
+            prismaMock.work_Item_Used.delete.mockResolvedValue({ id: 1 } as any);
 
             const context = { params: Promise.resolve({ id: '10', itemId: '1' }) };
             const request = new NextRequest('http://localhost/api/work-orders/10/items/1', {

@@ -4,12 +4,23 @@ import jsPDF from "jspdf";
 import { RobotoRegularBase64, RobotoBoldBase64 } from "@/lib/fonts";
 import { translateWorkOrderStatus, translatePaymentStatus, translatePaymentMethod, translateWorkOrderItemType } from "@/lib/translations";
 
+/**
+ * Handles GET requests to generate a PDF invoice for a specific work order.
+ * Uses jsPDF to create a document with vehicle, customer, and itemized billing info.
+ * 
+ * @param {NextRequest} request - The incoming HTTP request.
+ * @param {Object} context - The route parameters.
+ * @param {Promise<{id: string}>} context.params - The work order ID.
+ * @returns {Promise<NextResponse>} A PDF response or a JSON error message.
+ */
 export async function GET(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
     try {
+        // Resolve parameters from context
         const { id } = await context.params;
+        // Parse work order ID as integer
         const orderId = parseInt(id);
 
         if (isNaN(orderId)) {
@@ -19,6 +30,7 @@ export async function GET(
             );
         }
 
+        // Fetch work order with related car and all items
         const workOrder = await prisma.work_Done.findUnique({
             where: { id: orderId },
             include: {
@@ -38,17 +50,17 @@ export async function GET(
             );
         }
 
-        // Generate PDF
+        // Initialize a new jsPDF instance for document generation
         const doc = new jsPDF();
 
-        // Add Latvian font
+        // Add and configure Latvian-supported fonts
         doc.addFileToVFS("Roboto-Regular.ttf", RobotoRegularBase64);
         doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
         doc.addFileToVFS("Roboto-Bold.ttf", RobotoBoldBase64);
         doc.addFont("Roboto-Bold.ttf", "Roboto", "bold");
         doc.setFont("Roboto");
 
-        // Header
+        // Document Header Section
         doc.setFontSize(24);
         doc.setFont("Roboto", "bold");
         doc.text("RĒĶINS", 105, 20, { align: "center" });
@@ -57,39 +69,40 @@ export async function GET(
         doc.setFont("Roboto", "normal");
         doc.text("Autoserviss", 105, 30, { align: "center" });
 
-        // Invoice details
+        // Invoice Basic Details (ID, Date, Status)
         doc.setFontSize(10);
         doc.text(`Rēķina #: ${workOrder.id}`, 20, 50);
         doc.text(`Datums: ${new Date(workOrder.createdAt).toLocaleDateString("lv-LV")}`, 20, 56);
         doc.text(`Statuss: ${translateWorkOrderStatus(workOrder.status)}`, 20, 62);
 
-        // Customer info
+        // Customer Information Section
         doc.setFont("Roboto", "bold");
         doc.text("Klients:", 20, 75);
         doc.setFont("Roboto", "normal");
         doc.text(workOrder.car.ownerName, 20, 81);
         doc.text(workOrder.car.ownerPhone, 20, 87);
 
-        // Vehicle info
+        // Vehicle Information Section
         doc.setFont("Roboto", "bold");
         doc.text("Transportlīdzeklis:", 120, 75);
         doc.setFont("Roboto", "normal");
         doc.text(workOrder.car.licensePlate, 120, 81);
         doc.text(`${workOrder.car.year || ""} ${workOrder.car.make} ${workOrder.car.model}`, 120, 87);
 
-        // Work description
+        // Work Description Section
         doc.setFont("Roboto", "bold");
         doc.text("Darba apraksts:", 20, 100);
         doc.setFont("Roboto", "normal");
         doc.text(workOrder.title, 20, 106);
 
+        // Handle multi-line customer complaint text
         if (workOrder.customerComplaint) {
             doc.setFontSize(9);
             const complaint = doc.splitTextToSize(workOrder.customerComplaint, 170);
             doc.text(complaint, 20, 112);
         }
 
-        // Items table
+        // Items Table Header
         let yPos = 130;
         doc.setFont("Roboto", "bold");
         doc.setFontSize(10);
@@ -105,9 +118,11 @@ export async function GET(
         doc.setFont("Roboto", "normal");
         doc.setFontSize(9);
 
+        // Variables to accumulate category totals
         let laborTotal = 0;
         let partsTotal = 0;
 
+        // Iterate through items and add rows to the table
         workOrder.items.forEach((item) => {
             const total = parseFloat(item.total.toString());
             if (item.type === "LABOR") {
@@ -123,8 +138,10 @@ export async function GET(
             doc.text(`€${parseFloat(item.unitPrice.toString()).toFixed(2)}`, 150, yPos);
             doc.text(`€${total.toFixed(2)}`, 180, yPos);
 
+            // Update y position based on description height
             yPos += desc.length * 5 + 2;
 
+            // Handle page breaks if table exceeds page height
             if (yPos > 250) {
                 doc.addPage();
                 doc.setFont("Roboto", "normal");
@@ -132,7 +149,7 @@ export async function GET(
             }
         });
 
-        // Totals
+        // Totals Summary Section
         yPos += 5;
         doc.line(20, yPos, 190, yPos);
         yPos += 8;
@@ -146,12 +163,13 @@ export async function GET(
         doc.text(`€${partsTotal.toFixed(2)}`, 180, yPos);
         yPos += 8;
 
+        // Final Grand Total
         doc.setFont("Roboto", "bold");
         doc.setFontSize(12);
         doc.text("KOPĀ:", 130, yPos);
         doc.text(`€${(laborTotal + partsTotal).toFixed(2)}`, 180, yPos);
 
-        // Payment status
+        // Payment Information Footer
         yPos += 10;
         doc.setFontSize(10);
         doc.text(`Maksājuma statuss: ${translatePaymentStatus(workOrder.paymentStatus)}`, 20, yPos);
@@ -159,14 +177,15 @@ export async function GET(
             doc.text(`Maksājuma veids: ${translatePaymentMethod(workOrder.paymentMethod)}`, 20, yPos + 6);
         }
 
-        // Footer
+        // Final closing text
         doc.setFont("Roboto", "normal");
         doc.setFontSize(9);
         doc.text("Paldies par uzticību!", 105, 280, { align: "center" });
 
-        // Generate PDF buffer
+        // Generate final PDF binary data
         const pdfBuffer = Buffer.from(doc.output("arraybuffer"));
 
+        // Return PDF file with appropriate headers
         return new NextResponse(pdfBuffer, {
             headers: {
                 "Content-Type": "application/pdf",

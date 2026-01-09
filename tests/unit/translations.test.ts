@@ -6,7 +6,14 @@ import {
     translateWorkOrderItemType
 } from '@/lib/translations';
 
+/**
+ * Unit tests for translation helper functions.
+ * Ensures that English enum keys are correctly mapped to their Latvian equivalents.
+ */
 describe('translations', () => {
+    /**
+     * Tests for work order status translations (e.g., NEW, DONE).
+     */
     describe('translateWorkOrderStatus', () => {
         it('should translate NEW to Jauns', () => {
             expect(translateWorkOrderStatus('NEW')).toBe('Jauns');
@@ -17,12 +24,19 @@ describe('translations', () => {
         });
     });
 
+    /**
+     * Tests for payment status translations (e.g., PAID, UNPAID).
+     */
     describe('translatePaymentStatus', () => {
         it('should translate PAID to Apmaksāts', () => {
             expect(translatePaymentStatus('PAID')).toBe('Apmaksāts');
         });
     });
 
+    /**
+     * Tests for payment method translations (e.g., CASH, CARD).
+     * Also handles null/undefined values.
+     */
     describe('translatePaymentMethod', () => {
         it('should translate CASH to Skaidra nauda', () => {
             expect(translatePaymentMethod('CASH')).toBe('Skaidra nauda');
@@ -34,6 +48,9 @@ describe('translations', () => {
         });
     });
 
+    /**
+     * Tests for work order item type translations (e.g., LABOR, PART).
+     */
     describe('translateWorkOrderItemType', () => {
         it('should translate LABOR to Darbs', () => {
             expect(translateWorkOrderItemType('LABOR')).toBe('Darbs');

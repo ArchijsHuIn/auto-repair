@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Handles GET requests to fetch details for a specific car.
+ * Includes a list of related work orders ordered by creation date.
+ * 
+ * @param {NextRequest} request - The incoming HTTP request.
+ * @param {Object} context - The route parameters.
+ * @param {Promise<{id: string}>} context.params - The car ID.
+ * @returns {Promise<NextResponse>} A JSON response with car details or an error message.
+ */
 export async function GET(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
     try {
+        // Resolve parameters from context
         const { id } = await context.params;
+        // Parse ID as integer
         const carId = parseInt(id);
 
         if (isNaN(carId)) {
@@ -16,6 +27,7 @@ export async function GET(
             );
         }
 
+        // Fetch car from database with work order summary
         const car = await prisma.car.findUnique({
             where: { id: carId },
             include: {
@@ -53,12 +65,23 @@ export async function GET(
     }
 }
 
+/**
+ * Handles PUT requests to perform a full update of a car's information.
+ * Validates required fields and handles unique constraint violations.
+ * 
+ * @param {NextRequest} request - The incoming HTTP request.
+ * @param {Object} context - The route parameters.
+ * @param {Promise<{id: string}>} context.params - The car ID.
+ * @returns {Promise<NextResponse>} A JSON response with the updated car or an error message.
+ */
 export async function PUT(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
     try {
+        // Resolve parameters from context
         const { id } = await context.params;
+        // Parse ID as integer
         const carId = parseInt(id);
 
         if (isNaN(carId)) {
@@ -68,7 +91,9 @@ export async function PUT(
             );
         }
 
+        // Parse JSON body, defaulting to empty object if null
         const body = await request.json();
+        // Destructure car data from the body
         const {
             licensePlate,
             vin,
@@ -134,6 +159,15 @@ export async function PUT(
     }
 }
 
+/**
+ * Handles PATCH requests to perform a partial or full update of a car.
+ * Redirects to the PUT handler for processing.
+ * 
+ * @param {NextRequest} request - The incoming HTTP request.
+ * @param {Object} context - The route parameters.
+ * @param {Promise<{id: string}>} context.params - The car ID.
+ * @returns {Promise<NextResponse>} A JSON response with the updated car or an error message.
+ */
 export async function PATCH(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }

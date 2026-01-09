@@ -19,15 +19,24 @@ vi.mock('next/server', async (importOriginal) => {
     };
 });
 
+/**
+ * Integration tests for Work Orders API routes.
+ * Covers listing, creating, fetching details, and updating work order status/payment.
+ */
 describe('Work Orders API Routes', () => {
     beforeEach(() => {
+        // Clear all mock call history between tests
         vi.clearAllMocks();
     });
 
+    /**
+     * Tests for the GET /api/work-orders endpoint.
+     */
     describe('GET /api/work-orders', () => {
         it('should return all work orders', async () => {
             const mockOrders = [{ id: 1, title: 'Brake Repair' }];
-            prismaMock.work_Done.findMany.mockResolvedValue(mockOrders);
+            // Setup mock to return a list of work orders
+            prismaMock.work_Done.findMany.mockResolvedValue(mockOrders as any);
 
             const request = new NextRequest('http://localhost/api/work-orders');
             const response = await GET(request);
@@ -38,6 +47,9 @@ describe('Work Orders API Routes', () => {
         });
     });
 
+    /**
+     * Tests for the POST /api/work-orders endpoint.
+     */
     describe('POST /api/work-orders', () => {
         it('should create a new work order for an existing car', async () => {
             const car = { id: 1, licensePlate: 'ABC-123' };
@@ -48,8 +60,9 @@ describe('Work Orders API Routes', () => {
                 paymentStatus: 'UNPAID'
             };
             
-            prismaMock.car.findUnique.mockResolvedValue(car);
-            prismaMock.work_Done.create.mockResolvedValue({ id: 10, ...newOrder });
+            // Mock both car lookup and work order creation
+            prismaMock.car.findUnique.mockResolvedValue(car as any);
+            prismaMock.work_Done.create.mockResolvedValue({ id: 10, ...newOrder } as any);
 
             const request = new NextRequest('http://localhost/api/work-orders', {
                 method: 'POST',
@@ -66,7 +79,7 @@ describe('Work Orders API Routes', () => {
         it('should return 400 if required fields are missing', async () => {
             const request = new NextRequest('http://localhost/api/work-orders', {
                 method: 'POST',
-                body: JSON.stringify({ title: 'Broken pipe' })
+                body: JSON.stringify({ title: 'Broken pipe' }) // Missing carId/carLicensePlate, status, paymentStatus
             });
             const response = await POST(request);
             const data = await response.json();
@@ -76,6 +89,7 @@ describe('Work Orders API Routes', () => {
         });
 
         it('should return 404 if car is not found by ID', async () => {
+            // Simulate car not found in database
             prismaMock.car.findUnique.mockResolvedValue(null);
 
             const request = new NextRequest('http://localhost/api/work-orders', {
@@ -130,6 +144,9 @@ describe('Work Orders API Routes', () => {
         });
     });
 
+    /**
+     * Tests for the GET /api/work-orders/[id] endpoint.
+     */
     describe('GET /api/work-orders/[id]', () => {
         it('should return 400 if ID is not a number', async () => {
             const context = { params: Promise.resolve({ id: 'abc' }) };
@@ -139,9 +156,10 @@ describe('Work Orders API Routes', () => {
             expect(response.status).toBe(400);
             expect(data.error).toBe('Invalid work order ID');
         });
+
         it('should return a work order by id', async () => {
             const mockOrder = { id: 1, title: 'Brake Repair', car: {}, items: [] };
-            prismaMock.work_Done.findUnique.mockResolvedValue(mockOrder);
+            prismaMock.work_Done.findUnique.mockResolvedValue(mockOrder as any);
 
             const context = { params: Promise.resolve({ id: '1' }) };
             const response = await GET_BY_ID(new NextRequest('http://localhost/api/work-orders/1'), context);
@@ -166,6 +184,9 @@ describe('Work Orders API Routes', () => {
         });
     });
 
+    /**
+     * Tests for the PATCH /api/work-orders/[id] endpoint.
+     */
     describe('PATCH /api/work-orders/[id]', () => {
         it('should return 400 if ID is not a number', async () => {
             const context = { params: Promise.resolve({ id: 'abc' }) };
@@ -182,7 +203,7 @@ describe('Work Orders API Routes', () => {
 
         it('should update a work order status to DONE and set completedAt', async () => {
             const mockUpdatedOrder = { id: 1, status: 'DONE', completedAt: new Date() };
-            prismaMock.work_Done.update.mockResolvedValue(mockUpdatedOrder);
+            prismaMock.work_Done.update.mockResolvedValue(mockUpdatedOrder as any);
 
             const context = { params: Promise.resolve({ id: '1' }) };
             const request = new NextRequest('http://localhost/api/work-orders/1', {
@@ -193,6 +214,7 @@ describe('Work Orders API Routes', () => {
             const data = await response.json();
 
             expect(data.status).toBe('DONE');
+            // Check that the update call included the status change and current date
             expect(prismaMock.work_Done.update).toHaveBeenCalledWith(expect.objectContaining({
                 data: expect.objectContaining({
                     status: 'DONE',

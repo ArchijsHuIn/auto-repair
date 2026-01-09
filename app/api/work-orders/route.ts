@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Handles GET requests to retrieve all work orders.
+ * Includes basic car information for each work order and orders them by creation date.
+ * 
+ * @param {NextRequest} request - The incoming HTTP request.
+ * @returns {Promise<NextResponse>} A JSON response containing the list of work orders.
+ */
 export async function GET(request: NextRequest) {
     try {
+        // Fetch work orders from database with related car info
         const workOrders = await prisma.work_Done.findMany({
             include: {
                 car: {
@@ -30,10 +38,19 @@ export async function GET(request: NextRequest) {
     }
 }
 
+/**
+ * Handles POST requests to create a new work order.
+ * Resolves the associated car by ID or license plate and validates required fields.
+ * 
+ * @param {NextRequest} request - The incoming HTTP request.
+ * @returns {Promise<NextResponse>} A JSON response with the created work order or an error message.
+ */
 export async function POST(request: NextRequest) {
     try {
+        // Parse the JSON request body
         const body = await request.json();
 
+        // Destructure work order data from the body
         const {
             carId,
             carLicensePlate,

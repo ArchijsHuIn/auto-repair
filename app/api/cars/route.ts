@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Handles GET requests to retrieve a list of cars.
+ * Supports filtering by "hasOpenWork" query parameter.
+ * 
+ * @param {Request} request - The incoming HTTP request.
+ * @returns {Promise<NextResponse>} A JSON response containing the list of cars.
+ */
 export async function GET(request: Request) {
+    // Extract query parameters from the request URL
     const { searchParams } = new URL(request.url);
+    // Check if "hasOpenWork" filter is applied
     const hasOpenWork = searchParams.get("hasOpenWork");
 
     if (hasOpenWork === "true") {
@@ -20,6 +29,7 @@ export async function GET(request: Request) {
         return NextResponse.json(carsWithOpenWork);
     }
 
+    // Default: Return all cars ordered by the most recently created
     const cars = await prisma.car.findMany({
         orderBy: { id: "desc" },
     });
@@ -27,9 +37,18 @@ export async function GET(request: Request) {
     return NextResponse.json(cars);
 }
 
+/**
+ * Handles POST requests to register a new car.
+ * Validates required fields and handles duplicate license plate errors.
+ * 
+ * @param {Request} request - The incoming HTTP request.
+ * @returns {Promise<NextResponse>} A JSON response with the created car or an error message.
+ */
 export async function POST(request: Request) {
     try {
+        // Parse the JSON request body
         const body = await request.json();
+        // Destructure car data from the body
         const {
             licensePlate,
             vin,
